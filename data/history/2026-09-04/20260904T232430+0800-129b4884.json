@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "20260904T232430+0800-129b4884",
+  "showDate": "2026-09-04",
+  "collectedAt": "2026-09-04T23:24:30+08:00",
+  "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
+  "sourceStatuses": {
+    "gsc": {
+      "status": "ok",
+      "snapshots": 0,
+      "seatMeasured": 0,
+      "cinemaIds": [],
+      "expectedCinemas": 8
+    },
+    "tgv": {
+      "status": "ok",
+      "snapshots": 0,
+      "seatMeasured": 0,
+      "cinemaIds": [],
+      "expectedCinemas": 5
+    },
+    "paragon": {
+      "status": "ok-schedule-only",
+      "snapshots": 1,
+      "seatMeasured": 0,
+      "cinemaIds": [
+        "paragon-batu-pahat"
+      ],
+      "expectedCinemas": 2
+    },
+    "mega": {
+      "status": "ok-schedule-only",
+      "snapshots": 0,
+      "seatMeasured": 0,
+      "cinemaIds": [],
+      "expectedCinemas": 1
+    }
+  },
+  "snapshots": [
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260904T232430+0800-129b4884",
+      "filmId": "tikus",
+      "cinemaId": "paragon-batu-pahat",
+      "exhibitorId": "paragon",
+      "sessionId": "paragon-batu-pahat:fingerprint:2026-09-04:00:30:unknown",
+      "sourceSessionId": null,
+      "source": {
+        "provider": "paragon",
+        "sourceType": "official-public-page",
+        "sourceCinemaId": "0000000002",
+        "sourceCinemaName": "Paragon Batu Pahat",
+        "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
+        "collectorVersion": "paragon-schedule/1.1.0",
+        "rawPayloadHash": "b0799a1f82e0721d60071d42e15f1d0313eadd23dbf1cbf81e4c3a3e6519f6df"
+      },
+      "collectedAt": "2026-09-04T23:24:30+08:00",
+      "showDate": "2026-09-04",
+      "startAt": "2026-09-04T00:30:00+08:00",
+      "minutesToShow": -1374,
+      "session": {
+        "auditorium": null,
+        "format": "2D",
+        "language": "Malay",
+        "experience": null
+      },
+      "seat": {
+        "capacity": null,
+        "used": null,
+        "available": null,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "unavailable",
+        "available": "unavailable",
+        "capacity": "unavailable"
+      },
+      "quality": {
+        "measurementStatus": "schedule-only",
+        "seatMeasured": false,
+        "warnings": [
+          "No public seat count is used or inferred."
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "20260904T232430+0800-129b4884",
+  "showDate": "2026-09-04",
+  "collectedAt": "2026-09-04T23:24:30+08:00",
+  "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
+  "sourceStatuses": {
+    "gsc": {
+      "status": "ok",
+      "snapshots": 0,
+      "seatMeasured": 0,
+      "cinemaIds": [],
+      "expectedCinemas": 8
+    },
+    "tgv": {
+      "status": "ok",
+      "snapshots": 0,
+      "seatMeasured": 0,
+      "cinemaIds": [],
+      "expectedCinemas": 5
+    },
+    "paragon": {
+      "status": "ok-schedule-only",
+      "snapshots": 1,
+      "seatMeasured": 0,
+      "cinemaIds": [
+        "paragon-batu-pahat"
+      ],
+      "expectedCinemas": 2
+    },
+    "mega": {
+      "status": "ok-schedule-only",
+      "snapshots": 0,
+      "seatMeasured": 0,
+      "cinemaIds": [],
+      "expectedCinemas": 1
+    }
+  },
+  "snapshotCount": 1
+}
