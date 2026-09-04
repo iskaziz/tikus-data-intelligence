@@ -1,15 +1,31 @@
 {
-  "schemaVersion": "1.1.0",
-  "generatedAt": "2026-09-04T21:14:31+08:00",
+  "schemaVersion": "1.2.0",
+  "generatedAt": "2026-09-04T23:19:57+08:00",
   "filmId": "tikus",
-  "showDate": null,
-  "status": "no-observations",
+  "showDate": "2026-09-04",
+  "status": "ok",
   "scope": {
     "cinemaCount": 16,
-    "seatMeasuredSessions": 0,
-    "totalSessions": 0
+    "seatMeasuredSessions": 2,
+    "totalSessions": 3,
+    "liveUpcomingSessions": 0
   },
   "summary": {
+    "totalShows": 3,
+    "locationsWithConfirmedShows": 3,
+    "seatMeasuredSessions": 2,
+    "observedCapacity": 191,
+    "observedUsed": 1,
+    "available": 190,
+    "otherUnavailable": null,
+    "occupancy": 0.005235602094240838,
+    "averageUsedPerMeasuredSession": 0.5,
+    "averageCapacityPerMeasuredSession": 95.5,
+    "primeTimeShows": 0,
+    "primeTimeOccupancy": null,
+    "seatCoverage": 0.6666666666666666
+  },
+  "liveSummary": {
     "totalShows": 0,
     "locationsWithConfirmedShows": 0,
     "seatMeasuredSessions": 0,
@@ -25,34 +41,521 @@
     "seatCoverage": null
   },
   "finalPreShowSummary": {
-    "totalShows": 0,
-    "locationsWithConfirmedShows": 0,
-    "seatMeasuredSessions": 0,
-    "observedCapacity": null,
-    "observedUsed": null,
-    "available": null,
+    "totalShows": 2,
+    "locationsWithConfirmedShows": 2,
+    "seatMeasuredSessions": 2,
+    "observedCapacity": 191,
+    "observedUsed": 1,
+    "available": 190,
     "otherUnavailable": null,
-    "occupancy": null,
-    "averageUsedPerMeasuredSession": null,
-    "averageCapacityPerMeasuredSession": null,
+    "occupancy": 0.005235602094240838,
+    "averageUsedPerMeasuredSession": 0.5,
+    "averageCapacityPerMeasuredSession": 95.5,
     "primeTimeShows": 0,
     "primeTimeOccupancy": null,
-    "seatCoverage": null
+    "seatCoverage": 1.0
   },
-  "cinemas": [],
-  "sessions": [],
-  "finalPreShowSessions": [],
-  "sessionChanges": {},
-  "series": {},
-  "exhibitors": [],
-  "states": [],
+  "cinemas": [
+    {
+      "cinemaId": "tgv-bukit-tinggi",
+      "totalShows": 1,
+      "locationsWithConfirmedShows": 1,
+      "seatMeasuredSessions": 1,
+      "observedCapacity": 115,
+      "observedUsed": 1,
+      "available": 114,
+      "otherUnavailable": null,
+      "occupancy": 0.008695652173913044,
+      "averageUsedPerMeasuredSession": 1.0,
+      "averageCapacityPerMeasuredSession": 115.0,
+      "primeTimeShows": 0,
+      "primeTimeOccupancy": null,
+      "seatCoverage": 1.0,
+      "showShare": 0.3333333333333333,
+      "seatShare": 0.6020942408376964,
+      "usedShare": 1.0,
+      "performanceIndex": 1.6608695652173913
+    },
+    {
+      "cinemaId": "tgv-tebrau-city",
+      "totalShows": 1,
+      "locationsWithConfirmedShows": 1,
+      "seatMeasuredSessions": 1,
+      "observedCapacity": 76,
+      "observedUsed": 0,
+      "available": 76,
+      "otherUnavailable": null,
+      "occupancy": 0.0,
+      "averageUsedPerMeasuredSession": 0.0,
+      "averageCapacityPerMeasuredSession": 76.0,
+      "primeTimeShows": 0,
+      "primeTimeOccupancy": null,
+      "seatCoverage": 1.0,
+      "showShare": 0.3333333333333333,
+      "seatShare": 0.39790575916230364,
+      "usedShare": 0.0,
+      "performanceIndex": 0.0
+    },
+    {
+      "cinemaId": "paragon-batu-pahat",
+      "totalShows": 1,
+      "locationsWithConfirmedShows": 1,
+      "seatMeasuredSessions": 0,
+      "observedCapacity": null,
+      "observedUsed": null,
+      "available": null,
+      "otherUnavailable": null,
+      "occupancy": null,
+      "averageUsedPerMeasuredSession": null,
+      "averageCapacityPerMeasuredSession": null,
+      "primeTimeShows": 0,
+      "primeTimeOccupancy": null,
+      "seatCoverage": 0.0,
+      "showShare": 0.3333333333333333,
+      "seatShare": null,
+      "usedShare": null,
+      "performanceIndex": null
+    }
+  ],
+  "sessions": [
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260904T231944+0800-4ec99409",
+      "filmId": "tikus",
+      "cinemaId": "paragon-batu-pahat",
+      "exhibitorId": "paragon",
+      "sessionId": "paragon-batu-pahat:fingerprint:2026-09-04:00:30:unknown",
+      "sourceSessionId": null,
+      "source": {
+        "provider": "paragon",
+        "sourceType": "official-public-page",
+        "sourceCinemaId": "0000000002",
+        "sourceCinemaName": "Paragon Batu Pahat",
+        "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
+        "collectorVersion": "paragon-schedule/1.0.0",
+        "rawPayloadHash": "b0799a1f82e0721d60071d42e15f1d0313eadd23dbf1cbf81e4c3a3e6519f6df"
+      },
+      "collectedAt": "2026-09-04T23:19:44+08:00",
+      "showDate": "2026-09-04",
+      "startAt": "2026-09-04T00:30:00+08:00",
+      "minutesToShow": -1370,
+      "session": {
+        "auditorium": null,
+        "format": "2D",
+        "language": "Malay",
+        "experience": null
+      },
+      "seat": {
+        "capacity": null,
+        "used": null,
+        "available": null,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "unavailable",
+        "available": "unavailable",
+        "capacity": "unavailable"
+      },
+      "quality": {
+        "measurementStatus": "schedule-only",
+        "seatMeasured": false,
+        "warnings": [
+          "No public seat count is used or inferred."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260904T225817+0800-e84e4bf5",
+      "filmId": "tikus",
+      "cinemaId": "tgv-bukit-tinggi",
+      "exhibitorId": "tgv",
+      "sessionId": "tgv-bukit-tinggi:source:409403",
+      "sourceSessionId": "409403",
+      "source": {
+        "provider": "tgv",
+        "sourceType": "official-api",
+        "sourceCinemaId": "BBT",
+        "sourceCinemaName": "BUKIT TINGGI",
+        "sourceUrl": "https://api.tgv.com.my/api/boxoffice/v1/moviesession_getseatstatus",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "fb325af18e5483de1b9e559ca136ad86ec85e5ffea90c655a223baf4286217ce"
+      },
+      "collectedAt": "2026-09-04T22:58:17+08:00",
+      "showDate": "2026-09-04",
+      "startAt": "2026-09-04T23:00:00+08:00",
+      "minutesToShow": 2,
+      "session": {
+        "auditorium": "Cinema 2",
+        "format": "2D",
+        "language": null,
+        "experience": "deluxe"
+      },
+      "seat": {
+        "capacity": 115,
+        "used": 1,
+        "available": 114,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "tgv-seatsused",
+        "available": "derived-capacity-minus-used",
+        "capacity": "tgv-seatstotal"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "TGV seatsused may include held or otherwise unavailable inventory."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260904T230852+0800-b0845114",
+      "filmId": "tikus",
+      "cinemaId": "tgv-tebrau-city",
+      "exhibitorId": "tgv",
+      "sessionId": "tgv-tebrau-city:source:430643",
+      "sourceSessionId": "430643",
+      "source": {
+        "provider": "tgv",
+        "sourceType": "official-api",
+        "sourceCinemaId": "TBR",
+        "sourceCinemaName": "TEBRAU CITY",
+        "sourceUrl": "https://api.tgv.com.my/api/boxoffice/v1/moviesession_getseatstatus",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "280d9758657f643ea0ae903c8ad3dcaf18a966eb447c7c0ed8631a35b32609ec"
+      },
+      "collectedAt": "2026-09-04T23:08:52+08:00",
+      "showDate": "2026-09-04",
+      "startAt": "2026-09-04T23:15:00+08:00",
+      "minutesToShow": 6,
+      "session": {
+        "auditorium": "Junior",
+        "format": "2D",
+        "language": null,
+        "experience": "deluxe"
+      },
+      "seat": {
+        "capacity": 76,
+        "used": 0,
+        "available": 76,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "tgv-seatsused",
+        "available": "derived-capacity-minus-used",
+        "capacity": "tgv-seatstotal"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "TGV seatsused may include held or otherwise unavailable inventory."
+        ]
+      }
+    }
+  ],
+  "liveSessions": [],
+  "finalPreShowSessions": [
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260904T225817+0800-e84e4bf5",
+      "filmId": "tikus",
+      "cinemaId": "tgv-bukit-tinggi",
+      "exhibitorId": "tgv",
+      "sessionId": "tgv-bukit-tinggi:source:409403",
+      "sourceSessionId": "409403",
+      "source": {
+        "provider": "tgv",
+        "sourceType": "official-api",
+        "sourceCinemaId": "BBT",
+        "sourceCinemaName": "BUKIT TINGGI",
+        "sourceUrl": "https://api.tgv.com.my/api/boxoffice/v1/moviesession_getseatstatus",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "fb325af18e5483de1b9e559ca136ad86ec85e5ffea90c655a223baf4286217ce"
+      },
+      "collectedAt": "2026-09-04T22:58:17+08:00",
+      "showDate": "2026-09-04",
+      "startAt": "2026-09-04T23:00:00+08:00",
+      "minutesToShow": 2,
+      "session": {
+        "auditorium": "Cinema 2",
+        "format": "2D",
+        "language": null,
+        "experience": "deluxe"
+      },
+      "seat": {
+        "capacity": 115,
+        "used": 1,
+        "available": 114,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "tgv-seatsused",
+        "available": "derived-capacity-minus-used",
+        "capacity": "tgv-seatstotal"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "TGV seatsused may include held or otherwise unavailable inventory."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260904T230852+0800-b0845114",
+      "filmId": "tikus",
+      "cinemaId": "tgv-tebrau-city",
+      "exhibitorId": "tgv",
+      "sessionId": "tgv-tebrau-city:source:430643",
+      "sourceSessionId": "430643",
+      "source": {
+        "provider": "tgv",
+        "sourceType": "official-api",
+        "sourceCinemaId": "TBR",
+        "sourceCinemaName": "TEBRAU CITY",
+        "sourceUrl": "https://api.tgv.com.my/api/boxoffice/v1/moviesession_getseatstatus",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "280d9758657f643ea0ae903c8ad3dcaf18a966eb447c7c0ed8631a35b32609ec"
+      },
+      "collectedAt": "2026-09-04T23:08:52+08:00",
+      "showDate": "2026-09-04",
+      "startAt": "2026-09-04T23:15:00+08:00",
+      "minutesToShow": 6,
+      "session": {
+        "auditorium": "Junior",
+        "format": "2D",
+        "language": null,
+        "experience": "deluxe"
+      },
+      "seat": {
+        "capacity": 76,
+        "used": 0,
+        "available": 76,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "tgv-seatsused",
+        "available": "derived-capacity-minus-used",
+        "capacity": "tgv-seatstotal"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "TGV seatsused may include held or otherwise unavailable inventory."
+        ]
+      }
+    }
+  ],
+  "sessionChanges": {
+    "tgv-tebrau-city:source:430643": {
+      "usedDelta": 0,
+      "hours": 0.1763888888888889,
+      "seatsPerHour": 0.0,
+      "previousCollectedAt": "2026-09-04T22:58:17+08:00"
+    },
+    "tgv-bukit-tinggi:source:409403": {
+      "usedDelta": null,
+      "hours": null,
+      "seatsPerHour": null,
+      "previousCollectedAt": null
+    },
+    "paragon-batu-pahat:fingerprint:2026-09-04:00:30:unknown": {
+      "usedDelta": null,
+      "hours": null,
+      "seatsPerHour": null,
+      "previousCollectedAt": null
+    }
+  },
+  "series": {
+    "tgv-tebrau-city:source:430643": [
+      {
+        "collectedAt": "2026-09-04T22:58:17+08:00",
+        "capacity": 76,
+        "used": 0,
+        "available": 76,
+        "otherUnavailable": null,
+        "seatMeasured": true
+      },
+      {
+        "collectedAt": "2026-09-04T23:08:52+08:00",
+        "capacity": 76,
+        "used": 0,
+        "available": 76,
+        "otherUnavailable": null,
+        "seatMeasured": true
+      }
+    ],
+    "tgv-bukit-tinggi:source:409403": [
+      {
+        "collectedAt": "2026-09-04T22:58:17+08:00",
+        "capacity": 115,
+        "used": 1,
+        "available": 114,
+        "otherUnavailable": null,
+        "seatMeasured": true
+      }
+    ],
+    "paragon-batu-pahat:fingerprint:2026-09-04:00:30:unknown": [
+      {
+        "collectedAt": "2026-09-04T22:58:17+08:00",
+        "capacity": null,
+        "used": null,
+        "available": null,
+        "otherUnavailable": null,
+        "seatMeasured": false
+      },
+      {
+        "collectedAt": "2026-09-04T23:08:52+08:00",
+        "capacity": null,
+        "used": null,
+        "available": null,
+        "otherUnavailable": null,
+        "seatMeasured": false
+      },
+      {
+        "collectedAt": "2026-09-04T23:19:44+08:00",
+        "capacity": null,
+        "used": null,
+        "available": null,
+        "otherUnavailable": null,
+        "seatMeasured": false
+      }
+    ]
+  },
+  "exhibitors": [
+    {
+      "exhibitorId": "paragon",
+      "totalShows": 1,
+      "locationsWithConfirmedShows": 1,
+      "seatMeasuredSessions": 0,
+      "observedCapacity": null,
+      "observedUsed": null,
+      "available": null,
+      "otherUnavailable": null,
+      "occupancy": null,
+      "averageUsedPerMeasuredSession": null,
+      "averageCapacityPerMeasuredSession": null,
+      "primeTimeShows": 0,
+      "primeTimeOccupancy": null,
+      "seatCoverage": 0.0
+    },
+    {
+      "exhibitorId": "tgv",
+      "totalShows": 2,
+      "locationsWithConfirmedShows": 2,
+      "seatMeasuredSessions": 2,
+      "observedCapacity": 191,
+      "observedUsed": 1,
+      "available": 190,
+      "otherUnavailable": null,
+      "occupancy": 0.005235602094240838,
+      "averageUsedPerMeasuredSession": 0.5,
+      "averageCapacityPerMeasuredSession": 95.5,
+      "primeTimeShows": 0,
+      "primeTimeOccupancy": null,
+      "seatCoverage": 1.0
+    }
+  ],
+  "states": [
+    {
+      "state": "Johor",
+      "totalShows": 2,
+      "locationsWithConfirmedShows": 2,
+      "seatMeasuredSessions": 1,
+      "observedCapacity": 76,
+      "observedUsed": 0,
+      "available": 76,
+      "otherUnavailable": null,
+      "occupancy": 0.0,
+      "averageUsedPerMeasuredSession": 0.0,
+      "averageCapacityPerMeasuredSession": 76.0,
+      "primeTimeShows": 0,
+      "primeTimeOccupancy": null,
+      "seatCoverage": 0.5
+    },
+    {
+      "state": "Selangor",
+      "totalShows": 1,
+      "locationsWithConfirmedShows": 1,
+      "seatMeasuredSessions": 1,
+      "observedCapacity": 115,
+      "observedUsed": 1,
+      "available": 114,
+      "otherUnavailable": null,
+      "occupancy": 0.008695652173913044,
+      "averageUsedPerMeasuredSession": 1.0,
+      "averageCapacityPerMeasuredSession": 115.0,
+      "primeTimeShows": 0,
+      "primeTimeOccupancy": null,
+      "seatCoverage": 1.0
+    }
+  ],
   "observationWindow": {
-    "firstCollectedAt": null,
-    "lastCollectedAt": null,
-    "observations": 0
+    "firstCollectedAt": "2026-09-04T22:58:17+08:00",
+    "lastCollectedAt": "2026-09-04T23:19:44+08:00",
+    "observations": 6
+  },
+  "collection": {
+    "latestRun": {
+      "schemaVersion": "1.0.0",
+      "runId": "20260904T231944+0800-4ec99409",
+      "showDate": "2026-09-04",
+      "collectedAt": "2026-09-04T23:19:44+08:00",
+      "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
+      "sourceStatuses": {
+        "gsc": {
+          "status": "ok",
+          "snapshots": 0,
+          "seatMeasured": 0,
+          "cinemaIds": [],
+          "expectedCinemas": 8
+        },
+        "tgv": {
+          "status": "ok",
+          "snapshots": 0,
+          "seatMeasured": 0,
+          "cinemaIds": [],
+          "expectedCinemas": 5
+        },
+        "paragon": {
+          "status": "ok-schedule-only",
+          "snapshots": 1,
+          "seatMeasured": 0,
+          "cinemaIds": [
+            "paragon-batu-pahat"
+          ],
+          "expectedCinemas": 2
+        },
+        "mega": {
+          "status": "ok-schedule-only",
+          "snapshots": 0,
+          "seatMeasured": 0,
+          "cinemaIds": [],
+          "expectedCinemas": 1
+        }
+      },
+      "snapshotCount": 1
+    },
+    "firstSeenAfterShowSessionIds": [
+      "paragon-batu-pahat:fingerprint:2026-09-04:00:30:unknown"
+    ],
+    "firstSeenAfterShowCount": 1,
+    "dailyCompleteness": "partial",
+    "note": "Daily totals reflect sessions actually observed by this repository. A collector started late in the theatrical day cannot reconstruct earlier sessions from sources that return upcoming inventory only."
   },
   "quality": {
-    "seatCoverage": null,
+    "seatCoverage": 0.6666666666666666,
     "methodology": "docs/METHODOLOGY.md",
     "observedSeatStateIsNotSales": true
   },
