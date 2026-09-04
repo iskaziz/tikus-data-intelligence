@@ -122,3 +122,7 @@ Paragon and Mega are intentionally excluded from seat-weighted occupancy and Per
 ## Historical recovery
 
 Recovered evidence from dates before automated collection lives under `data/recovered/`. It is not silently inserted into collector history because a retrospective webpage does not provide a defensible contemporaneous observation timestamp.
+
+## v4 live-run hardening
+
+The first production collection on 4 September 2026 began at 22:58 MYT, so it cannot be treated as a complete reconstruction of the theatrical day. v4 therefore separates full observed-day history from `liveSessions`, flags sessions first discovered only after showtime, and embeds latest collector diagnostics in browser products. See `docs/FIRST_LIVE_RUN_AUDIT.md`.

@@ -95,7 +95,7 @@ function setupColumnMenu() {
 }
 
 function currentSessions() {
-  const base = state.scope.observation === 'final' ? (state.product.finalPreShowSessions || []) : (state.product.sessions || []);
+  const base = state.scope.observation === 'final' ? (state.product.finalPreShowSessions || []) : state.scope.observation === 'live' ? (state.product.liveSessions || []) : (state.product.sessions || []);
   return filterSessions(base, state.scope, state.bootstrap.cinemas.cinemas, state.bootstrap.methodology);
 }
 
@@ -120,7 +120,8 @@ function renderScope(metrics, scoped) {
   if(state.scope.state!=='all') parts.push(state.scope.state);
   if(state.scope.time!=='all') parts.push($('#time-filter').selectedOptions[0].textContent);
   $('#scope-label').textContent = `${parts.length ? parts.join(' · ') : 'Tracked network'} · ${scoped.length} cinema${scoped.length===1?'':'s'}`;
-  $('#coverage-note').textContent = metrics.totalShows ? `Seat measurement coverage ${metrics.seatMeasuredSessions}/${metrics.totalShows} sessions · ${fmt.pct(metrics.seatCoverage)}` : 'No observed TIKUS! sessions in this scope.';
+  const lateSeen = state.product.collection?.firstSeenAfterShowCount || 0;
+  $('#coverage-note').textContent = metrics.totalShows ? `Seat measurement coverage ${metrics.seatMeasuredSessions}/${metrics.totalShows} sessions · ${fmt.pct(metrics.seatCoverage)}${lateSeen ? ` · ${lateSeen} session${lateSeen===1?'':'s'} first observed after showtime` : ''}` : 'No observed TIKUS! sessions in this scope.';
   $('#table-meta').textContent = `${metrics.totalShows} observed show${metrics.totalShows===1?'':'s'} · ${metrics.locationsWithConfirmedShows} location${metrics.locationsWithConfirmedShows===1?'':'s'} with shows · denominator follows scope filters, not search`;
 }
 
@@ -198,7 +199,7 @@ function renderGeography(sessions) {
 
 function renderQuality() {
   const root=$('#quality-grid'); root.innerHTML=''; const statuses=state.bootstrap.status.latestRun?.sourceStatuses || {};
-  const exs=state.bootstrap.exhibitors.exhibitors; exs.forEach(ex=>{ const s=statuses[ex.id] || {status:'not-collected',snapshots:0}; const item=el('div','quality-item'); const cls=s.status==='error'?'quality-status error':'quality-status'; item.innerHTML=`<strong>${escapeHtml(ex.name)}</strong><span class="${cls}">${escapeHtml(s.status)}</span><span>${fmt.int(s.snapshots||0)} snapshots${s.seatMeasured!=null?` · ${s.seatMeasured} seat-measured`:''}</span><span>${escapeHtml(ex.seatDataCapability)}</span>`; root.append(item); });
+  const exs=state.bootstrap.exhibitors.exhibitors; exs.forEach(ex=>{ const s=statuses[ex.id] || {status:'not-collected',snapshots:0}; const item=el('div','quality-item'); const cls=s.status==='error'?'quality-status error':'quality-status'; const loc = Array.isArray(s.cinemaIds) ? ` · ${s.cinemaIds.length}/${s.expectedCinemas ?? '?'} locations observed` : ''; item.innerHTML=`<strong>${escapeHtml(ex.name)}</strong><span class="${cls}">${escapeHtml(s.status)}</span><span>${fmt.int(s.snapshots||0)} snapshots${s.seatMeasured!=null?` · ${s.seatMeasured} seat-measured`:''}${loc}</span><span>${escapeHtml(ex.seatDataCapability)}</span>`; root.append(item); });
 }
 
 function openCinema(row, sessions) {

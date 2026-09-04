@@ -104,16 +104,55 @@ def _state_summaries(root: Path, latest: list[dict]) -> list[dict]:
     return [{"state": state, **aggregate(items)} for state, items in sorted(grouped.items())]
 
 
+def live_upcoming_sessions(snapshots: list[dict], *, as_of: datetime) -> list[dict]:
+    """Latest observed sessions that have not started by the analytical as-of time.
+
+    This intentionally excludes schedule residue first observed only after a show
+    has already started. Daily products still retain those observations for audit.
+    """
+    latest = latest_by_session(snapshots, as_of=as_of)
+    return [x for x in latest if datetime.fromisoformat(x["startAt"]) >= as_of]
+
+
+def first_seen_after_show(snapshots: list[dict]) -> list[str]:
+    grouped: dict[str, list[dict]] = defaultdict(list)
+    for item in snapshots:
+        grouped[item["sessionId"]].append(item)
+    flagged: list[str] = []
+    for sid, items in grouped.items():
+        first = min(items, key=lambda x: x["collectedAt"])
+        if datetime.fromisoformat(first["collectedAt"]) > datetime.fromisoformat(first["startAt"]):
+            flagged.append(sid)
+    return sorted(flagged)
+
+
+def latest_run_for_date(root: Path, show_date: str) -> dict | None:
+    matches=[]
+    for path in (root / "data/runs").glob("*.json"):
+        try:
+            payload=json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if payload.get("showDate") == show_date:
+            matches.append(payload)
+    return max(matches, key=lambda x: x.get("collectedAt") or "") if matches else None
+
+
 def build_day_product(root: Path, show_date: str, snapshots: list[dict]) -> dict:
     day = [x for x in snapshots if x["showDate"] == show_date]
+    generated_at = datetime.now(TZ)
     latest = latest_by_session(day)
     final_pre_show = latest_by_session(day, pre_show_only=True)
+    live = live_upcoming_sessions(day, as_of=generated_at) if show_date == generated_at.date().isoformat() else []
     summary = aggregate(latest)
     final_summary = aggregate(final_pre_show)
+    live_summary = aggregate(live)
     collected_times = sorted(x["collectedAt"] for x in day)
+    flagged = first_seen_after_show(day)
+    latest_run = latest_run_for_date(root, show_date)
     return {
-        "schemaVersion": "1.1.0",
-        "generatedAt": datetime.now(TZ).isoformat(timespec="seconds"),
+        "schemaVersion": "1.2.0",
+        "generatedAt": generated_at.isoformat(timespec="seconds"),
         "filmId": "tikus",
         "showDate": show_date,
         "status": "ok" if latest else "no-observations",
@@ -121,11 +160,14 @@ def build_day_product(root: Path, show_date: str, snapshots: list[dict]) -> dict
             "cinemaCount": 16,
             "seatMeasuredSessions": summary["seatMeasuredSessions"],
             "totalSessions": summary["totalShows"],
+            "liveUpcomingSessions": live_summary["totalShows"],
         },
         "summary": summary,
+        "liveSummary": live_summary,
         "finalPreShowSummary": final_summary,
         "cinemas": cinema_rankings(latest),
         "sessions": sorted(latest, key=lambda x: (x["startAt"], x["cinemaId"])),
+        "liveSessions": sorted(live, key=lambda x: (x["startAt"], x["cinemaId"])),
         "finalPreShowSessions": sorted(final_pre_show, key=lambda x: (x["startAt"], x["cinemaId"])),
         "sessionChanges": session_changes(day),
         "series": session_series(day),
@@ -135,6 +177,13 @@ def build_day_product(root: Path, show_date: str, snapshots: list[dict]) -> dict
             "firstCollectedAt": collected_times[0] if collected_times else None,
             "lastCollectedAt": collected_times[-1] if collected_times else None,
             "observations": len(day),
+        },
+        "collection": {
+            "latestRun": latest_run,
+            "firstSeenAfterShowSessionIds": flagged,
+            "firstSeenAfterShowCount": len(flagged),
+            "dailyCompleteness": "partial" if flagged or not day else "observed",
+            "note": "Daily totals reflect sessions actually observed by this repository. A collector started late in the theatrical day cannot reconstruct earlier sessions from sources that return upcoming inventory only.",
         },
         "quality": {
             "seatCoverage": summary["seatCoverage"],
@@ -163,17 +212,19 @@ def build_all_products(root: Path) -> None:
         current = {**products[latest_date], "mode": "current"}
     else:
         current = {
-            "schemaVersion": "1.1.0",
+            "schemaVersion": "1.2.0",
             "generatedAt": datetime.now(TZ).isoformat(timespec="seconds"),
             "filmId": "tikus",
             "showDate": None,
             "status": "no-observations",
             "scope": {"cinemaCount": 16, "seatMeasuredSessions": 0, "totalSessions": 0},
             "summary": aggregate([]),
+            "liveSummary": aggregate([]),
             "finalPreShowSummary": aggregate([]),
-            "cinemas": [], "sessions": [], "finalPreShowSessions": [], "sessionChanges": {}, "series": {},
+            "cinemas": [], "sessions": [], "liveSessions": [], "finalPreShowSessions": [], "sessionChanges": {}, "series": {},
             "exhibitors": [], "states": [],
             "observationWindow": {"firstCollectedAt": None, "lastCollectedAt": None, "observations": 0},
+            "collection": {"latestRun": None, "firstSeenAfterShowSessionIds": [], "firstSeenAfterShowCount": 0, "dailyCompleteness": "no-observations", "note": None},
             "quality": {"seatCoverage": None, "methodology": "docs/METHODOLOGY.md", "observedSeatStateIsNotSales": True},
             "mode": "current",
         }

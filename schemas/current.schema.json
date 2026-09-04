@@ -5,7 +5,7 @@
   "type": "object",
   "required": ["schemaVersion", "generatedAt", "filmId", "showDate", "status", "scope", "summary", "cinemas", "sessions", "quality"],
   "properties": {
-    "schemaVersion": {"enum": ["1.0.0", "1.1.0"]},
+    "schemaVersion": {"enum": ["1.0.0", "1.1.0", "1.2.0"]},
     "generatedAt": {"type": ["string", "null"], "format": "date-time"},
     "filmId": {"const": "tikus"},
     "showDate": {"type": ["string", "null"], "format": "date"},
@@ -13,15 +13,18 @@
     "mode": {"type": "string"},
     "scope": {"type": "object"},
     "summary": {"type": "object"},
+    "liveSummary": {"type": "object"},
     "finalPreShowSummary": {"type": "object"},
     "cinemas": {"type": "array"},
     "sessions": {"type": "array"},
+    "liveSessions": {"type": "array"},
     "finalPreShowSessions": {"type": "array"},
     "sessionChanges": {"type": "object"},
     "series": {"type": "object"},
     "exhibitors": {"type": "array"},
     "states": {"type": "array"},
     "observationWindow": {"type": "object"},
+    "collection": {"type": "object"},
     "quality": {"type": "object"}
   },
   "additionalProperties": false
