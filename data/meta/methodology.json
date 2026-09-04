@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "1.0.0",
+  "timezone": "Asia/Kuala_Lumpur",
+  "primeTime": {"start": "18:00", "endExclusive": "21:00"},
+  "timeBands": [
+    {"id": "matinee", "label": "Matinee", "start": "00:00", "endExclusive": "18:00"},
+    {"id": "prime", "label": "Prime Time", "start": "18:00", "endExclusive": "21:00"},
+    {"id": "late", "label": "Late", "start": "21:00", "endExclusive": "24:00"}
+  ],
+  "occupancyBands": [
+    {"id": "zero", "minInclusive": 0.0, "maxInclusive": 0.0},
+    {"id": "very-low", "minExclusive": 0.0, "maxInclusive": 0.10},
+    {"id": "low", "minExclusive": 0.10, "maxInclusive": 0.25},
+    {"id": "moderate", "minExclusive": 0.25, "maxInclusive": 0.50},
+    {"id": "strong", "minExclusive": 0.50, "maxInclusive": 0.75},
+    {"id": "very-strong", "minExclusive": 0.75, "maxInclusive": 0.90},
+    {"id": "near-full", "minExclusive": 0.90, "maxInclusive": 1.0}
+  ],
+  "headlineOccupancy": "sum(used) / sum(capacity) across the same eligible measured sessions",
+  "performanceIndex": "(cinema used / scope used) / (cinema capacity / scope capacity)",
+  "performanceIndexEquivalent": "cinema occupancy / scope occupancy when both use identical measured-session eligibility",
+  "unknownPolicy": "Unavailable measurements are null, never zero.",
+  "salesPolicy": "Observed public seat state must never be described as confirmed paid ticket sales or admissions."
+}

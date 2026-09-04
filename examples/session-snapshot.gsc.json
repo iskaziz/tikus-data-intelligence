@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "example-gsc-20260904T010000+0800",
+  "filmId": "tikus",
+  "cinemaId": "gsc-paradigm-jb",
+  "exhibitorId": "gsc",
+  "sessionId": "gsc-paradigm-jb:2026-09-04:13:00:289353",
+  "sourceSessionId": "289353",
+  "source": {
+    "provider": "gsc",
+    "sourceType": "official-api",
+    "sourceCinemaId": "355",
+    "sourceCinemaName": "GSC Paradigm Mall (Johor Bahru)",
+    "sourceUrl": null,
+    "collectorVersion": "example",
+    "rawPayloadHash": null
+  },
+  "collectedAt": "2026-09-04T01:00:00+08:00",
+  "showDate": "2026-09-04",
+  "startAt": "2026-09-04T13:00:00+08:00",
+  "minutesToShow": 720,
+  "session": {"auditorium": "2", "format": "2D", "language": null, "experience": null},
+  "seat": {
+    "capacity": 246,
+    "used": 2,
+    "available": 244,
+    "otherUnavailable": 0,
+    "statusCounts": {"A": 244, "B": 2}
+  },
+  "semantics": {
+    "used": "gsc-booked-state-B",
+    "available": "gsc-available-state-A",
+    "capacity": "gsc-observed-seat-map"
+  },
+  "quality": {
+    "measurementStatus": "complete",
+    "seatMeasured": true,
+    "warnings": ["Booked-state seats are not confirmed paid ticket sales."]
+  }
+}

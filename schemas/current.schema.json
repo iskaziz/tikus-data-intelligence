@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://feisk.com.my/tikus-data-intelligence/schemas/current.schema.json",
+  "title": "TIKUS! browser-facing current analytics",
+  "type": "object",
+  "required": ["schemaVersion", "generatedAt", "filmId", "showDate", "status", "scope", "summary", "cinemas", "sessions", "quality"],
+  "properties": {
+    "schemaVersion": {"enum": ["1.0.0", "1.1.0"]},
+    "generatedAt": {"type": ["string", "null"], "format": "date-time"},
+    "filmId": {"const": "tikus"},
+    "showDate": {"type": ["string", "null"], "format": "date"},
+    "status": {"type": "string"},
+    "mode": {"type": "string"},
+    "scope": {"type": "object"},
+    "summary": {"type": "object"},
+    "finalPreShowSummary": {"type": "object"},
+    "cinemas": {"type": "array"},
+    "sessions": {"type": "array"},
+    "finalPreShowSessions": {"type": "array"},
+    "sessionChanges": {"type": "object"},
+    "series": {"type": "object"},
+    "exhibitors": {"type": "array"},
+    "states": {"type": "array"},
+    "observationWindow": {"type": "object"},
+    "quality": {"type": "object"}
+  },
+  "additionalProperties": false
+}

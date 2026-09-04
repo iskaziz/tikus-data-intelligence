@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#111111">
+  <title>TIKUS! Data Intelligence</title>
+  <meta name="description" content="Data-first theatrical distribution intelligence for TIKUS! across the producer-tracked Malaysian cinema network.">
+  <link rel="stylesheet" href="css/styles.css">
+  <script defer src="data/browser-data.js"></script>
+  <script defer src="js/formatters.js"></script>
+  <script defer src="js/analytics.js"></script>
+  <script defer src="js/data-loader.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#ranking">Skip to cinema ranking</a>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand__mark" aria-hidden="true">T!</div>
+      <div>
+        <p class="eyebrow">THEATRICAL DISTRIBUTION</p>
+        <h1>TIKUS! <span>Data Intelligence</span></h1>
+      </div>
+    </div>
+    <div class="freshness" id="freshness" aria-live="polite">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span>Loading data…</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="scopebar" aria-label="Analytical scope">
+      <label>Date
+        <select id="date-filter" aria-label="Show date"></select>
+      </label>
+      <label>Time
+        <select id="time-filter">
+          <option value="all">All Day</option>
+          <option value="matinee">Matinee</option>
+          <option value="prime">Prime Time</option>
+          <option value="late">Late</option>
+        </select>
+      </label>
+      <label>Exhibitor
+        <select id="exhibitor-filter"><option value="all">All Exhibitors</option></select>
+      </label>
+      <label>State / Territory
+        <select id="state-filter"><option value="all">All Geography</option></select>
+      </label>
+      <label>Observation
+        <select id="observation-filter">
+          <option value="latest">Latest observed</option>
+          <option value="final">Final pre-show</option>
+        </select>
+      </label>
+      <button class="reset-button" id="reset-filters" type="button">Reset scope</button>
+    </section>
+
+    <section class="scope-note" aria-live="polite">
+      <strong id="scope-label">Tracked network · 16 cinemas</strong>
+      <span id="coverage-note">Seat-state coverage unavailable.</span>
+      <span class="method-tag">Observed seat state ≠ confirmed paid sales</span>
+    </section>
+
+    <section class="kpi-grid" aria-label="Key metrics" id="kpi-grid"></section>
+
+    <section class="panel ranking-panel" id="ranking">
+      <div class="panel__header panel__header--table">
+        <div>
+          <p class="eyebrow">PRIMARY INTERFACE</p>
+          <h2>Cinema Ranking</h2>
+        </div>
+        <div class="table-tools">
+          <label class="search-field">Find cinema
+            <input id="cinema-search" type="search" placeholder="Name, city, state" autocomplete="off">
+          </label>
+          <button type="button" id="column-toggle" aria-expanded="false" aria-controls="column-menu">Columns</button>
+          <div class="column-menu" id="column-menu" hidden></div>
+        </div>
+      </div>
+      <div class="table-meta" id="table-meta"></div>
+      <div class="table-scroll" tabindex="0" aria-label="Scrollable cinema ranking table">
+        <table class="data-table" id="cinema-table">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="analysis-grid">
+      <section class="panel" id="exhibitor-panel">
+        <div class="panel__header">
+          <div><p class="eyebrow">ALLOCATION + UTILISATION</p><h2>Exhibitor Comparison</h2></div>
+        </div>
+        <div class="compact-table-wrap"><table class="compact-table" id="exhibitor-table"></table></div>
+      </section>
+
+      <section class="panel" id="distribution-panel">
+        <div class="panel__header">
+          <div><p class="eyebrow">MEASURED SESSIONS</p><h2>Occupancy Distribution</h2></div>
+        </div>
+        <div class="distribution" id="occupancy-distribution"></div>
+      </section>
+    </div>
+
+    <div class="analysis-grid analysis-grid--wide-left">
+      <section class="panel" id="trend-panel">
+        <div class="panel__header">
+          <div><p class="eyebrow">THEATRICAL RUN</p><h2>Day Trend</h2></div>
+        </div>
+        <div class="compact-table-wrap"><table class="compact-table" id="day-trend"></table></div>
+      </section>
+
+      <section class="panel geography-panel" aria-labelledby="geo-heading">
+        <div class="panel__header">
+          <div><p class="eyebrow">SECONDARY NAVIGATOR</p><h2 id="geo-heading">Malaysia Geography</h2></div>
+          <span class="subtle">schematic · not to scale</span>
+        </div>
+        <div class="geo-map" id="geo-map" aria-label="Tracked cinema geography"></div>
+      </section>
+    </div>
+
+    <section class="panel quality-panel">
+      <div class="panel__header">
+        <div><p class="eyebrow">AUDITABILITY</p><h2>Source & Data Quality</h2></div>
+      </div>
+      <div class="quality-grid" id="quality-grid"></div>
+      <p class="methodology-note">TIKUS! Data Intelligence records publicly observable schedules and seat states. GSC <code>B</code> is a booked-state; TGV <code>seatsused</code> may include held or otherwise unavailable inventory. Neither is presented as confirmed paid ticket sales, admissions or box office.</p>
+    </section>
+  </main>
+
+  <footer>
+    <span>TIKUS! Data Intelligence</span>
+    <span>Tracked network only · Malaysia · Asia/Kuala_Lumpur</span>
+    <a href="docs/METHODOLOGY.md">Methodology</a>
+  </footer>
+
+  <dialog id="session-dialog" class="session-dialog" aria-labelledby="session-dialog-title">
+    <div class="dialog-head">
+      <div><p class="eyebrow">CINEMA DETAIL</p><h2 id="session-dialog-title">Sessions</h2></div>
+      <button type="button" class="dialog-close" aria-label="Close session detail">×</button>
+    </div>
+    <div id="session-dialog-summary" class="dialog-summary"></div>
+    <div class="table-scroll"><table class="data-table session-table" id="session-table"></table></div>
+    <p class="dialog-footnote">“Used / Booked” reflects source-defined observed seat state, not confirmed ticket transactions.</p>
+  </dialog>
+
+  <div class="load-error" id="load-error" hidden role="alert"></div>
+</body>
+</html>

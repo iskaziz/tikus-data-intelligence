@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hall no="2" maximumseats="12" hbooked="1" hblocked="1" hsereleased="0" resvreleased="N">
+  <row id="A"><cols>
+    <col id="A1" status="A" type="N"/><col id="A2" status="A" type="N"/><col id="A3" status="B" type="N"/><col id="A4" status="D" type="H"/>
+  </cols></row>
+</hall>

@@ -1,0 +1,56 @@
+name: Collect TIKUS! theatrical data
+
+on:
+  workflow_dispatch:
+    inputs:
+      show_date:
+        description: "Optional Malaysia show date (YYYY-MM-DD); blank = today"
+        required: false
+        type: string
+  schedule:
+    # Conservative hourly cadence. All source calls are read-only and do not
+    # select seats, create holds, open orders or enter payment flows.
+    - cron: "17 * * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tikus-data-collection
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Collect read-only public observations
+        env:
+          SHOW_DATE: ${{ inputs.show_date }}
+        run: |
+          if [ -n "$SHOW_DATE" ]; then
+            python -m scripts.collectors.collect_all --date "$SHOW_DATE" --allow-empty
+          else
+            python -m scripts.collectors.collect_all --allow-empty
+          fi
+      - name: Validate contract and calculations
+        run: |
+          python -m unittest discover -s tests -v
+          python -m scripts.analytics.validate_data
+      - name: Commit new observations
+        run: |
+          if [ -z "$(git status --porcelain -- data)" ]; then
+            echo "No data changes to commit."
+            exit 0
+          fi
+          git config user.name "tikus-data-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data
+          git commit -m "data: collect TIKUS! observations"
+          git push

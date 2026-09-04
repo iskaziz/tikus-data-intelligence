@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "gsc": {
+    "provider": "gsc",
+    "parentMovieId": "6363",
+    "movieChildId": "1000005309",
+    "showtimesEndpoint": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getShowTimesByMovie_ParentChild_V2",
+    "seatStatusEndpoint": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus",
+    "policy": "Read-only public XML endpoints only. No seat selection, lock, transaction or payment action."
+  },
+  "tgv": {
+    "provider": "tgv",
+    "movieRecid": "7b2216d1-27d8-479e-b420-8ab157847aa6",
+    "movieSlug": "tikus-2026",
+    "scheduleEndpoint": "https://api.tgv.com.my/api/boxoffice/v1/moviesession_get",
+    "seatStatusEndpoint": "https://api.tgv.com.my/api/boxoffice/v1/moviesession_getseatstatus",
+    "policy": "Read-only official API calls only. No seat selection or payment action."
+  },
+  "paragon": {
+    "provider": "paragon",
+    "experienceUrl": "https://www.paragoncinemas.com.my/Browsing/EventsAndExperiences/ExperienceDetails/2D",
+    "policy": "Schedule-only unless a clearly read-only public seat source is established."
+  },
+  "mega": {
+    "provider": "mega",
+    "riverfrontListingId": "793",
+    "listingUrl": "https://www.cinema.com.my/showtimes/cinema.aspx?id=793",
+    "policy": "Schedule-only; no inferred seat counts."
+  }
+}

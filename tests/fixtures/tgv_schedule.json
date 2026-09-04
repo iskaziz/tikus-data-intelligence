@@ -1,0 +1,38 @@
+{
+  "success": true,
+  "results": {
+    "businessday": {
+      "businessday": "2026-09-03",
+      "cinemas": [
+        {
+          "cinemaid": "BBT",
+          "name": "BUKIT TINGGI",
+          "movies": [
+            {
+              "movieid": "7b2216d1-27d8-479e-b420-8ab157847aa6",
+              "experiences": [
+                {
+                  "experience": "deluxe",
+                  "sessions": [
+                    {
+                      "sessionid": "409356",
+                      "cinemaid": "BBT",
+                      "scheduledfilmid": "HO00025533",
+                      "showtimemy": "2026-09-03T14:10:00",
+                      "screenname": "Cinema 3",
+                      "businessdate": "2026-09-03",
+                      "experience": "deluxe",
+                      "seattypes": "SINGLE|TWIN",
+                      "movieid": "7b2216d1-27d8-479e-b420-8ab157847aa6",
+                      "extdata": {"conceptattributenames": ["2D"]}
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

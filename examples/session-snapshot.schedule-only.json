@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "example-paragon-20260904T010000+0800",
+  "filmId": "tikus",
+  "cinemaId": "paragon-batu-pahat",
+  "exhibitorId": "paragon",
+  "sessionId": "paragon-batu-pahat:2026-09-04:19:00:unknown",
+  "sourceSessionId": null,
+  "source": {
+    "provider": "paragon",
+    "sourceType": "official-public-page",
+    "sourceCinemaId": "0000000002",
+    "sourceCinemaName": "Paragon Cinemas Batu Pahat",
+    "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/EventsAndExperiences/ExperienceDetails/2D",
+    "collectorVersion": "example",
+    "rawPayloadHash": null
+  },
+  "collectedAt": "2026-09-04T01:00:00+08:00",
+  "showDate": "2026-09-04",
+  "startAt": "2026-09-04T19:00:00+08:00",
+  "minutesToShow": 1080,
+  "session": {"auditorium": "Hall 3", "format": "2D", "language": null, "experience": null},
+  "seat": {"capacity": null, "used": null, "available": null, "otherUnavailable": null, "statusCounts": null},
+  "semantics": {"used": "unavailable", "available": "unavailable", "capacity": "unavailable"},
+  "quality": {
+    "measurementStatus": "schedule-only",
+    "seatMeasured": false,
+    "warnings": ["No public seat count is used or inferred."]
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://feisk.com.my/tikus-data-intelligence/schemas/session-snapshot.schema.json",
+  "title": "TIKUS! normalized session snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion", "runId", "filmId", "cinemaId", "exhibitorId",
+    "sessionId", "source", "collectedAt", "showDate", "startAt",
+    "session", "seat", "semantics", "quality"
+  ],
+  "properties": {
+    "schemaVersion": {"const": "1.0.0"},
+    "runId": {"type": "string", "minLength": 1},
+    "filmId": {"const": "tikus"},
+    "cinemaId": {"type": "string", "minLength": 1},
+    "exhibitorId": {"enum": ["gsc", "tgv", "paragon", "mega"]},
+    "sessionId": {"type": "string", "minLength": 1},
+    "sourceSessionId": {"type": ["string", "null"]},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "sourceType", "sourceCinemaId", "sourceCinemaName", "sourceUrl", "collectorVersion"],
+      "properties": {
+        "provider": {"enum": ["gsc", "tgv", "paragon", "mega", "legacy-import"]},
+        "sourceType": {"enum": ["official-api", "official-public-page", "public-listing", "legacy-import"]},
+        "sourceCinemaId": {"type": ["string", "null"]},
+        "sourceCinemaName": {"type": ["string", "null"]},
+        "sourceUrl": {"type": ["string", "null"]},
+        "collectorVersion": {"type": "string", "minLength": 1},
+        "rawPayloadHash": {"type": ["string", "null"]}
+      }
+    },
+    "collectedAt": {"type": "string", "format": "date-time"},
+    "showDate": {"type": "string", "format": "date"},
+    "startAt": {"type": "string", "format": "date-time"},
+    "minutesToShow": {"type": ["integer", "null"]},
+    "session": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["auditorium", "format", "language", "experience"],
+      "properties": {
+        "auditorium": {"type": ["string", "null"]},
+        "format": {"type": ["string", "null"]},
+        "language": {"type": ["string", "null"]},
+        "experience": {"type": ["string", "null"]}
+      }
+    },
+    "seat": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["capacity", "used", "available", "otherUnavailable", "statusCounts"],
+      "properties": {
+        "capacity": {"type": ["integer", "null"], "minimum": 0},
+        "used": {"type": ["integer", "null"], "minimum": 0},
+        "available": {"type": ["integer", "null"], "minimum": 0},
+        "otherUnavailable": {"type": ["integer", "null"], "minimum": 0},
+        "statusCounts": {
+          "type": ["object", "null"],
+          "additionalProperties": {"type": "integer", "minimum": 0}
+        }
+      }
+    },
+    "semantics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["used", "available", "capacity"],
+      "properties": {
+        "used": {"enum": ["gsc-booked-state-B", "tgv-seatsused", "unavailable"]},
+        "available": {"enum": ["gsc-available-state-A", "derived-capacity-minus-used", "unavailable"]},
+        "capacity": {"enum": ["gsc-observed-seat-map", "tgv-seatstotal", "unavailable"]}
+      }
+    },
+    "quality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["measurementStatus", "seatMeasured", "warnings"],
+      "properties": {
+        "measurementStatus": {"enum": ["complete", "partial", "schedule-only", "stale", "error"]},
+        "seatMeasured": {"type": "boolean"},
+        "warnings": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

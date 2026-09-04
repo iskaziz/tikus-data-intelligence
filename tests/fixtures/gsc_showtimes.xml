@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<locations parent_code="6363" parent_title="Tikus">
+  <location id="210" name="GSC Mid Valley">
+    <child code="1000005309" title="Tikus" lang="BM">
+      <show id="924428" date="2026-09-03" time="2000" timestr="8:00PM" hid="2" hname="2" type="2D" type_desc="2D - Digital 2D" />
+    </child>
+  </location>
+  <location id="999" name="Not tracked">
+    <child code="1000005309" title="Tikus"><show id="x" date="2026-09-03" time="1800" hid="1" /></child>
+  </location>
+</locations>

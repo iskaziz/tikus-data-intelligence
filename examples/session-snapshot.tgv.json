@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "example-tgv-20260904T010000+0800",
+  "filmId": "tikus",
+  "cinemaId": "tgv-1utama",
+  "exhibitorId": "tgv",
+  "sessionId": "tgv-1utama:2026-09-04:15:00:324726",
+  "sourceSessionId": "324726",
+  "source": {
+    "provider": "tgv",
+    "sourceType": "official-api",
+    "sourceCinemaId": "BU0",
+    "sourceCinemaName": "1 UTAMA",
+    "sourceUrl": "https://www.tgv.com.my/movies/details/tikus-2026",
+    "collectorVersion": "example",
+    "rawPayloadHash": null
+  },
+  "collectedAt": "2026-09-04T01:00:00+08:00",
+  "showDate": "2026-09-04",
+  "startAt": "2026-09-04T15:00:00+08:00",
+  "minutesToShow": 840,
+  "session": {"auditorium": "Cinema 1", "format": null, "language": null, "experience": "deluxe"},
+  "seat": {"capacity": 117, "used": 0, "available": 117, "otherUnavailable": null, "statusCounts": null},
+  "semantics": {
+    "used": "tgv-seatsused",
+    "available": "derived-capacity-minus-used",
+    "capacity": "tgv-seatstotal"
+  },
+  "quality": {
+    "measurementStatus": "complete",
+    "seatMeasured": true,
+    "warnings": ["TGV seatsused may include held or otherwise unavailable inventory."]
+  }
+}

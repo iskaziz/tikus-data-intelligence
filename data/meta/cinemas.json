@@ -1,0 +1,231 @@
+{
+  "schemaVersion": "1.0.0",
+  "networkName": "TIKUS! tracked theatrical network",
+  "count": 16,
+  "cinemas": [
+    {
+      "id": "gsc-paradigm-jb",
+      "name": "GSC Paradigm JB",
+      "exhibitorId": "gsc",
+      "state": "Johor",
+      "city": "Johor Bahru",
+      "address": "Lot 7F-01 & 7F-02, Paradigm Mall Johor Bahru, Jalan Skudai, Johor Bahru, Johor",
+      "coordinates": null,
+      "source": {
+        "officialCinemaId": "355",
+        "officialNames": ["GSC Paradigm Mall (Johor Bahru)"],
+        "aliases": ["Paradigm Mall", "Paradigm JB"]
+      }
+    },
+    {
+      "id": "gsc-aman-central",
+      "name": "GSC Aman Central",
+      "exhibitorId": "gsc",
+      "state": "Kedah",
+      "city": "Alor Setar",
+      "address": "Lot 4-22, Aman Central, No. 1, Lebuhraya Darulaman, Alor Setar, Kedah",
+      "coordinates": null,
+      "source": {
+        "officialCinemaId": "133",
+        "officialNames": ["GSC Aman Central"],
+        "aliases": ["Aman Central"]
+      }
+    },
+    {
+      "id": "gsc-mid-valley",
+      "name": "GSC Mid Valley Megamall",
+      "exhibitorId": "gsc",
+      "state": "Kuala Lumpur",
+      "city": "Kuala Lumpur",
+      "address": "Lot T-001, 3rd Floor, Mid Valley Megamall, Mid Valley City, Lingkaran Syed Putra, Kuala Lumpur",
+      "coordinates": null,
+      "source": {
+        "officialCinemaId": "210",
+        "officialNames": ["GSC Mid Valley Megamall"],
+        "aliases": ["GSC Midvalley", "Mid Valley Megamall", "Mid Valley"]
+      }
+    },
+    {
+      "id": "gsc-dataran-pahlawan",
+      "name": "GSC Dataran Pahlawan",
+      "exhibitorId": "gsc",
+      "state": "Melaka",
+      "city": "Melaka",
+      "address": "Lot F5-01, Dataran Pahlawan Melaka Megamall, Jalan Merdeka, Bandar Hilir, Melaka",
+      "coordinates": null,
+      "source": {
+        "officialCinemaId": "331",
+        "officialNames": ["GSC Dataran Pahlawan"],
+        "aliases": ["Dataran Pahlawan"]
+      }
+    },
+    {
+      "id": "gsc-kuantan-city-mall",
+      "name": "GSC Kuantan City Mall",
+      "exhibitorId": "gsc",
+      "state": "Pahang",
+      "city": "Kuantan",
+      "address": "L4-AT-01, Level 4, Kuantan City Mall, Jalan Putra Square 6/1, Putra Square, Kuantan, Pahang",
+      "coordinates": null,
+      "source": {
+        "officialCinemaId": "431",
+        "officialNames": ["GSC Kuantan City Mall"],
+        "aliases": ["Kuantan City Mall"]
+      }
+    },
+    {
+      "id": "gsc-ioi-city-mall",
+      "name": "GSC IOI City Mall",
+      "exhibitorId": "gsc",
+      "state": "Putrajaya",
+      "city": "Putrajaya",
+      "address": "L2-AT5, IOI City Mall, Lebuh IRC, IOI Resort City, 62502 Putrajaya",
+      "coordinates": null,
+      "source": {
+        "officialCinemaId": "257",
+        "officialNames": ["GSC IOI City Mall (West) (Putrajaya)"],
+        "aliases": ["IOI City Mall"]
+      }
+    },
+    {
+      "id": "gsc-imago",
+      "name": "GSC Imago Shopping Mall",
+      "exhibitorId": "gsc",
+      "state": "Sabah",
+      "city": "Kota Kinabalu",
+      "address": "Lot 2-52, Second Floor, Imago Shopping Mall, KK Times Square Phase 2, Off Coastal Highway, Kota Kinabalu, Sabah",
+      "coordinates": null,
+      "source": {
+        "officialCinemaId": "531",
+        "officialNames": ["GSC IMAGO Shopping Mall"],
+        "aliases": ["IMAGO Mall", "Imago"]
+      }
+    },
+    {
+      "id": "gsc-the-spring",
+      "name": "GSC The Spring Kuching",
+      "exhibitorId": "gsc",
+      "state": "Sarawak",
+      "city": "Kuching",
+      "address": "Lot 214, Second Floor, The Spring Shopping Mall, Persiaran Spring, Kuching, Sarawak",
+      "coordinates": null,
+      "source": {
+        "officialCinemaId": "552",
+        "officialNames": ["GSC The Spring (Kuching)"],
+        "aliases": ["The Spring", "Spring Kuching", "The Spring Shopping Mall"]
+      }
+    },
+    {
+      "id": "tgv-tebrau-city",
+      "name": "TGV Tebrau City",
+      "exhibitorId": "tgv",
+      "state": "Johor",
+      "city": "Johor Bahru",
+      "address": "S01, 2nd Floor, AEON Tebrau City Shopping Centre, 1 Jalan Desa Tebrau, Taman Desa Tebrau, 81100 Johor Bahru, Johor",
+      "coordinates": null,
+      "source": {
+        "officialCinemaId": "TBR",
+        "officialNames": ["TEBRAU CITY"],
+        "aliases": ["Tebrau", "TGV Tebrau"]
+      }
+    },
+    {
+      "id": "tgv-wangsa-walk",
+      "name": "TGV Wangsa Walk",
+      "exhibitorId": "tgv",
+      "state": "Kuala Lumpur",
+      "city": "Kuala Lumpur",
+      "address": "2-01, Level 2, Wangsa Walk Mall, Wangsa Avenue, 9 Jalan Wangsa Perdana 1, Bandar Wangsa Maju, 53300 Kuala Lumpur",
+      "coordinates": null,
+      "source": {
+        "officialCinemaId": "WWM",
+        "officialNames": ["SUNWAY WANGSA MALL"],
+        "aliases": ["Wangsa Walk", "Sunway Wangsa Mall"]
+      }
+    },
+    {
+      "id": "tgv-gurney",
+      "name": "TGV Gurney",
+      "exhibitorId": "tgv",
+      "state": "Pulau Pinang",
+      "city": "George Town",
+      "address": "Level 8, Gurney Paragon Mall, Lorong Kelawai, 10250 George Town, Pulau Pinang",
+      "coordinates": null,
+      "source": {
+        "officialCinemaId": "GUR",
+        "officialNames": ["GURNEY PARAGON"],
+        "aliases": ["Gurney", "Gurney Paragon"]
+      }
+    },
+    {
+      "id": "tgv-bukit-tinggi",
+      "name": "TGV Bukit Tinggi",
+      "exhibitorId": "tgv",
+      "state": "Selangor",
+      "city": "Klang",
+      "address": "Lot S32, 2nd Floor, AEON Bukit Tinggi Shopping Centre, 1 Persiaran Batu Nilam 1/KS6, Bandar Bukit Tinggi 2, 41200 Klang, Selangor",
+      "coordinates": null,
+      "source": {
+        "officialCinemaId": "BBT",
+        "officialNames": ["BUKIT TINGGI"],
+        "aliases": ["Bukit Tinggi"]
+      }
+    },
+    {
+      "id": "tgv-1utama",
+      "name": "TGV 1Utama",
+      "exhibitorId": "tgv",
+      "state": "Selangor",
+      "city": "Petaling Jaya",
+      "address": "Level 3, Old Wing, 1 Utama Shopping Centre, 1, Lebuh Bandar Utama, Bandar Utama, 47800 Petaling Jaya, Selangor, Malaysia",
+      "coordinates": {"lat": 3.148316, "lng": 101.616795},
+      "source": {
+        "officialCinemaId": "BU0",
+        "officialNames": ["1 UTAMA"],
+        "aliases": ["1 Utama", "1UTAMA"]
+      }
+    },
+    {
+      "id": "paragon-batu-pahat",
+      "name": "Paragon Batu Pahat",
+      "exhibitorId": "paragon",
+      "state": "Johor",
+      "city": "Batu Pahat",
+      "address": "2nd Floor, Batu Pahat Mall, Jalan Kluang, 83000 Batu Pahat, Johor",
+      "coordinates": null,
+      "source": {
+        "officialCinemaId": "0000000002",
+        "officialNames": ["Paragon Cinemas Batu Pahat"],
+        "aliases": ["Paragon Cinemas Batu Pahat"]
+      }
+    },
+    {
+      "id": "paragon-ktcc",
+      "name": "Paragon KTCC",
+      "exhibitorId": "paragon",
+      "state": "Terengganu",
+      "city": "Kuala Terengganu",
+      "address": "Lot 2-888, Level 2, KTCC Mall, Jalan Sultan Zainal Abidin, Muara Selatan, 20000 Kuala Terengganu, Terengganu",
+      "coordinates": null,
+      "source": {
+        "officialCinemaId": "0000000004",
+        "officialNames": ["Paragon Cinema KTCC"],
+        "aliases": ["KTCC", "Paragon Cinema KTCC"]
+      }
+    },
+    {
+      "id": "mega-riverfront-mall",
+      "name": "Mega Cineplex Riverfront Mall",
+      "exhibitorId": "mega",
+      "state": "Kedah",
+      "city": "Sungai Petani",
+      "address": "Riverfront City, 192 & 193, Jalan Mawar 3/2, Taman Pekan Baru, 08000 Sungai Petani, Kedah",
+      "coordinates": null,
+      "source": {
+        "officialCinemaId": "793",
+        "officialNames": ["Mega Cineplex Riverfront Mall"],
+        "aliases": ["Mega Riverfront", "Riverfront Mall"]
+      }
+    }
+  ]
+}

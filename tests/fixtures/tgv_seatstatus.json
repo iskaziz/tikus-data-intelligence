@@ -1,0 +1,10 @@
+{
+  "success": true,
+  "error": null,
+  "results": {
+    "cinemaid": "BBT",
+    "seatstatuslist": [
+      {"sessionid": "409356", "seatstotal": 115, "seatsused": 1, "usedpercentage": 0}
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "1.0.0",
+  "exhibitors": [
+    {
+      "id": "gsc",
+      "name": "GSC",
+      "seatDataCapability": "public-seat-state",
+      "usedMetricLabel": "Observed booked-state seats",
+      "semantics": "A=available; B=booked-state; all other observed statuses remain separately unavailable. B is not confirmed paid ticket sales."
+    },
+    {
+      "id": "tgv",
+      "name": "TGV",
+      "seatDataCapability": "official-api-seat-state",
+      "usedMetricLabel": "Observed seatsused",
+      "semantics": "seatstotal is observed allocated capacity; seatsused is observed used/unavailable inventory and may include holds or other unavailable inventory."
+    },
+    {
+      "id": "paragon",
+      "name": "Paragon",
+      "seatDataCapability": "schedule-only",
+      "usedMetricLabel": null,
+      "semantics": "Public session schedules and booking-session identifiers may be observed. No seat counts are inferred when they are not publicly exposed."
+    },
+    {
+      "id": "mega",
+      "name": "Mega Cineplex",
+      "seatDataCapability": "schedule-only",
+      "usedMetricLabel": null,
+      "semantics": "Showtimes may be observed from public listings. No seat counts are invented when unavailable."
+    }
+  ]
+}
