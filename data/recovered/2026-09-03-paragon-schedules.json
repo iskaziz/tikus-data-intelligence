@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "1.0.0",
+  "filmId": "tikus",
+  "showDate": "2026-09-03",
+  "recoveryStatus": "verified-third-party-schedule-evidence",
+  "seatData": false,
+  "notes": "Recovered after the theatrical date from indexed Xinemas pages. These records are schedule evidence only and are not treated as contemporaneous seat observations.",
+  "cinemas": [
+    {
+      "cinemaId": "paragon-batu-pahat",
+      "source": "Xinemas indexed cinema page",
+      "sourceUrl": "https://xinemas.com/cinema/in-batu-pahat/paragon-cinemas-batu-pahat-mall-batu-pahat.html",
+      "times": ["12:15", "16:45", "19:00", "21:15"]
+    },
+    {
+      "cinemaId": "paragon-ktcc",
+      "source": "Xinemas indexed cinema page",
+      "sourceUrl": "https://xinemas.com/cinema/in-terengganu/paragon-cinemas-ktcc-mall-terengganu.html",
+      "times": ["11:30", "13:45", "16:00"]
+    }
+  ]
+}

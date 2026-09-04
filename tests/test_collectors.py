@@ -42,3 +42,14 @@ class CollectorParserTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+class ScheduleOnlyCollectorParserTests(unittest.TestCase):
+    def test_paragon_tikus_times(self):
+        from scripts.collectors.paragon import parse_tikus_times
+        html = (FIX / "paragon_tikus.html").read_text(encoding="utf-8")
+        self.assertEqual(parse_tikus_times(html, "2026-09-04"), ["04:30 PM", "06:30 PM", "08:30 PM"])
+
+    def test_mega_riverfront_times(self):
+        from scripts.collectors.mega import parse_riverfront_times
+        html = (FIX / "mega_tikus.html").read_text(encoding="utf-8")
+        self.assertEqual(parse_riverfront_times(html, "2026-09-05"), ["12:50 PM", "01:30 PM", "07:05 PM", "10:40 PM"])

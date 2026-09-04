@@ -48,3 +48,20 @@ Riverfront Mall's established public listing identifier is `793`. No seat invent
 ## Collection policy
 
 All automated acquisition in this repository is intended to be passive and read-only. No collector may automate seat selection, create temporary holds, submit an order or touch payment flows.
+
+
+## Paragon Cinemas — official schedule pages
+
+- Batu Pahat: `https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002`
+- KTCC: `https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004`
+- Collector reads the TIKUS! section and requested date only.
+- Ticket-selection links are not followed.
+- Seat counts remain null.
+
+## Mega Cineplex — official TIKUS! movie page
+
+- Movie ID: `3788`
+- `https://www.megacineplex.com.my/Movies/Details?id=3788`
+- Collector reads Riverfront, Sungai Petani schedule text only.
+- Ticket links are not followed.
+- Seat counts remain null.

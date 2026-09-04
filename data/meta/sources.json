@@ -19,12 +19,17 @@
   "paragon": {
     "provider": "paragon",
     "experienceUrl": "https://www.paragoncinemas.com.my/Browsing/EventsAndExperiences/ExperienceDetails/2D",
-    "policy": "Schedule-only unless a clearly read-only public seat source is established."
+    "policy": "Official public cinema pages only. Schedule data only; no ticketing, seat selection, basket or inferred seat counts.",
+    "cinemaDetailsEndpoint": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/{cinemaCode}",
+    "collectorStatus": "automated-schedule-only"
   },
   "mega": {
     "provider": "mega",
     "riverfrontListingId": "793",
     "listingUrl": "https://www.cinema.com.my/showtimes/cinema.aspx?id=793",
-    "policy": "Schedule-only; no inferred seat counts."
+    "policy": "Official TIKUS! movie page only. Schedule data only; no ticketing or inferred seat counts.",
+    "tikusMovieId": "3788",
+    "tikusMovieUrl": "https://www.megacineplex.com.my/Movies/Details?id=3788",
+    "collectorStatus": "automated-schedule-only"
   }
 }

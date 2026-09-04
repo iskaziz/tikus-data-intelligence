@@ -12,6 +12,9 @@ from zoneinfo import ZoneInfo
 
 from scripts.collectors.gsc import GSCCollector, COLLECTOR_VERSION as GSC_VERSION
 from scripts.collectors.tgv import TGVCollector, COLLECTOR_VERSION as TGV_VERSION
+from scripts.collectors.paragon import ParagonCollector, COLLECTOR_VERSION as PARAGON_VERSION
+from scripts.collectors.mega import MegaCollector, COLLECTOR_VERSION as MEGA_VERSION
+from scripts.normalizers.schedule_only import normalize_schedule_only
 from scripts.normalizers.gsc import normalize_gsc
 from scripts.normalizers.tgv import normalize_tgv
 
@@ -70,7 +73,7 @@ def write_json(path: Path, payload: object) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--date", help="Malaysia theatrical date, YYYY-MM-DD")
-    parser.add_argument("--sources", default="gsc,tgv", help="Comma separated: gsc,tgv")
+    parser.add_argument("--sources", default="gsc,tgv,paragon,mega", help="Comma separated: gsc,tgv,paragon,mega")
     parser.add_argument("--allow-empty", action="store_true", help="Do not fail when no sessions are found")
     args = parser.parse_args()
 
@@ -80,10 +83,7 @@ def main() -> int:
     run_id = f"{now.strftime('%Y%m%dT%H%M%S%z')}-{uuid.uuid4().hex[:8]}"
     requested = {x.strip() for x in args.sources.split(",") if x.strip()}
     snapshots: list[dict] = []
-    statuses: dict[str, dict] = {
-        "paragon": {"status": "schedule-only-not-automated", "snapshots": 0},
-        "mega": {"status": "schedule-only-not-automated", "snapshots": 0},
-    }
+    statuses: dict[str, dict] = {}
 
     if "gsc" in requested:
         try:
@@ -108,6 +108,25 @@ def main() -> int:
             }
         except Exception as exc:
             statuses["tgv"] = {"status": "error", "snapshots": 0, "error": f"{type(exc).__name__}: {exc}"}
+
+
+    if "paragon" in requested:
+        try:
+            facts = ParagonCollector().collect(show_date)
+            normalized = [normalize_schedule_only(provider="paragon", exhibitor_id="paragon", run_id=run_id, cinema_id=f["cinemaId"], source_cinema_id=f.get("sourceCinemaId"), source_cinema_name=f.get("sourceCinemaName"), show_date=f["showDate"], collected_at=collected_at, session=f["session"], collector_version=PARAGON_VERSION, source_url=f.get("scheduleUrl"), raw_payload_hash=f.get("schedulePayloadHash"), acquisition_warnings=f.get("errors") or []) for f in facts]
+            snapshots.extend(normalized)
+            statuses["paragon"] = {"status": "ok-schedule-only", "snapshots": len(normalized), "seatMeasured": 0}
+        except Exception as exc:
+            statuses["paragon"] = {"status": "error", "snapshots": 0, "error": f"{type(exc).__name__}: {exc}"}
+
+    if "mega" in requested:
+        try:
+            facts = MegaCollector().collect(show_date)
+            normalized = [normalize_schedule_only(provider="mega", exhibitor_id="mega", run_id=run_id, cinema_id=f["cinemaId"], source_cinema_id=f.get("sourceCinemaId"), source_cinema_name=f.get("sourceCinemaName"), show_date=f["showDate"], collected_at=collected_at, session=f["session"], collector_version=MEGA_VERSION, source_url=f.get("scheduleUrl"), raw_payload_hash=f.get("schedulePayloadHash"), acquisition_warnings=f.get("errors") or []) for f in facts]
+            snapshots.extend(normalized)
+            statuses["mega"] = {"status": "ok-schedule-only", "snapshots": len(normalized), "seatMeasured": 0}
+        except Exception as exc:
+            statuses["mega"] = {"status": "error", "snapshots": 0, "error": f"{type(exc).__name__}: {exc}"}
 
     run_payload = {
         "schemaVersion": "1.0.0",

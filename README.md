@@ -106,3 +106,19 @@ The GitHub Actions workflow runs the same read-only acquisition hourly and commi
 ## Methodology
 
 Read `docs/METHODOLOGY.md` before interpreting any metric. Source contracts are documented in `docs/SOURCES.md`.
+
+
+## Current acquisition coverage
+
+| Exhibitor | Schedule | Seat state | Source boundary |
+| --- | --- | --- | --- |
+| GSC | Automated | Automated | Official read-only XML endpoints |
+| TGV | Automated | Automated | Official read-only API |
+| Paragon | Automated | Not available | Official cinema-detail pages only |
+| Mega Cineplex | Automated | Not available | Official TIKUS! movie-detail page only |
+
+Paragon and Mega are intentionally excluded from seat-weighted occupancy and Performance Index calculations.
+
+## Historical recovery
+
+Recovered evidence from dates before automated collection lives under `data/recovered/`. It is not silently inserted into collector history because a retrospective webpage does not provide a defensible contemporaneous observation timestamp.

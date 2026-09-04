@@ -60,3 +60,9 @@ An old observation is importable only when its meaning can be reconstructed with
 Imported snapshots carry `provider: legacy-import` and should never overwrite native historical observations.
 
 Ambiguous old records should be excluded rather than guessed.
+
+## Historical schedule recovery
+
+Historical schedules recovered after the fact are kept under `data/recovered/` and are deliberately **not** inserted into immutable collector history as though they had been observed contemporaneously. This prevents a recovered webpage from acquiring a fabricated `collectedAt` timestamp or being mistaken for a seat-state snapshot.
+
+The first recovered record covers TIKUS! launch-day Paragon schedules for 3 September 2026. It contains schedule times only; no capacity, occupied-seat, admission or revenue values are inferred.
