@@ -12978,6 +12978,5 @@
     "seatCoverage": 0.8157894736842105,
     "methodology": "docs/METHODOLOGY.md",
     "observedSeatStateIsNotSales": true
-  },
-  "mode": "current"
+  }
 }
