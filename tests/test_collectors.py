@@ -49,6 +49,18 @@ class ScheduleOnlyCollectorParserTests(unittest.TestCase):
         html = (FIX / "paragon_tikus.html").read_text(encoding="utf-8")
         self.assertEqual(parse_tikus_times(html, "2026-09-04"), ["04:30 PM", "06:30 PM", "08:30 PM"])
 
+    def test_paragon_does_not_leak_stray_midnight_time(self):
+        from scripts.collectors.paragon import parse_tikus_times
+        html = (FIX / "paragon_tikus.html").read_text(encoding="utf-8")
+        times = parse_tikus_times(html, "2026-09-04")
+        self.assertNotIn("12:30 AM", times)
+        self.assertNotIn("11:55 PM", times)
+
+    def test_paragon_future_date_is_scoped_to_tikus_card(self):
+        from scripts.collectors.paragon import parse_tikus_times
+        html = (FIX / "paragon_tikus.html").read_text(encoding="utf-8")
+        self.assertEqual(parse_tikus_times(html, "2026-09-05"), ["10:30 AM", "04:30 PM"])
+
     def test_mega_riverfront_times(self):
         from scripts.collectors.mega import parse_riverfront_times
         html = (FIX / "mega_tikus.html").read_text(encoding="utf-8")

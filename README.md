@@ -126,3 +126,7 @@ Recovered evidence from dates before automated collection lives under `data/reco
 ## v4 live-run hardening
 
 The first production collection on 4 September 2026 began at 22:58 MYT, so it cannot be treated as a complete reconstruction of the theatrical day. v4 therefore separates full observed-day history from `liveSessions`, flags sessions first discovered only after showtime, and embeds latest collector diagnostics in browser products. See `docs/FIRST_LIVE_RUN_AUDIT.md`.
+
+### v5 Paragon parser hardening
+
+After the second live run, a false Paragon Batu Pahat `00:30` session exposed a movie-card scoping problem in the schedule parser. `paragon-schedule/1.1.0` now bounds extraction to an exact TIKUS! movie-card candidate and stops at the next Vista `Play Trailer` movie boundary. See `docs/SECOND_LIVE_RUN_AUDIT.md`.

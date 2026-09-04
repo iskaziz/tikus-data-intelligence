@@ -2,23 +2,31 @@
 
 Reads official cinema-detail pages only. It never enters ticketing, seat
 selection or basket flows. Seat metrics remain null by design.
+
+The Vista/Paragon cinema page contains several movie cards and can repeat
+film-title text outside the actual schedule card. Parsing is therefore
+bounded to the TIKUS! card: an exact TIKUS! title token must be followed by
+its own schedule/date content, and extraction stops at the next movie-card
+boundary (normally ``Play Trailer``) or the next title-like section marker.
 """
 from __future__ import annotations
 
 import re
 from datetime import datetime
 from html.parser import HTMLParser
-from zoneinfo import ZoneInfo
 
 from scripts.collectors.base import Collector
 from scripts.lib.http import get
 from scripts.lib.registry import by_exhibitor
 
-COLLECTOR_VERSION = "paragon-schedule/1.0.0"
-TZ = ZoneInfo("Asia/Kuala_Lumpur")
+COLLECTOR_VERSION = "paragon-schedule/1.1.0"
 BASE = "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/{code}"
 DATE_RE = re.compile(r"^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),\s+(\d{2})\s+([A-Za-z]+)\s+(\d{4})$")
 TIME_RE = re.compile(r"^(\d{1,2}):(\d{2})\s*(AM|PM)$", re.I)
+
+# Vista pages use this label at the start of each movie card. Bounding on it
+# prevents a time from a neighbouring film from leaking into TIKUS!.
+MOVIE_BOUNDARY_TOKENS = {"play trailer"}
 
 
 class _Text(HTMLParser):
@@ -33,29 +41,69 @@ class _Text(HTMLParser):
 
 
 def _tokens(html: str) -> list[str]:
-    p = _Text(); p.feed(html)
+    p = _Text()
+    p.feed(html)
     return p.parts
 
 
-def parse_tikus_times(html: str, show_date: str) -> list[str]:
-    """Extract TIKUS! times for one date from the official cinema page."""
-    tokens = _tokens(html)
-    try:
-        start = next(i for i, t in enumerate(tokens) if t.strip().casefold() == "tikus!")
-    except StopIteration:
+def _candidate_sections(tokens: list[str]) -> list[list[str]]:
+    """Return bounded token sections beginning at each exact TIKUS! title.
+
+    Real Paragon pages may contain more than one exact title occurrence. We
+    inspect every candidate rather than trusting the first occurrence.
+    """
+    sections: list[list[str]] = []
+    starts = [i for i, token in enumerate(tokens) if token.strip().casefold() == "tikus!"]
+    for start in starts:
+        section: list[str] = []
+        for token in tokens[start + 1:]:
+            if token.strip().casefold() in MOVIE_BOUNDARY_TOKENS:
+                break
+            section.append(token)
+        sections.append(section)
+    return sections
+
+
+def _times_from_section(section: list[str], target: str) -> list[str]:
+    # A real Paragon/Vista movie schedule card contains the future-date
+    # toggle label. Stray title mentions elsewhere on the page do not.
+    has_schedule_marker = any(
+        "future dates" in token.casefold() for token in section
+    )
+    if not has_schedule_marker:
         return []
-    target = datetime.strptime(show_date, "%Y-%m-%d").strftime("%A, %d %B %Y")
+
     in_target = False
     times: list[str] = []
-    for token in tokens[start + 1:]:
+    saw_target = False
+    for token in section:
         if DATE_RE.match(token):
             if in_target:
+                # A new date after the target closes the target date block.
                 break
             in_target = token == target
+            saw_target = saw_target or in_target
             continue
         if in_target and TIME_RE.match(token):
             times.append(token.upper())
-    return times
+    return times if saw_target else []
+
+
+def parse_tikus_times(html: str, show_date: str) -> list[str]:
+    """Extract TIKUS! times for one date from one official cinema page.
+
+    The parser is deliberately conservative. If multiple title occurrences
+    exist, it returns the first bounded TIKUS! section that actually contains
+    the requested date. It never scans unbounded into another movie card.
+    """
+    tokens = _tokens(html)
+    target = datetime.strptime(show_date, "%Y-%m-%d").strftime("%A, %d %B %Y")
+    for section in _candidate_sections(tokens):
+        times = _times_from_section(section, target)
+        if times:
+            # Preserve page order while removing accidental duplicate links.
+            return list(dict.fromkeys(times))
+    return []
 
 
 def to_24h(value: str) -> str:
