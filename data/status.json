@@ -1,19 +1,18 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-09-05T01:35:54+08:00",
+  "generatedAt": "2026-09-05T04:44:55+08:00",
   "latestRun": {
     "schemaVersion": "1.0.0",
-    "runId": "20260905T013517+0800-04dfa954",
+    "runId": "20260905T044423+0800-9ca7141e",
     "showDate": "2026-09-05",
-    "collectedAt": "2026-09-05T01:35:17+08:00",
+    "collectedAt": "2026-09-05T04:44:23+08:00",
     "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
     "sourceStatuses": {
       "gsc": {
         "status": "ok",
-        "snapshots": 42,
-        "seatMeasured": 42,
+        "snapshots": 36,
+        "seatMeasured": 36,
         "cinemaIds": [
-          "gsc-aman-central",
           "gsc-dataran-pahlawan",
           "gsc-imago",
           "gsc-ioi-city-mall",
@@ -54,9 +53,9 @@
         "expectedCinemas": 1
       }
     },
-    "snapshotCount": 67
+    "snapshotCount": 61
   },
-  "historyFiles": 7,
+  "historyFiles": 8,
   "availableDates": [
     "2026-09-04",
     "2026-09-05"
