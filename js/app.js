@@ -121,7 +121,10 @@ function renderScope(metrics, scoped) {
   if(state.scope.time!=='all') parts.push($('#time-filter').selectedOptions[0].textContent);
   $('#scope-label').textContent = `${parts.length ? parts.join(' · ') : 'Tracked network'} · ${scoped.length} cinema${scoped.length===1?'':'s'}`;
   const lateSeen = state.product.collection?.firstSeenAfterShowCount || 0;
-  $('#coverage-note').textContent = metrics.totalShows ? `Seat measurement coverage ${metrics.seatMeasuredSessions}/${metrics.totalShows} sessions · ${fmt.pct(metrics.seatCoverage)}${lateSeen ? ` · ${lateSeen} session${lateSeen===1?'':'s'} first observed after showtime` : ''}` : 'No observed TIKUS! sessions in this scope.';
+  const correctionCount = state.product.quality?.excludedObservationCount || 0;
+  const finalState = state.product.finalPreShowState?.status;
+  const finalNote = state.scope.observation==='final' && finalState ? ` · final pre-show ${finalState}` : '';
+  $('#coverage-note').textContent = metrics.totalShows ? `Seat measurement coverage ${metrics.seatMeasuredSessions}/${metrics.totalShows} sessions · ${fmt.pct(metrics.seatCoverage)}${lateSeen ? ` · ${lateSeen} session${lateSeen===1?'':'s'} first observed after showtime` : ''}${correctionCount ? ` · ${correctionCount} corrected observation${correctionCount===1?'':'s'} excluded` : ''}${finalNote}` : (state.scope.observation==='final' && finalState==='provisional' ? 'No finalized pre-show sessions yet · day remains provisional.' : 'No observed TIKUS! sessions in this scope.');
   $('#table-meta').textContent = `${metrics.totalShows} observed show${metrics.totalShows===1?'':'s'} · ${metrics.locationsWithConfirmedShows} location${metrics.locationsWithConfirmedShows===1?'':'s'} with shows · denominator follows scope filters, not search`;
 }
 
@@ -188,7 +191,7 @@ function renderDistribution(sessions) {
 function renderTrend() {
   const table=$('#day-trend'); table.innerHTML='<thead><tr><th>Day</th><th>Shows</th><th>Locations</th><th>Capacity</th><th>Used</th><th>Occ.</th><th>Prime Occ.</th><th>Coverage</th></tr></thead>';
   const body=el('tbody'); const release=state.bootstrap.index.releaseDate;
-  state.trendProducts.forEach((p,i)=>{ const s=p.finalPreShowSummary?.totalShows ? p.finalPreShowSummary : p.summary; const dayNum=release?Math.round((new Date(`${p.showDate}T00:00:00+08:00`)-new Date(`${release}T00:00:00+08:00`))/86400000)+1:i+1; const label=`D${dayNum} · ${p.showDate.slice(5)}`; const tr=el('tr'); [label,fmt.int(s.totalShows),fmt.int(s.locationsWithConfirmedShows),fmt.int(s.observedCapacity),fmt.int(s.observedUsed),fmt.pct(s.occupancy),fmt.pct(s.primeTimeOccupancy),fmt.pct(s.seatCoverage)].forEach(v=>tr.append(el('td',v==='—'?'na':'',v))); body.append(tr); });
+  state.trendProducts.forEach((p,i)=>{ const finalComplete=p.finalPreShowState?.status==='complete'; const s=finalComplete && p.finalPreShowSummary?.totalShows ? p.finalPreShowSummary : p.summary; const dayNum=release?Math.round((new Date(`${p.showDate}T00:00:00+08:00`)-new Date(`${release}T00:00:00+08:00`))/86400000)+1:i+1; const label=`D${dayNum} · ${p.showDate.slice(5)}`; const tr=el('tr'); [label,fmt.int(s.totalShows),fmt.int(s.locationsWithConfirmedShows),fmt.int(s.observedCapacity),fmt.int(s.observedUsed),fmt.pct(s.occupancy),fmt.pct(s.primeTimeOccupancy),fmt.pct(s.seatCoverage)].forEach(v=>tr.append(el('td',v==='—'?'na':'',v))); body.append(tr); });
   if(!state.trendProducts.length){ const tr=el('tr'); const td=el('td','na','Historical day products appear after observations are collected.'); td.colSpan=8; tr.append(td); body.append(tr); } table.append(body);
 }
 

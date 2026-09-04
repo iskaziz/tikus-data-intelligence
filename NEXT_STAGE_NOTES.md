@@ -1,13 +1,17 @@
-# Next-stage implementation notes
+# TIKUS! Data Intelligence — v6 correctness pass
 
-This package advances the GitHub main branch with:
+## Implemented
 
-1. Automated read-only Paragon schedule acquisition from the official Batu Pahat and KTCC cinema pages.
-2. Automated read-only Mega Cineplex schedule acquisition from the official TIKUS! movie page (movie ID 3788), scoped to Riverfront, Sungai Petani.
-3. Both sources remain schedule-only. No seat inventory is inferred or requested through booking flows.
-4. `collect_all` now defaults to `gsc,tgv,paragon,mega`.
-5. Parser fixtures and tests for both new schedule collectors.
-6. A separate `data/recovered/` evidence layer for retrospective schedule recovery.
-7. Verified launch-day Paragon schedule evidence for 3 September 2026, kept separate from contemporaneous collector history.
+- Paragon schedule parser v1.2.0 uses HTML-tree/card containment instead of unbounded text neighbourhoods.
+- Added `data/meta/corrections.json`; proven collector defects are excluded from analytics while immutable history remains untouched.
+- Quarantines Batu Pahat observations from Paragon parser v1.0/v1.1 on 2026-09-04 and 2026-09-05.
+- Final-pre-show observations are finalized only after session start time has passed.
+- Added `finalPreShowState` (`provisional`, `complete`, `no-observations`) with started/future/finalized counts.
+- Dashboard final-pre-show mode explicitly says “finalized only”.
+- Dashboard quality note surfaces corrected-observation exclusions.
+- Day trend uses final-pre-show figures only when the day product marks them complete.
+- Added third live-run audit and product-correctness tests.
 
-All 15 tests pass and the data-contract validator passes.
+## Next operational check
+
+Run the collector after committing v6. A healthy September 5 result should no longer contain Batu Pahat observations created by `paragon-schedule/1.1.0` in analytical arrays, and new Paragon observations should report `paragon-schedule/1.2.0`.

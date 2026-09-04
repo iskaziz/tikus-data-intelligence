@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "1.0.0",
+  "corrections": [
+    {
+      "id": "paragon-bp-v1-parser-quarantine",
+      "status": "active",
+      "action": "exclude-from-analytics",
+      "reason": "Paragon Batu Pahat parser versions 1.0.0 and 1.1.0 could associate neighbouring movie showtimes with TIKUS!. Raw observations remain immutable.",
+      "match": {
+        "cinemaId": "paragon-batu-pahat",
+        "showDates": ["2026-09-04", "2026-09-05"],
+        "collectorVersions": ["paragon-schedule/1.0.0", "paragon-schedule/1.1.0"]
+      }
+    }
+  ]
+}

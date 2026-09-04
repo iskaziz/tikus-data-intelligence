@@ -244,3 +244,10 @@ Collectors are read-only. They must not:
 - submit bookings;
 - enter payment flows;
 - infer occupancy from actions that themselves modify availability.
+
+
+## Correction ledger
+
+Analytical products may exclude observations through `data/meta/corrections.json` when a collector defect is proven. Raw history is never rewritten or deleted. Each exclusion remains attributable to a correction ID and reason.
+
+A **final pre-show** observation is only finalized after the session start time has passed, because only then can the system know which stored pre-start observation was the last one. Future sessions remain provisional and are excluded from final-pre-show metrics.

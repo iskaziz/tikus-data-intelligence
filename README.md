@@ -130,3 +130,14 @@ The first production collection on 4 September 2026 began at 22:58 MYT, so it ca
 ### v5 Paragon parser hardening
 
 After the second live run, a false Paragon Batu Pahat `00:30` session exposed a movie-card scoping problem in the schedule parser. `paragon-schedule/1.1.0` now bounds extraction to an exact TIKUS! movie-card candidate and stops at the next Vista `Play Trailer` movie boundary. See `docs/SECOND_LIVE_RUN_AUDIT.md`.
+
+
+## Correction ledger
+
+Analytical products may exclude observations through `data/meta/corrections.json` when a collector defect is proven. Raw history is never rewritten or deleted. Each exclusion remains attributable to a correction ID and reason.
+
+A **final pre-show** observation is only finalized after the session start time has passed, because only then can the system know which stored pre-start observation was the last one. Future sessions remain provisional and are excluded from final-pre-show metrics.
+
+## v6 correctness controls
+
+v6 adds an auditable correction/exclusion layer and strict finalized-pre-show semantics. `data/meta/corrections.json` never deletes raw history; it only controls eligibility for generated analytics. Paragon schedule collection now uses HTML-tree containment and reports collector version `paragon-schedule/1.2.0`.

@@ -41,3 +41,10 @@ The UI should visually distinguish metric classes:
 - changes: `+18`;
 - velocity: `+2.6 / hr`;
 - coverage: `31 / 37`.
+
+
+## Correction ledger
+
+Analytical products may exclude observations through `data/meta/corrections.json` when a collector defect is proven. Raw history is never rewritten or deleted. Each exclusion remains attributable to a correction ID and reason.
+
+A **final pre-show** observation is only finalized after the session start time has passed, because only then can the system know which stored pre-start observation was the last one. Future sessions remain provisional and are excluded from final-pre-show metrics.

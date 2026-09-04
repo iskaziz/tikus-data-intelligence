@@ -32,6 +32,39 @@ def load_history(root: Path) -> list[dict]:
     return snapshots
 
 
+def load_corrections(root: Path) -> list[dict]:
+    path = root / "data/meta/corrections.json"
+    if not path.exists():
+        return []
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    return [x for x in payload.get("corrections", []) if x.get("status") == "active"]
+
+
+def _matches_correction(item: dict, correction: dict) -> bool:
+    match = correction.get("match", {})
+    if match.get("cinemaId") and item.get("cinemaId") != match["cinemaId"]:
+        return False
+    if match.get("showDates") and item.get("showDate") not in match["showDates"]:
+        return False
+    version = (item.get("source") or {}).get("collectorVersion")
+    if match.get("collectorVersions") and version not in match["collectorVersions"]:
+        return False
+    if match.get("sessionIds") and item.get("sessionId") not in match["sessionIds"]:
+        return False
+    return True
+
+
+def apply_corrections(snapshots: list[dict], corrections: list[dict]) -> tuple[list[dict], list[dict]]:
+    included=[]; excluded=[]
+    for item in snapshots:
+        matched=[c for c in corrections if c.get("action") == "exclude-from-analytics" and _matches_correction(item, c)]
+        if matched:
+            excluded.append({"sessionId": item.get("sessionId"), "collectedAt": item.get("collectedAt"), "correctionIds": [c["id"] for c in matched]})
+        else:
+            included.append(item)
+    return included, excluded
+
+
 def latest_by_session(snapshots: Iterable[dict], *, as_of: datetime | None = None, pre_show_only: bool = False) -> list[dict]:
     latest: dict[str, dict] = {}
     for item in snapshots:
@@ -114,6 +147,31 @@ def live_upcoming_sessions(snapshots: list[dict], *, as_of: datetime) -> list[di
     return [x for x in latest if datetime.fromisoformat(x["startAt"]) >= as_of]
 
 
+def final_pre_show_sessions(snapshots: list[dict], *, as_of: datetime) -> tuple[list[dict], dict]:
+    """Return final pre-show snapshots only for sessions whose start time has passed.
+
+    Before a session starts, its final pre-show observation is unknowable and is
+    therefore excluded rather than represented by the latest provisional value.
+    """
+    latest = latest_by_session(snapshots, as_of=as_of)
+    started = [x for x in latest if datetime.fromisoformat(x["startAt"]) <= as_of]
+    started_ids = {x["sessionId"] for x in started}
+    eligible_history = [x for x in snapshots if x["sessionId"] in started_ids]
+    finals = latest_by_session(eligible_history, as_of=as_of, pre_show_only=True)
+    final_ids = {x["sessionId"] for x in finals}
+    missing = sorted(started_ids - final_ids)
+    latest_ids = {x["sessionId"] for x in latest}
+    future_ids = latest_ids - started_ids
+    status = "complete" if latest_ids and not future_ids and not missing else ("provisional" if latest_ids else "no-observations")
+    return finals, {
+        "status": status,
+        "startedSessions": len(started_ids),
+        "futureSessions": len(future_ids),
+        "finalizedSessions": len(final_ids),
+        "missingFinalPreShowSessionIds": missing,
+    }
+
+
 def first_seen_after_show(snapshots: list[dict]) -> list[str]:
     grouped: dict[str, list[dict]] = defaultdict(list)
     for item in snapshots:
@@ -138,11 +196,11 @@ def latest_run_for_date(root: Path, show_date: str) -> dict | None:
     return max(matches, key=lambda x: x.get("collectedAt") or "") if matches else None
 
 
-def build_day_product(root: Path, show_date: str, snapshots: list[dict]) -> dict:
+def build_day_product(root: Path, show_date: str, snapshots: list[dict], *, excluded: list[dict] | None = None) -> dict:
     day = [x for x in snapshots if x["showDate"] == show_date]
     generated_at = datetime.now(TZ)
     latest = latest_by_session(day)
-    final_pre_show = latest_by_session(day, pre_show_only=True)
+    final_pre_show, final_state = final_pre_show_sessions(day, as_of=generated_at)
     live = live_upcoming_sessions(day, as_of=generated_at) if show_date == generated_at.date().isoformat() else []
     summary = aggregate(latest)
     final_summary = aggregate(final_pre_show)
@@ -151,7 +209,7 @@ def build_day_product(root: Path, show_date: str, snapshots: list[dict]) -> dict
     flagged = first_seen_after_show(day)
     latest_run = latest_run_for_date(root, show_date)
     return {
-        "schemaVersion": "1.2.0",
+        "schemaVersion": "1.3.0",
         "generatedAt": generated_at.isoformat(timespec="seconds"),
         "filmId": "tikus",
         "showDate": show_date,
@@ -161,10 +219,12 @@ def build_day_product(root: Path, show_date: str, snapshots: list[dict]) -> dict
             "seatMeasuredSessions": summary["seatMeasuredSessions"],
             "totalSessions": summary["totalShows"],
             "liveUpcomingSessions": live_summary["totalShows"],
+            "finalizedPreShowSessions": final_state["finalizedSessions"],
         },
         "summary": summary,
         "liveSummary": live_summary,
         "finalPreShowSummary": final_summary,
+        "finalPreShowState": final_state,
         "cinemas": cinema_rankings(latest),
         "sessions": sorted(latest, key=lambda x: (x["startAt"], x["cinemaId"])),
         "liveSessions": sorted(live, key=lambda x: (x["startAt"], x["cinemaId"])),
@@ -189,6 +249,8 @@ def build_day_product(root: Path, show_date: str, snapshots: list[dict]) -> dict
             "seatCoverage": summary["seatCoverage"],
             "methodology": "docs/METHODOLOGY.md",
             "observedSeatStateIsNotSales": True,
+            "excludedObservationCount": len(excluded or []),
+            "correctionsApplied": sorted({cid for e in (excluded or []) for cid in e.get("correctionIds", [])}),
         },
     }
 
@@ -199,11 +261,14 @@ def _write(path: Path, payload: object) -> None:
 
 
 def build_all_products(root: Path) -> None:
-    snapshots = load_history(root)
-    dates = sorted({x["showDate"] for x in snapshots})
+    raw_snapshots = load_history(root)
+    corrections = load_corrections(root)
+    snapshots, excluded = apply_corrections(raw_snapshots, corrections)
+    dates = sorted({x["showDate"] for x in raw_snapshots})
     products: dict[str, dict] = {}
     for show_date in dates:
-        product = build_day_product(root, show_date, snapshots)
+        excluded_for_day = [x for x in excluded if any(r.get("sessionId") == x.get("sessionId") and r.get("showDate") == show_date for r in raw_snapshots)]
+        product = build_day_product(root, show_date, snapshots, excluded=excluded_for_day)
         products[show_date] = product
         _write(root / "data/days" / f"{show_date}.json", product)
 
@@ -212,7 +277,7 @@ def build_all_products(root: Path) -> None:
         current = {**products[latest_date], "mode": "current"}
     else:
         current = {
-            "schemaVersion": "1.2.0",
+            "schemaVersion": "1.3.0",
             "generatedAt": datetime.now(TZ).isoformat(timespec="seconds"),
             "filmId": "tikus",
             "showDate": None,
@@ -221,11 +286,12 @@ def build_all_products(root: Path) -> None:
             "summary": aggregate([]),
             "liveSummary": aggregate([]),
             "finalPreShowSummary": aggregate([]),
+            "finalPreShowState": {"status":"no-observations","startedSessions":0,"futureSessions":0,"finalizedSessions":0,"missingFinalPreShowSessionIds":[]},
             "cinemas": [], "sessions": [], "liveSessions": [], "finalPreShowSessions": [], "sessionChanges": {}, "series": {},
             "exhibitors": [], "states": [],
             "observationWindow": {"firstCollectedAt": None, "lastCollectedAt": None, "observations": 0},
             "collection": {"latestRun": None, "firstSeenAfterShowSessionIds": [], "firstSeenAfterShowCount": 0, "dailyCompleteness": "no-observations", "note": None},
-            "quality": {"seatCoverage": None, "methodology": "docs/METHODOLOGY.md", "observedSeatStateIsNotSales": True},
+            "quality": {"seatCoverage": None, "methodology": "docs/METHODOLOGY.md", "observedSeatStateIsNotSales": True, "excludedObservationCount": 0, "correctionsApplied": []},
             "mode": "current",
         }
     _write(root / "data/current.json", current)
