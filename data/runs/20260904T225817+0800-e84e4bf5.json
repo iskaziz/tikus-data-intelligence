@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "20260904T225817+0800-e84e4bf5",
+  "showDate": "2026-09-04",
+  "collectedAt": "2026-09-04T22:58:17+08:00",
+  "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
+  "sourceStatuses": {
+    "gsc": {
+      "status": "ok",
+      "snapshots": 0,
+      "seatMeasured": 0
+    },
+    "tgv": {
+      "status": "ok",
+      "snapshots": 2,
+      "seatMeasured": 2
+    },
+    "paragon": {
+      "status": "ok-schedule-only",
+      "snapshots": 1,
+      "seatMeasured": 0
+    },
+    "mega": {
+      "status": "ok-schedule-only",
+      "snapshots": 0,
+      "seatMeasured": 0
+    }
+  },
+  "snapshotCount": 3
+}
