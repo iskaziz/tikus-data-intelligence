@@ -196,3 +196,9 @@ v14 adds a side-by-side workspace for selecting 2–4 cinemas and comparing obse
 
 ## v15 comparison export
 The Cinema Comparison Workspace can export the current 2–4 cinema selection as CSV or switch to a comparison-only print layout suitable for internal print/PDF circulation. Exports preserve active observation/replay scope and explicitly state that observed used/booked seat states are not confirmed paid ticket sales.
+
+## Shareable comparison state (v16)
+
+The dashboard synchronizes its internal comparison view to the URL hash. An internal recipient can open a shared link and recover the selected show date, time/exhibitor/geography filters, observation mode, as-of replay checkpoint, and 2–4 selected cinema IDs. The hash is client-side only and does not create server state or trigger collection.
+
+The Cinema Comparison Workspace includes **Copy share link**. Invalid or obsolete hash values are ignored safely.

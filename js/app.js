@@ -10,6 +10,7 @@ const state = {
   sort: { key: 'observedUsed', direction: 'desc' },
   visibleColumns: new Set(['rank','cinema','shows','showShare','capacity','used','occupancy','avgUsed','primeShows','primeOccupancy','performanceIndex','usedDelta']),
   comparisonCinemaIds: [],
+  restoringUrlState: false,
 };
 
 const columns = [
@@ -37,6 +38,12 @@ async function init() {
     state.bootstrap = await loadBootstrap();
     state.product = state.bootstrap.current;
     state.scope.date = state.product.showDate || state.bootstrap.index.latestDate;
+    const restored = parseUrlState();
+    if (restored.date && restored.date !== state.scope.date && (state.bootstrap.index.availableDates || []).includes(restored.date)) {
+      state.product = await loadDateProduct(restored.date, state.bootstrap.index, state.bootstrap.current);
+      state.scope.date = restored.date;
+    }
+    applyParsedUrlState(restored);
     setupControls();
     state.trendProducts = await loadTrendProducts(state.bootstrap.index, state.bootstrap.current).catch(() => []);
     render();
@@ -64,13 +71,17 @@ function setupControls() {
 
   const exhib = $('#exhibitor-filter');
   exhibitors.exhibitors.forEach(e => exhib.append(new Option(e.name, e.id)));
+  exhib.value = state.scope.exhibitor;
   exhib.addEventListener('change', () => { state.scope.exhibitor = exhib.value; render(); });
 
   const states = [...new Set(cinemas.cinemas.map(c => c.state))].sort();
   const stateSelect = $('#state-filter');
   states.forEach(name => stateSelect.append(new Option(name, name)));
+  stateSelect.value = state.scope.state;
   stateSelect.addEventListener('change', () => { state.scope.state = stateSelect.value; render(); });
 
+  $('#time-filter').value = state.scope.time;
+  $('#observation-filter').value = state.scope.observation;
   $('#time-filter').addEventListener('change', e => { state.scope.time = e.target.value; render(); });
   $('#observation-filter').addEventListener('change', e => { state.scope.observation = e.target.value; updateReplayVisibility(); render(); });
   $('#replay-time-filter').addEventListener('change', e => { state.scope.replay = e.target.value || null; render(); });
@@ -92,8 +103,97 @@ function setupControls() {
   const autoCompare=$('#comparison-auto'); if(autoCompare) autoCompare.addEventListener('click',()=>{ seedComparison(true); renderCinemaComparison(); });
   const exportCsv=$('#comparison-export-csv'); if(exportCsv) exportCsv.addEventListener('click', exportCinemaComparisonCsv);
   const printComparison=$('#comparison-print'); if(printComparison) printComparison.addEventListener('click', printCinemaComparison);
+  const copyShare=$('#comparison-copy-link'); if(copyShare) copyShare.addEventListener('click', copyShareLink);
+  window.addEventListener('hashchange', restoreFromHashChange);
 }
 
+
+
+
+function parseUrlState() {
+  const raw=window.location.hash.startsWith('#')?window.location.hash.slice(1):window.location.hash;
+  const params=new URLSearchParams(raw);
+  const compare=(params.get('compare')||'').split(',').map(v=>v.trim()).filter(Boolean).slice(0,4);
+  return {
+    date: params.get('date') || null,
+    time: params.get('time') || null,
+    exhibitor: params.get('exhibitor') || null,
+    state: params.get('state') || null,
+    observation: params.get('obs') || null,
+    replay: params.get('replay') || null,
+    compare,
+  };
+}
+
+function applyParsedUrlState(parsed) {
+  const validTimes=new Set(['all','matinee','prime','late']);
+  const validObs=new Set(['latest','live','final','asof']);
+  const exhibitorIds=new Set((state.bootstrap?.exhibitors?.exhibitors||[]).map(e=>e.id));
+  const geography=new Set((state.bootstrap?.cinemas?.cinemas||[]).map(c=>c.state));
+  const cinemaIds=new Set((state.bootstrap?.cinemas?.cinemas||[]).map(c=>c.id));
+  if(parsed.time && validTimes.has(parsed.time)) state.scope.time=parsed.time;
+  if(parsed.exhibitor && (parsed.exhibitor==='all'||exhibitorIds.has(parsed.exhibitor))) state.scope.exhibitor=parsed.exhibitor;
+  if(parsed.state && (parsed.state==='all'||geography.has(parsed.state))) state.scope.state=parsed.state;
+  if(parsed.observation && validObs.has(parsed.observation)) state.scope.observation=parsed.observation;
+  if(parsed.replay) state.scope.replay=parsed.replay;
+  if(parsed.compare?.length) state.comparisonCinemaIds=[...new Set(parsed.compare.filter(id=>cinemaIds.has(id)))].slice(0,4);
+}
+
+function encodedUrlState() {
+  const params=new URLSearchParams();
+  params.set('v','1');
+  if(state.scope.date) params.set('date',state.scope.date);
+  if(state.scope.time!=='all') params.set('time',state.scope.time);
+  if(state.scope.exhibitor!=='all') params.set('exhibitor',state.scope.exhibitor);
+  if(state.scope.state!=='all') params.set('state',state.scope.state);
+  if(state.scope.observation!=='latest') params.set('obs',state.scope.observation);
+  if(state.scope.observation==='asof' && state.scope.replay) params.set('replay',state.scope.replay);
+  if(state.comparisonCinemaIds.length) params.set('compare',state.comparisonCinemaIds.slice(0,4).join(','));
+  return params.toString();
+}
+
+function syncUrlState() {
+  if(state.restoringUrlState) return;
+  const hash=encodedUrlState();
+  const next=`${window.location.pathname}${window.location.search}${hash?`#${hash}`:''}`;
+  window.history.replaceState(null,'',next);
+}
+
+async function restoreFromHashChange() {
+  if(state.restoringUrlState || !state.bootstrap) return;
+  state.restoringUrlState=true;
+  try {
+    const parsed=parseUrlState();
+    const targetDate=parsed.date;
+    if(targetDate && targetDate!==state.scope.date && (state.bootstrap.index.availableDates||[]).includes(targetDate)) {
+      state.product=await loadDateProduct(targetDate,state.bootstrap.index,state.bootstrap.current);
+      state.scope.date=targetDate;
+    }
+    state.scope.time='all'; state.scope.exhibitor='all'; state.scope.state='all'; state.scope.observation='latest'; state.scope.replay=null; state.comparisonCinemaIds=[];
+    applyParsedUrlState(parsed);
+    $('#date-filter').value=state.scope.date||'';
+    $('#time-filter').value=state.scope.time;
+    $('#exhibitor-filter').value=state.scope.exhibitor;
+    $('#state-filter').value=state.scope.state;
+    $('#observation-filter').value=state.scope.observation;
+    populateReplayControl(); updateReplayVisibility(); render();
+  } finally { state.restoringUrlState=false; }
+}
+
+async function copyShareLink() {
+  syncUrlState();
+  const note=$('#comparison-note');
+  const url=window.location.href;
+  try {
+    if(navigator.clipboard?.writeText) await navigator.clipboard.writeText(url);
+    else {
+      const area=document.createElement('textarea'); area.value=url; area.setAttribute('readonly',''); area.style.position='fixed'; area.style.opacity='0'; document.body.append(area); area.select(); document.execCommand('copy'); area.remove();
+    }
+    if(note) note.textContent=`Share link copied · ${comparisonScopeLabel()}.`;
+  } catch {
+    if(note) note.textContent='Could not copy automatically. Copy the current browser URL; it already contains this comparison state.';
+  }
+}
 
 function populateReplayControl() {
   const select=$('#replay-time-filter'); if(!select) return;
@@ -140,6 +240,7 @@ function render() {
   const scoped = scopedCinemas(state.bootstrap.cinemas.cinemas, state.scope);
   const metrics = aggregate(sessions, state.bootstrap.methodology);
   renderFreshness(); renderScope(metrics, scoped); renderKpis(metrics, scoped.length); renderTable(); renderExhibitors(sessions); renderDistribution(sessions); renderMomentum(); renderPrimeEfficiency(); renderTrajectories(); renderCinemaComparison(); renderAllocation(); renderDecisionSignals(); renderTrend(); renderGeography(sessions); renderQuality();
+  syncUrlState();
 }
 
 function renderFreshness() {
@@ -401,6 +502,7 @@ function renderComparisonSelectors(rows) {
       if(select.value) next[slot]=select.value; else next.splice(slot,1);
       state.comparisonCinemaIds=[...new Set(next.filter(Boolean))].slice(0,4);
       renderCinemaComparison();
+      syncUrlState();
     });
     label.append(select); root.append(label);
   }
