@@ -90,6 +90,8 @@ function setupControls() {
   $('#session-dialog').addEventListener('click', e => { if (e.target === $('#session-dialog')) $('#session-dialog').close(); });
   $('#trajectory-session-filter').addEventListener('change', e => renderScreeningTrajectory(e.target.value));
   const autoCompare=$('#comparison-auto'); if(autoCompare) autoCompare.addEventListener('click',()=>{ seedComparison(true); renderCinemaComparison(); });
+  const exportCsv=$('#comparison-export-csv'); if(exportCsv) exportCsv.addEventListener('click', exportCinemaComparisonCsv);
+  const printComparison=$('#comparison-print'); if(printComparison) printComparison.addEventListener('click', printCinemaComparison);
 }
 
 
@@ -275,6 +277,87 @@ function renderTrajectories() {
   table.append(body);
 }
 
+
+
+function selectedComparisonRecords() {
+  const rows=comparisonRows();
+  seedComparison(false);
+  return state.comparisonCinemaIds
+    .map(id=>rows.find(r=>r.id===id))
+    .filter(Boolean)
+    .slice(0,4)
+    .map(row=>comparisonRecord(row));
+}
+
+function comparisonScopeLabel() {
+  const replay=activeReplay();
+  const parts=[`Show date ${state.product.showDate}`];
+  if(state.scope.exhibitor!=='all') parts.push(`Exhibitor ${state.scope.exhibitor.toUpperCase()}`);
+  if(state.scope.state!=='all') parts.push(`State ${state.scope.state}`);
+  if(state.scope.time!=='all') parts.push(`Time ${state.scope.time}`);
+  parts.push(replay?`As-of ${replay.label} MYT`:state.scope.observation==='final'?'Final pre-show':state.scope.observation==='live'?'Live / upcoming':'Latest eligible observations');
+  return parts.join(' · ');
+}
+
+function csvEscape(value) {
+  if(value==null) return '';
+  const text=String(value);
+  return /[",\n]/.test(text)?`"${text.replace(/"/g,'""')}"`:text;
+}
+
+function exportCinemaComparisonCsv() {
+  const records=selectedComparisonRecords();
+  const note=$('#comparison-note');
+  if(records.length<2){ if(note) note.textContent='Select at least two seat-measured cinemas before exporting.'; return; }
+  const replay=activeReplay();
+  const headers=[
+    'film','show_date','observation_scope','replay_cutoff','cinema','city','state','exhibitor',
+    'shows','prime_shows','observed_capacity','observed_used_booked','occupancy',
+    'seat_state_performance_index','momentum_seats_per_hour','prime_efficiency_delta_pp',
+    'trajectory_t_minus_6h','trajectory_t_minus_3h','trajectory_t_minus_1h','final_pre_show_occupancy',
+    'complete_trajectories','measured_trajectories','allocation_delta_shows','decision_signal','signal_confidence'
+  ];
+  const rows=records.map(rec=>{
+    const cp=rec.trajectory?.checkpoints||{};
+    return [
+      'TIKUS!',state.product.showDate,state.scope.observation,replay?.label||'',
+      rec.row.name,rec.row.city,rec.row.state,rec.row.exhibitorId.toUpperCase(),
+      rec.row.totalShows,rec.row.primeTimeShows,rec.row.observedCapacity,rec.row.observedUsed,rec.row.occupancy,
+      rec.row.performanceIndex,rec.momentum?.averageSeatsPerHour,
+      rec.prime?.occupancyDelta==null?'':rec.prime.occupancyDelta*100,
+      cp.tMinus6h?.occupancy,cp.tMinus3h?.occupancy,cp.tMinus1h?.occupancy,cp.finalPreShow?.occupancy,
+      rec.trajectory?.completeTrajectories,rec.trajectory?.measuredSessions,rec.allocation?.showDelta,
+      rec.decision?.label||rec.decision?.signal||'Monitor',rec.decision?.confidence||'low'
+    ];
+  });
+  const caveat=['# Observed seat-state intelligence only. Used/booked states are not confirmed paid ticket sales.'];
+  const csv=[...caveat,headers.map(csvEscape).join(','),...rows.map(row=>row.map(csvEscape).join(','))].join('\n');
+  const blob=new Blob([`\uFEFF${csv}`],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  const stamp=(replay?.id||state.scope.observation||'latest').replace(/[^a-z0-9_-]+/gi,'-');
+  a.href=url; a.download=`tikus-cinema-comparison-${state.product.showDate}-${stamp}.csv`;
+  document.body.append(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  if(note) note.textContent=`Exported ${records.length}-cinema CSV · ${comparisonScopeLabel()}.`;
+}
+
+function renderComparisonPrintHeader(records) {
+  const root=$('#comparison-print-header'); if(!root) return;
+  const names=records.map(rec=>escapeHtml(rec.row.name)).join(' · ');
+  root.innerHTML=`<p class="comparison-print-kicker">FEISK PRODUCTIONS · TIKUS! DATA INTELLIGENCE</p><h1>Cinema Comparison</h1><p>${escapeHtml(comparisonScopeLabel())}</p><p>${names}</p><p class="comparison-print-caveat">Observed seat-state intelligence only. Used/booked states are not confirmed paid ticket sales. Schedule-only cinemas do not expose seat measurements.</p>`;
+}
+
+function printCinemaComparison() {
+  const records=selectedComparisonRecords();
+  const note=$('#comparison-note');
+  if(records.length<2){ if(note) note.textContent='Select at least two seat-measured cinemas before printing.'; return; }
+  renderComparisonPrintHeader(records);
+  document.body.classList.add('comparison-print-mode');
+  const cleanup=()=>document.body.classList.remove('comparison-print-mode');
+  window.addEventListener('afterprint',cleanup,{once:true});
+  window.print();
+  setTimeout(()=>{ if(document.body.classList.contains('comparison-print-mode')) cleanup(); },1000);
+}
 
 function comparisonRows() {
   const sessions=currentSessions();

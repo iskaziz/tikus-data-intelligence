@@ -193,3 +193,6 @@ Cinema trajectory rollups are capacity-weighted and report checkpoint coverage e
 ## v14 cinema comparison workspace
 
 v14 adds a side-by-side workspace for selecting 2–4 cinemas and comparing observed allocation, capacity/utilisation, Seat-State Performance Index, momentum, prime-time efficiency, trajectory checkpoints, allocation change and Decision Signals. The workspace inherits the active date/geography/exhibitor/observation scope, including hindsight-safe as-of replay. No acquisition or metric semantics changed in this release.
+
+## v15 comparison export
+The Cinema Comparison Workspace can export the current 2–4 cinema selection as CSV or switch to a comparison-only print layout suitable for internal print/PDF circulation. Exports preserve active observation/replay scope and explicitly state that observed used/booked seat states are not confirmed paid ticket sales.

@@ -1,14 +1,19 @@
-# v14 — Cinema Comparison Workspace
+# TIKUS! Data Intelligence — v15 notes
 
-Implemented:
-- Select 2–4 cinemas for direct side-by-side review.
-- Auto-seed two current measured leaders while allowing manual replacement.
-- Compare allocation, prime allocation, capacity, observed used/booked state, occupancy and Seat-State Performance Index.
-- Compare Seat-State Momentum and prime-time efficiency.
-- Compare T−6h / T−3h / T−1h / final pre-show cinema trajectories and completeness.
-- Compare observed allocation delta and Decision Signal/confidence.
-- Inherit every active dashboard scope, including hindsight-safe As-of replay.
-- No collector or backend metric changes.
+v15 adds compact internal sharing to the v14 Cinema Comparison Workspace.
 
-Recommended next stage:
-- Add a compact comparison export/share view (CSV/print-friendly HTML) so selected cinema comparisons can be circulated internally without exposing the full operational dashboard.
+## Added
+- `Export CSV` for the currently selected 2–4 cinemas.
+- `Print report` for a clean comparison-only landscape print/PDF surface.
+- Scope metadata and as-of replay cutoff are carried into exports.
+- Explicit seat-state methodology caveats are included in both CSV and print.
+
+## Unchanged
+- All collectors.
+- Corrections and schedule-only identity reconciliation.
+- Immutable history.
+- Distribution intelligence, Decision Signals, as-of replay, and session trajectories.
+- Product schema remains 1.7.0 because v15 is a presentation/export change only.
+
+## Next useful stage
+A shareable snapshot permalink/hash state could preserve date, observation/replay mode, filters and the 2–4 selected cinemas so an internal recipient opens the same comparison view without importing a file.

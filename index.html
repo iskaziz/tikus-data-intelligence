@@ -143,9 +143,14 @@
     <section class="panel comparison-panel" id="cinema-comparison-panel">
       <div class="panel__header panel__header--comparison">
         <div><p class="eyebrow">SIDE-BY-SIDE REVIEW</p><h2>Cinema Comparison Workspace</h2></div>
-        <button type="button" class="comparison-auto" id="comparison-auto">Auto-select leaders</button>
+        <div class="comparison-actions">
+          <button type="button" class="comparison-auto" id="comparison-auto">Auto-select leaders</button>
+          <button type="button" class="comparison-export" id="comparison-export-csv">Export CSV</button>
+          <button type="button" class="comparison-export" id="comparison-print">Print report</button>
+        </div>
       </div>
       <p class="panel-note">Select 2–4 cinemas to compare observed allocation, utilisation, trajectory shape, momentum, prime-time efficiency and Decision Signals. All values inherit the active date, geography, exhibitor and observation scope.</p>
+      <div class="comparison-print-header" id="comparison-print-header" aria-hidden="true"></div>
       <div class="comparison-selectors" id="comparison-selectors" aria-label="Cinema comparison selection"></div>
       <p class="comparison-note" id="comparison-note" aria-live="polite">Select at least two cinemas to compare.</p>
       <div class="compact-table-wrap comparison-table-wrap"><table class="compact-table comparison-table" id="cinema-comparison-table"></table></div>

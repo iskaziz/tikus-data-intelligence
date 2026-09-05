@@ -228,3 +228,35 @@ footer a { margin-left: auto; }
 .comparison-sub { display:block; margin-top:.18rem; color:var(--muted); font-size:.54rem; font-weight:500; letter-spacing:0; text-transform:none; }
 @media (max-width:900px){ .comparison-selectors{grid-template-columns:repeat(2,1fr);} }
 @media (max-width:560px){ .comparison-selectors{grid-template-columns:1fr;} .panel__header--comparison{align-items:stretch;flex-direction:column;} .comparison-auto{width:100%;} }
+
+/* v15 compact comparison export / print */
+.comparison-actions { display:flex; gap:.45rem; flex-wrap:wrap; justify-content:flex-end; }
+.comparison-export { border:1px solid var(--line-strong); background:#111113; padding:.48rem .7rem; font-size:.66rem; font-weight:800; letter-spacing:.03em; }
+.comparison-export:hover, .comparison-export:focus-visible, .comparison-auto:hover, .comparison-auto:focus-visible { border-color:var(--accent); }
+.comparison-print-header { display:none; }
+@media (max-width:560px){ .comparison-actions{width:100%; display:grid; grid-template-columns:1fr;} .comparison-export{width:100%;} }
+
+@media print {
+  @page { size: landscape; margin: 12mm; }
+  body.comparison-print-mode { background:#fff !important; color:#111 !important; }
+  body.comparison-print-mode > * { display:none !important; }
+  body.comparison-print-mode main { display:block !important; }
+  body.comparison-print-mode main > * { display:none !important; }
+  body.comparison-print-mode #cinema-comparison-panel { display:block !important; border:0 !important; box-shadow:none !important; background:#fff !important; color:#111 !important; margin:0 !important; }
+  body.comparison-print-mode #cinema-comparison-panel .panel__header,
+  body.comparison-print-mode #cinema-comparison-panel .panel-note,
+  body.comparison-print-mode #cinema-comparison-panel .comparison-selectors,
+  body.comparison-print-mode #cinema-comparison-panel .comparison-note { display:none !important; }
+  body.comparison-print-mode .comparison-print-header { display:block !important; border-bottom:2px solid #111; padding:0 0 8mm; margin:0 0 7mm; }
+  body.comparison-print-mode .comparison-print-header h1 { margin:1mm 0 2mm; font-size:24pt; }
+  body.comparison-print-mode .comparison-print-header p { margin:1mm 0; font-size:9pt; }
+  body.comparison-print-mode .comparison-print-kicker { font-weight:800; letter-spacing:.08em; font-size:8pt !important; }
+  body.comparison-print-mode .comparison-print-caveat { margin-top:4mm !important; max-width:240mm; color:#333; }
+  body.comparison-print-mode .comparison-table-wrap { max-height:none !important; overflow:visible !important; }
+  body.comparison-print-mode .comparison-table { min-width:0 !important; width:100% !important; border-collapse:collapse; font-size:8.5pt; color:#111 !important; }
+  body.comparison-print-mode .comparison-table th,
+  body.comparison-print-mode .comparison-table td { position:static !important; background:#fff !important; color:#111 !important; border:1px solid #bbb !important; padding:2.2mm 2.5mm !important; }
+  body.comparison-print-mode .comparison-table thead th { font-size:8.5pt; }
+  body.comparison-print-mode .comparison-sub { color:#444 !important; }
+  body.comparison-print-mode .na { color:#666 !important; }
+}
