@@ -1,17 +1,17 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-09-06T00:49:19+08:00",
+  "generatedAt": "2026-09-06T03:01:56+08:00",
   "latestRun": {
     "schemaVersion": "1.0.0",
-    "runId": "20260906T004853+0800-b2a94f0e",
+    "runId": "20260906T030130+0800-1164c80c",
     "showDate": "2026-09-06",
-    "collectedAt": "2026-09-06T00:48:53+08:00",
+    "collectedAt": "2026-09-06T03:01:30+08:00",
     "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
     "sourceStatuses": {
       "gsc": {
         "status": "ok",
-        "snapshots": 21,
-        "seatMeasured": 21,
+        "snapshots": 18,
+        "seatMeasured": 18,
         "cinemaIds": [
           "gsc-aman-central",
           "gsc-dataran-pahlawan",
@@ -91,9 +91,9 @@
         "expectedCinemas": 1
       }
     },
-    "snapshotCount": 44
+    "snapshotCount": 41
   },
-  "historyFiles": 16,
+  "historyFiles": 17,
   "availableDates": [
     "2026-09-04",
     "2026-09-05",
