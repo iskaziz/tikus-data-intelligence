@@ -581,6 +581,51 @@ function renderBriefing() {
   const body=el('tbody'); [['T−6h','tMinus6h'],['T−3h','tMinus3h'],['T−1h','tMinus1h'],['Final pre-show','finalPreShow']].forEach(([label,key])=>{ const tr=el('tr'); tr.append(el('th',null,label)); records.forEach(r=>tr.append(el('td',null,fmt.pct(r.trajectory?.checkpoints?.[key]?.occupancy)))); body.append(tr); }); table.append(body);
   const decisions=$('#briefing-decisions'); decisions.innerHTML='';
   records.forEach(rec=>{ const d=el('div','briefing-decision'); d.innerHTML=`<div><strong>${escapeHtml(rec.row.name)}</strong><span>${escapeHtml(rec.decision?.label||'Monitor')} · ${escapeHtml(rec.decision?.confidence||'low')} confidence</span></div><p>${escapeHtml((rec.decision?.evidence||[]).join(' · ')||'No escalated evidence.')}</p>`; decisions.append(d); });
+  renderBriefingMultiDay(records);
+}
+
+function briefingDaySessions(product, finalized) {
+  if(!product) return [];
+  if(finalized) return product.finalPreShowSessions || [];
+  if(product.showDate===state.product?.showDate && activeReplay()) return activeReplay()?.sessions || [];
+  return product.sessions || [];
+}
+
+function briefingTrendRows(records, finalized) {
+  const selected=new Set(records.map(r=>r.row.id));
+  return (state.trendProducts||[])
+    .slice()
+    .sort((a,b)=>a.showDate.localeCompare(b.showDate))
+    .filter(product=>finalized ? product.finalPreShowState?.status==='complete' : product.finalPreShowState?.status!=='complete')
+    .map(product=>{
+      const base=briefingDaySessions(product,finalized);
+      const scoped=filterSessions(base,state.scope,state.bootstrap.cinemas.cinemas,state.bootstrap.methodology).filter(s=>selected.has(s.cinemaId));
+      const perCinema={};
+      records.forEach(rec=>{ perCinema[rec.row.id]=aggregate(scoped.filter(s=>s.cinemaId===rec.row.id),state.bootstrap.methodology); });
+      return {product, scoped, total:aggregate(scoped,state.bootstrap.methodology), perCinema};
+    })
+    .filter(row=>row.scoped.length>0);
+}
+
+function renderBriefingTrendTable(tableId, rows, records, finalized) {
+  const table=$(tableId); if(!table) return; table.innerHTML='';
+  const head=el('thead'); const hr=el('tr'); hr.append(el('th',null,'Day')); hr.append(el('th',null,'Selected total')); records.forEach(rec=>hr.append(el('th',null,rec.row.name))); head.append(hr); table.append(head);
+  const body=el('tbody');
+  rows.forEach(({product,total,perCinema})=>{
+    const tr=el('tr');
+    const status=finalized?'Final pre-show':'Provisional';
+    tr.append(el('th',null,`${product.showDate.slice(5)} · ${status}`));
+    tr.append(el('td',null,`${fmt.int(total.totalShows)} shows · ${fmt.pct(total.occupancy)}`));
+    records.forEach(rec=>{ const m=perCinema[rec.row.id]; const text=m.totalShows?`${fmt.int(m.totalShows)} · ${fmt.pct(m.occupancy)}`:'—'; tr.append(el('td',text==='—'?'na':'',text)); });
+    body.append(tr);
+  });
+  if(!rows.length){ const tr=el('tr'); const td=el('td','na',finalized?'No completed theatrical day with finalized pre-show observations is stored yet.':'No partial/provisional selected-cinema day is currently stored.'); td.colSpan=2+records.length; tr.append(td); body.append(tr); }
+  table.append(body);
+}
+
+function renderBriefingMultiDay(records) {
+  renderBriefingTrendTable('#briefing-finalized-trend',briefingTrendRows(records,true),records,true);
+  renderBriefingTrendTable('#briefing-provisional-trend',briefingTrendRows(records,false),records,false);
 }
 
 function renderAllocation() {

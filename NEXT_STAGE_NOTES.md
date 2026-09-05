@@ -57,3 +57,10 @@ The view uses the same already-generated comparison/intelligence objects as the 
 ## Next candidate
 
 A compact executive trend summary could compare the selected cinemas across multiple completed theatrical days, while explicitly separating final-pre-show results from partial-day observations.
+
+## v18 — Multi-Day Executive Trend Briefing
+- Added selected-cinema multi-day trend inside condensed briefing mode.
+- Completed theatrical days use `finalPreShowSessions` only and require `finalPreShowState.status === complete`.
+- Partial/current days are shown in a separate provisional table and never blended with finalized results.
+- Active As-of replay remains hindsight-safe for the current provisional day.
+- No acquisition, correction, reconciliation, analytics-schema, or raw-history changes.

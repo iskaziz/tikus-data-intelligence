@@ -296,3 +296,11 @@ body.briefing-mode footer { display:none; }
 body.briefing-mode .topbar { border-bottom:1px solid var(--line); }
 @media (max-width:760px){ .briefing-grid{grid-template-columns:1fr;} .briefing-kpis{grid-template-columns:repeat(2,1fr);} .briefing-head{flex-direction:column;} .briefing-head__actions{width:100%; display:grid; grid-template-columns:1fr 1fr;} .briefing-card__metrics{grid-template-columns:repeat(2,1fr);} .briefing-decision{grid-template-columns:1fr;} }
 @media (max-width:460px){ .briefing-head__actions{grid-template-columns:1fr;} }
+
+/* v18 multi-day executive briefing */
+.briefing-trend-note { margin:.1rem 0 .9rem; color:var(--muted); font-size:.72rem; line-height:1.45; max-width:84ch; }
+.briefing-subhead { margin:1rem 0 .5rem; font-size:.7rem; text-transform:uppercase; letter-spacing:.08em; color:var(--offwhite); }
+.briefing-trend-panel .comparison-table th:first-child { min-width:145px; }
+.briefing-trend-panel .comparison-table th:nth-child(2) { min-width:140px; }
+.briefing-trend-panel .comparison-table td { white-space:nowrap; }
+@media (max-width:620px){ .briefing-trend-panel .compact-table-wrap{overflow-x:auto;} .briefing-trend-panel .comparison-table{min-width:680px;} }

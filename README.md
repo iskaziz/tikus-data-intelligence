@@ -206,3 +206,6 @@ The Cinema Comparison Workspace includes **Copy share link**. Invalid or obsolet
 ## v17 — Condensed briefing mode
 
 v17 adds a presentation-only briefing state for internal mobile/executive review. The same 2–4 selected cinemas can be shown in a reduced view containing headline KPIs, per-cinema comparison cards, trajectory checkpoints and Decision Signals. The URL hash adds optional `brief=1`, so shared links can open directly into the briefing while preserving date, filters, observation/replay state and cinema selections. Briefing mode reuses the same backend-generated intelligence as the full dashboard and does not alter collectors, analytics, schemas or immutable history.
+
+### Multi-day executive briefing (v18)
+Briefing mode includes a selected-cinema theatrical-run view. Completed days are based only on finalized pre-show observations; partial/current days are kept in a separate provisional table. This prevents an incomplete intraday state from being presented as comparable to a completed theatrical day.
