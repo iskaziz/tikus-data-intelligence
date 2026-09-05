@@ -51,6 +51,8 @@ def _matches_correction(item: dict, correction: dict) -> bool:
         return False
     if match.get("sessionIds") and item.get("sessionId") not in match["sessionIds"]:
         return False
+    if match.get("sourceSessionIds") and str(item.get("sourceSessionId")) not in {str(x) for x in match["sourceSessionIds"]}:
+        return False
     return True
 
 
@@ -64,6 +66,62 @@ def apply_corrections(snapshots: list[dict], corrections: list[dict]) -> tuple[l
             included.append(item)
     return included, excluded
 
+
+
+def reconcile_schedule_only_session_ids(snapshots: list[dict]) -> tuple[list[dict], list[dict]]:
+    """Canonicalize duplicate schedule-only identities without mutating raw history.
+
+    Legacy Paragon observations were fingerprinted by cinema/date/time while newer
+    collectors preserve the exhibitor's native ticket-session ID. When both forms
+    describe the same schedule-only screening, this analytical layer rewrites the
+    legacy fingerprint to the native identity so the screening counts once.
+
+    The reconciliation key is intentionally narrow: provider + cinema + show date +
+    exact start time. Seat-measured observations are never rewritten here.
+    """
+    groups: dict[tuple[str, str, str, str], list[dict]] = defaultdict(list)
+    passthrough: list[dict] = []
+    for item in snapshots:
+        if item.get("quality", {}).get("measurementStatus") != "schedule-only":
+            passthrough.append(item)
+            continue
+        provider = (item.get("source") or {}).get("provider")
+        key = (provider or "", item.get("cinemaId") or "", item.get("showDate") or "", item.get("startAt") or "")
+        groups[key].append(item)
+
+    reconciled = list(passthrough)
+    audit: list[dict] = []
+    for key, items in groups.items():
+        native = [x for x in items if x.get("sourceSessionId") not in (None, "")]
+        if native:
+            # Prefer the newest native observation if multiple native IDs somehow
+            # collide on the same exact screening key; retain all observations but
+            # normalize their analytical sessionId to that canonical native ID.
+            canonical_item = max(native, key=lambda x: x.get("collectedAt") or "")
+            canonical_id = canonical_item.get("sessionId")
+        else:
+            canonical_item = max(items, key=lambda x: x.get("collectedAt") or "")
+            canonical_id = canonical_item.get("sessionId")
+
+        original_ids = sorted({x.get("sessionId") for x in items if x.get("sessionId")})
+        changed = len(original_ids) > 1
+        for item in items:
+            if item.get("sessionId") == canonical_id:
+                reconciled.append(item)
+                continue
+            clone = dict(item)
+            clone["sessionId"] = canonical_id
+            reconciled.append(clone)
+        if changed:
+            audit.append({
+                "provider": key[0],
+                "cinemaId": key[1],
+                "showDate": key[2],
+                "startAt": key[3],
+                "canonicalSessionId": canonical_id,
+                "mergedSessionIds": original_ids,
+            })
+    return reconciled, sorted(audit, key=lambda x: (x["startAt"], x["cinemaId"]))
 
 def latest_by_session(snapshots: Iterable[dict], *, as_of: datetime | None = None, pre_show_only: bool = False) -> list[dict]:
     latest: dict[str, dict] = {}
@@ -196,7 +254,7 @@ def latest_run_for_date(root: Path, show_date: str) -> dict | None:
     return max(matches, key=lambda x: x.get("collectedAt") or "") if matches else None
 
 
-def build_day_product(root: Path, show_date: str, snapshots: list[dict], *, excluded: list[dict] | None = None) -> dict:
+def build_day_product(root: Path, show_date: str, snapshots: list[dict], *, excluded: list[dict] | None = None, reconciliations: list[dict] | None = None) -> dict:
     day = [x for x in snapshots if x["showDate"] == show_date]
     generated_at = datetime.now(TZ)
     latest = latest_by_session(day)
@@ -251,6 +309,8 @@ def build_day_product(root: Path, show_date: str, snapshots: list[dict], *, excl
             "observedSeatStateIsNotSales": True,
             "excludedObservationCount": len(excluded or []),
             "correctionsApplied": sorted({cid for e in (excluded or []) for cid in e.get("correctionIds", [])}),
+            "sessionIdentityReconciliations": len(reconciliations or []),
+            "reconciledSessions": reconciliations or [],
         },
     }
 
@@ -264,11 +324,13 @@ def build_all_products(root: Path) -> None:
     raw_snapshots = load_history(root)
     corrections = load_corrections(root)
     snapshots, excluded = apply_corrections(raw_snapshots, corrections)
+    snapshots, reconciliation_audit = reconcile_schedule_only_session_ids(snapshots)
     dates = sorted({x["showDate"] for x in raw_snapshots})
     products: dict[str, dict] = {}
     for show_date in dates:
         excluded_for_day = [x for x in excluded if any(r.get("sessionId") == x.get("sessionId") and r.get("showDate") == show_date for r in raw_snapshots)]
-        product = build_day_product(root, show_date, snapshots, excluded=excluded_for_day)
+        reconciliations_for_day = [x for x in reconciliation_audit if x.get("showDate") == show_date]
+        product = build_day_product(root, show_date, snapshots, excluded=excluded_for_day, reconciliations=reconciliations_for_day)
         products[show_date] = product
         _write(root / "data/days" / f"{show_date}.json", product)
 
@@ -291,7 +353,7 @@ def build_all_products(root: Path) -> None:
             "exhibitors": [], "states": [],
             "observationWindow": {"firstCollectedAt": None, "lastCollectedAt": None, "observations": 0},
             "collection": {"latestRun": None, "firstSeenAfterShowSessionIds": [], "firstSeenAfterShowCount": 0, "dailyCompleteness": "no-observations", "note": None},
-            "quality": {"seatCoverage": None, "methodology": "docs/METHODOLOGY.md", "observedSeatStateIsNotSales": True, "excludedObservationCount": 0, "correctionsApplied": []},
+            "quality": {"seatCoverage": None, "methodology": "docs/METHODOLOGY.md", "observedSeatStateIsNotSales": True, "excludedObservationCount": 0, "correctionsApplied": [], "sessionIdentityReconciliations": 0, "reconciledSessions": []},
             "mode": "current",
         }
     _write(root / "data/current.json", current)

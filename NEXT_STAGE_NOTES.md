@@ -1,31 +1,21 @@
-# v7 — Paragon link-semantic recovery
+# v8 — Paragon identity reconciliation
 
-This release changes only the Paragon acquisition path and collector diagnostics.
+v8 is a correctness-only analytical patch based on the 2026-09-05 17:52 MYT live product.
 
 ## Changes
 
-- `paragon-schedule/1.3.0`
-- Exact TIKUS! movie-title anchor required.
-- Movie-title href must use `/Browsing/Movies/Details/`.
-- Showtime href must use `/Ticketing/visSelectTickets.aspx`.
-- Parsing stops at the next movie-title anchor.
-- Explicit date headings scope ticketing anchors to the requested day.
-- Native `txtSessionId` is preserved as `sourceSessionId` and drives stable session identity.
-- Per-cinema Paragon parser diagnostics are embedded in the collection run status.
-- Existing correction ledger is unchanged.
-- GSC, TGV, Mega, analytics and presentation logic are intentionally unchanged.
+- Added targeted quarantine for Paragon Batu Pahat native session IDs `122652` and `122653` from collector `paragon-schedule/1.3.0` on 2026-09-05.
+- Added `reconcile_schedule_only_session_ids()` in `scripts/analytics/build_products.py`.
+- Reconciliation applies only to schedule-only observations sharing provider + cinema + show date + exact start time.
+- Native source session IDs are preferred over legacy time fingerprints.
+- Raw immutable history remains unchanged.
+- Seat-measured GSC/TGV observations are never rewritten.
+- Day/current products now expose reconciliation audit metadata under `quality.reconciledSessions`.
 
-## Validation
+## Live-product regression result
 
-- 22 automated tests passing.
-- Semantic repository validator passing.
-- Python compilation passing.
-- Browser JavaScript syntax check passing.
+The supplied v7 current product contains 77 analytical sessions. v8 produces 73 after exactly two targeted exclusions and two KTCC identity merges.
 
-## Next validation
+## QA
 
-Commit v7 and manually run the collector. The decisive fields are under:
-
-`collection.latestRun.sourceStatuses.paragon`
-
-If Paragon still returns zero sessions, the new diagnostics should identify whether GitHub Actions saw no exact movie anchor, no ticket anchors inside the TIKUS! segment, or no ticket anchors under the requested date.
+25 automated tests pass, including targeted correction and identity-reconciliation regression tests.

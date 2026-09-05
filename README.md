@@ -147,3 +147,7 @@ v6 adds an auditable correction/exclusion layer and strict finalized-pre-show se
 
 Paragon schedule acquisition now uses the exhibitor's link semantics rather than DOM ancestor guessing. `paragon-schedule/1.3.0` identifies the exact TIKUS! movie-title anchor, reads only ticketing anchors before the next movie-title anchor, scopes them by explicit show-date heading, and preserves Paragon `txtSessionId` as the native session identity. Per-cinema parser diagnostics are exposed in each collection run for source-health auditing.
 
+
+## v8 schedule-only identity reconciliation
+
+Analytical products canonicalize duplicate schedule-only identities when legacy time fingerprints and newer native source-session IDs describe the exact same provider/cinema/date/start-time screening. Native IDs win. Raw history is never rewritten, and seat-measured observations are excluded from this reconciliation rule. Targeted correction-ledger entries quarantine known false observations while retaining them for audit.

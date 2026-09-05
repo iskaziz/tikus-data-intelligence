@@ -3,7 +3,7 @@ from copy import deepcopy
 from datetime import datetime
 from pathlib import Path
 
-from scripts.analytics.build_products import apply_corrections, final_pre_show_sessions, load_corrections
+from scripts.analytics.build_products import apply_corrections, final_pre_show_sessions, load_corrections, reconcile_schedule_only_session_ids, latest_by_session
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -39,6 +39,33 @@ class ProductCorrectnessTests(unittest.TestCase):
         included,excluded=apply_corrections([bad,good],load_corrections(ROOT))
         self.assertEqual([x['sessionId'] for x in included],['good'])
         self.assertEqual(excluded[0]['sessionId'],'bad')
+
+    def test_targeted_v13_native_ids_are_quarantined(self):
+        bad=snap('paragon-batu-pahat:source:122652','2026-09-05T18:30:00+08:00','2026-09-05T17:52:00+08:00',cinema='paragon-batu-pahat',version='paragon-schedule/1.3.0')
+        bad['sourceSessionId']='122652'; bad['quality']={'measurementStatus':'schedule-only','seatMeasured':False}
+        good=deepcopy(bad); good['sessionId']='paragon-batu-pahat:source:122655'; good['sourceSessionId']='122655'; good['startAt']='2026-09-05T00:30:00+08:00'
+        included,excluded=apply_corrections([bad,good],load_corrections(ROOT))
+        self.assertEqual([x['sessionId'] for x in included],['paragon-batu-pahat:source:122655'])
+        self.assertEqual(excluded[0]['sessionId'],'paragon-batu-pahat:source:122652')
+
+    def test_schedule_only_fingerprint_merges_into_native_identity(self):
+        legacy=snap('paragon-ktcc:fingerprint:2026-09-05:19:40:unknown','2026-09-05T19:40:00+08:00','2026-09-05T00:14:00+08:00',cinema='paragon-ktcc',version='paragon-schedule/1.1.0')
+        legacy['quality']={'measurementStatus':'schedule-only','seatMeasured':False}; legacy['sourceSessionId']=None; legacy['source']={'provider':'paragon','collectorVersion':'paragon-schedule/1.1.0'}
+        native=deepcopy(legacy); native['sessionId']='paragon-ktcc:source:83243'; native['sourceSessionId']='83243'; native['collectedAt']='2026-09-05T17:52:00+08:00'; native['source']['collectorVersion']='paragon-schedule/1.3.0'
+        reconciled,audit=reconcile_schedule_only_session_ids([legacy,native])
+        latest=latest_by_session(reconciled)
+        self.assertEqual(len(latest),1)
+        self.assertEqual(latest[0]['sessionId'],'paragon-ktcc:source:83243')
+        self.assertEqual(len(audit),1)
+        self.assertIn('paragon-ktcc:fingerprint:2026-09-05:19:40:unknown',audit[0]['mergedSessionIds'])
+
+    def test_distinct_schedule_only_times_do_not_merge(self):
+        a=snap('paragon-ktcc:source:1','2026-09-05T19:40:00+08:00','2026-09-05T17:00:00+08:00',cinema='paragon-ktcc',version='paragon-schedule/1.3.0')
+        a['quality']={'measurementStatus':'schedule-only','seatMeasured':False}; a['sourceSessionId']='1'; a['source']={'provider':'paragon','collectorVersion':'paragon-schedule/1.3.0'}
+        b=deepcopy(a); b['sessionId']='paragon-ktcc:source:2'; b['sourceSessionId']='2'; b['startAt']='2026-09-05T21:55:00+08:00'
+        reconciled,audit=reconcile_schedule_only_session_ids([a,b])
+        self.assertEqual(len(latest_by_session(reconciled)),2)
+        self.assertEqual(audit,[])
 
 if __name__=='__main__':
     unittest.main()
