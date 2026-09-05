@@ -1,0 +1,2212 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "20260906T004853+0800-b2a94f0e",
+  "showDate": "2026-09-06",
+  "collectedAt": "2026-09-06T00:48:53+08:00",
+  "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
+  "sourceStatuses": {
+    "gsc": {
+      "status": "ok",
+      "snapshots": 21,
+      "seatMeasured": 21,
+      "cinemaIds": [
+        "gsc-aman-central",
+        "gsc-dataran-pahlawan",
+        "gsc-imago",
+        "gsc-ioi-city-mall",
+        "gsc-kuantan-city-mall",
+        "gsc-mid-valley",
+        "gsc-paradigm-jb",
+        "gsc-the-spring"
+      ],
+      "expectedCinemas": 8
+    },
+    "tgv": {
+      "status": "ok",
+      "snapshots": 10,
+      "seatMeasured": 10,
+      "cinemaIds": [
+        "tgv-1utama",
+        "tgv-bukit-tinggi",
+        "tgv-gurney",
+        "tgv-tebrau-city",
+        "tgv-wangsa-walk"
+      ],
+      "expectedCinemas": 5
+    },
+    "paragon": {
+      "status": "ok-schedule-only",
+      "snapshots": 9,
+      "seatMeasured": 0,
+      "cinemaIds": [
+        "paragon-batu-pahat",
+        "paragon-ktcc"
+      ],
+      "expectedCinemas": 2,
+      "diagnostics": {
+        "paragon-batu-pahat": {
+          "movieTitleAnchors": 21,
+          "tikusTitleAnchors": 1,
+          "ticketAnchorsInTikusSegments": 16,
+          "matchedDateTicketAnchors": 4,
+          "rejectedTicketAnchors": 12,
+          "rejectionReasons": {
+            "ticket-anchor-outside-target-date": 12
+          },
+          "targetDate": "Sunday, 06 September 2026",
+          "cinemaId": "paragon-batu-pahat",
+          "sourceCinemaId": "0000000002",
+          "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
+          "payloadHash": "355333abb3236a4c92c3af270a6bb63dc73a069bddd6fc90381c1ab317725892",
+          "parsedSessions": 4
+        },
+        "paragon-ktcc": {
+          "movieTitleAnchors": 23,
+          "tikusTitleAnchors": 1,
+          "ticketAnchorsInTikusSegments": 20,
+          "matchedDateTicketAnchors": 5,
+          "rejectedTicketAnchors": 15,
+          "rejectionReasons": {
+            "ticket-anchor-outside-target-date": 15
+          },
+          "targetDate": "Sunday, 06 September 2026",
+          "cinemaId": "paragon-ktcc",
+          "sourceCinemaId": "0000000004",
+          "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
+          "payloadHash": "c8cd5d67b7d47aac8099a2ffebf0a3e0a7f3753f67a892435caa767a0c7ec9b2",
+          "parsedSessions": 5
+        }
+      }
+    },
+    "mega": {
+      "status": "ok-schedule-only",
+      "snapshots": 4,
+      "seatMeasured": 0,
+      "cinemaIds": [
+        "mega-riverfront-mall"
+      ],
+      "expectedCinemas": 1
+    }
+  },
+  "snapshots": [
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "gsc-mid-valley",
+      "exhibitorId": "gsc",
+      "sessionId": "gsc-mid-valley:source:924682",
+      "sourceSessionId": "924682",
+      "source": {
+        "provider": "gsc",
+        "sourceType": "official-api",
+        "sourceCinemaId": "210",
+        "sourceCinemaName": "GSC Mid Valley",
+        "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=210&hallid=2&showdate=2026-09-06&showtime=1520",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "203707d2b010869713fefcfadd2093c1251a9cd8c452343d24c7c1847306c79b"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T15:20:00+08:00",
+      "minutesToShow": 871,
+      "session": {
+        "auditorium": "2",
+        "format": "2D - Digital 2D",
+        "language": null,
+        "experience": null
+      },
+      "seat": {
+        "capacity": 164,
+        "used": 3,
+        "available": 161,
+        "otherUnavailable": 0,
+        "statusCounts": {
+          "A": 161,
+          "B": 3
+        }
+      },
+      "semantics": {
+        "used": "gsc-booked-state-B",
+        "available": "gsc-available-state-A",
+        "capacity": "gsc-observed-seat-map"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "Booked-state seats are not confirmed paid ticket sales."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "gsc-mid-valley",
+      "exhibitorId": "gsc",
+      "sessionId": "gsc-mid-valley:source:925177",
+      "sourceSessionId": "925177",
+      "source": {
+        "provider": "gsc",
+        "sourceType": "official-api",
+        "sourceCinemaId": "210",
+        "sourceCinemaName": "GSC Mid Valley",
+        "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=210&hallid=14&showdate=2026-09-06&showtime=2120",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "48a7c5836a3f7ab6fbe3fb5eeb1feab8c5bee095532fca1d380057c6feabcd7c"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T21:20:00+08:00",
+      "minutesToShow": 1231,
+      "session": {
+        "auditorium": "14",
+        "format": "2D - Digital 2D",
+        "language": null,
+        "experience": null
+      },
+      "seat": {
+        "capacity": 74,
+        "used": 0,
+        "available": 74,
+        "otherUnavailable": 0,
+        "statusCounts": {
+          "A": 74
+        }
+      },
+      "semantics": {
+        "used": "gsc-booked-state-B",
+        "available": "gsc-available-state-A",
+        "capacity": "gsc-observed-seat-map"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "Booked-state seats are not confirmed paid ticket sales."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "gsc-ioi-city-mall",
+      "exhibitorId": "gsc",
+      "sessionId": "gsc-ioi-city-mall:source:340463",
+      "sourceSessionId": "340463",
+      "source": {
+        "provider": "gsc",
+        "sourceType": "official-api",
+        "sourceCinemaId": "257",
+        "sourceCinemaName": "GSC IOI City Mall (West) (Putrajaya)",
+        "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=257&hallid=7&showdate=2026-09-06&showtime=1445",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "d9f64cd96a6302932d2655888fd047617c514c116b01468f0d9e4ce2a6b24da5"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T14:45:00+08:00",
+      "minutesToShow": 836,
+      "session": {
+        "auditorium": "7",
+        "format": "2D - Digital 2D",
+        "language": null,
+        "experience": null
+      },
+      "seat": {
+        "capacity": 89,
+        "used": 0,
+        "available": 89,
+        "otherUnavailable": 0,
+        "statusCounts": {
+          "A": 89
+        }
+      },
+      "semantics": {
+        "used": "gsc-booked-state-B",
+        "available": "gsc-available-state-A",
+        "capacity": "gsc-observed-seat-map"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "Booked-state seats are not confirmed paid ticket sales."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "gsc-ioi-city-mall",
+      "exhibitorId": "gsc",
+      "sessionId": "gsc-ioi-city-mall:source:340497",
+      "sourceSessionId": "340497",
+      "source": {
+        "provider": "gsc",
+        "sourceType": "official-api",
+        "sourceCinemaId": "257",
+        "sourceCinemaName": "GSC IOI City Mall (West) (Putrajaya)",
+        "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=257&hallid=7&showdate=2026-09-06&showtime=1920",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "d9f64cd96a6302932d2655888fd047617c514c116b01468f0d9e4ce2a6b24da5"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T19:20:00+08:00",
+      "minutesToShow": 1111,
+      "session": {
+        "auditorium": "7",
+        "format": "2D - Digital 2D",
+        "language": null,
+        "experience": null
+      },
+      "seat": {
+        "capacity": 89,
+        "used": 0,
+        "available": 89,
+        "otherUnavailable": 0,
+        "statusCounts": {
+          "A": 89
+        }
+      },
+      "semantics": {
+        "used": "gsc-booked-state-B",
+        "available": "gsc-available-state-A",
+        "capacity": "gsc-observed-seat-map"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "Booked-state seats are not confirmed paid ticket sales."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "gsc-ioi-city-mall",
+      "exhibitorId": "gsc",
+      "sessionId": "gsc-ioi-city-mall:source:340464",
+      "sourceSessionId": "340464",
+      "source": {
+        "provider": "gsc",
+        "sourceType": "official-api",
+        "sourceCinemaId": "257",
+        "sourceCinemaName": "GSC IOI City Mall (West) (Putrajaya)",
+        "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=257&hallid=7&showdate=2026-09-06&showtime=2135",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "d9f64cd96a6302932d2655888fd047617c514c116b01468f0d9e4ce2a6b24da5"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T21:35:00+08:00",
+      "minutesToShow": 1246,
+      "session": {
+        "auditorium": "7",
+        "format": "2D - Digital 2D",
+        "language": null,
+        "experience": null
+      },
+      "seat": {
+        "capacity": 89,
+        "used": 0,
+        "available": 89,
+        "otherUnavailable": 0,
+        "statusCounts": {
+          "A": 89
+        }
+      },
+      "semantics": {
+        "used": "gsc-booked-state-B",
+        "available": "gsc-available-state-A",
+        "capacity": "gsc-observed-seat-map"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "Booked-state seats are not confirmed paid ticket sales."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "gsc-aman-central",
+      "exhibitorId": "gsc",
+      "sessionId": "gsc-aman-central:source:213602",
+      "sourceSessionId": "213602",
+      "source": {
+        "provider": "gsc",
+        "sourceType": "official-api",
+        "sourceCinemaId": "133",
+        "sourceCinemaName": "GSC Aman Central",
+        "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=133&hallid=3&showdate=2026-09-06&showtime=1040",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "24abfc0dbb6420cd19b3641c10f5e1e16373b2c337d4f5962e00943240074b26"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T10:40:00+08:00",
+      "minutesToShow": 591,
+      "session": {
+        "auditorium": "3",
+        "format": "2D - Digital 2D",
+        "language": null,
+        "experience": null
+      },
+      "seat": {
+        "capacity": 103,
+        "used": 0,
+        "available": 103,
+        "otherUnavailable": 0,
+        "statusCounts": {
+          "A": 103
+        }
+      },
+      "semantics": {
+        "used": "gsc-booked-state-B",
+        "available": "gsc-available-state-A",
+        "capacity": "gsc-observed-seat-map"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "Booked-state seats are not confirmed paid ticket sales."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "gsc-aman-central",
+      "exhibitorId": "gsc",
+      "sessionId": "gsc-aman-central:source:213606",
+      "sourceSessionId": "213606",
+      "source": {
+        "provider": "gsc",
+        "sourceType": "official-api",
+        "sourceCinemaId": "133",
+        "sourceCinemaName": "GSC Aman Central",
+        "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=133&hallid=3&showdate=2026-09-06&showtime=2000",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "24abfc0dbb6420cd19b3641c10f5e1e16373b2c337d4f5962e00943240074b26"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T20:00:00+08:00",
+      "minutesToShow": 1151,
+      "session": {
+        "auditorium": "3",
+        "format": "2D - Digital 2D",
+        "language": null,
+        "experience": null
+      },
+      "seat": {
+        "capacity": 103,
+        "used": 0,
+        "available": 103,
+        "otherUnavailable": 0,
+        "statusCounts": {
+          "A": 103
+        }
+      },
+      "semantics": {
+        "used": "gsc-booked-state-B",
+        "available": "gsc-available-state-A",
+        "capacity": "gsc-observed-seat-map"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "Booked-state seats are not confirmed paid ticket sales."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "gsc-dataran-pahlawan",
+      "exhibitorId": "gsc",
+      "sessionId": "gsc-dataran-pahlawan:source:407061",
+      "sourceSessionId": "407061",
+      "source": {
+        "provider": "gsc",
+        "sourceType": "official-api",
+        "sourceCinemaId": "331",
+        "sourceCinemaName": "GSC Dataran Pahlawan",
+        "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=331&hallid=9&showdate=2026-09-06&showtime=1535",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "a4bca75e6ddce691001f8e4d964e14f47d22c57e3232e2a1890b5c6b99eb02c2"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T15:35:00+08:00",
+      "minutesToShow": 886,
+      "session": {
+        "auditorium": "9",
+        "format": "2D - Digital 2D",
+        "language": null,
+        "experience": null
+      },
+      "seat": {
+        "capacity": 99,
+        "used": 0,
+        "available": 99,
+        "otherUnavailable": 0,
+        "statusCounts": {
+          "A": 99
+        }
+      },
+      "semantics": {
+        "used": "gsc-booked-state-B",
+        "available": "gsc-available-state-A",
+        "capacity": "gsc-observed-seat-map"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "Booked-state seats are not confirmed paid ticket sales."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "gsc-dataran-pahlawan",
+      "exhibitorId": "gsc",
+      "sessionId": "gsc-dataran-pahlawan:source:407063",
+      "sourceSessionId": "407063",
+      "source": {
+        "provider": "gsc",
+        "sourceType": "official-api",
+        "sourceCinemaId": "331",
+        "sourceCinemaName": "GSC Dataran Pahlawan",
+        "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=331&hallid=9&showdate=2026-09-06&showtime=2100",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "a4bca75e6ddce691001f8e4d964e14f47d22c57e3232e2a1890b5c6b99eb02c2"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T21:00:00+08:00",
+      "minutesToShow": 1211,
+      "session": {
+        "auditorium": "9",
+        "format": "2D - Digital 2D",
+        "language": null,
+        "experience": null
+      },
+      "seat": {
+        "capacity": 99,
+        "used": 0,
+        "available": 99,
+        "otherUnavailable": 0,
+        "statusCounts": {
+          "A": 99
+        }
+      },
+      "semantics": {
+        "used": "gsc-booked-state-B",
+        "available": "gsc-available-state-A",
+        "capacity": "gsc-observed-seat-map"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "Booked-state seats are not confirmed paid ticket sales."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "gsc-paradigm-jb",
+      "exhibitorId": "gsc",
+      "sessionId": "gsc-paradigm-jb:source:289968",
+      "sourceSessionId": "289968",
+      "source": {
+        "provider": "gsc",
+        "sourceType": "official-api",
+        "sourceCinemaId": "355",
+        "sourceCinemaName": "GSC Paradigm Mall (Johor Bahru)",
+        "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=355&hallid=5&showdate=2026-09-06&showtime=1020",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "e4da73f1be02f9bbbc865c7ffa9607c2b70e266b3d18e454898bfbfb648e8171"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T10:20:00+08:00",
+      "minutesToShow": 571,
+      "session": {
+        "auditorium": "5",
+        "format": "2D - Digital 2D",
+        "language": null,
+        "experience": null
+      },
+      "seat": {
+        "capacity": 120,
+        "used": 0,
+        "available": 120,
+        "otherUnavailable": 0,
+        "statusCounts": {
+          "A": 120
+        }
+      },
+      "semantics": {
+        "used": "gsc-booked-state-B",
+        "available": "gsc-available-state-A",
+        "capacity": "gsc-observed-seat-map"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "Booked-state seats are not confirmed paid ticket sales."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "gsc-paradigm-jb",
+      "exhibitorId": "gsc",
+      "sessionId": "gsc-paradigm-jb:source:289969",
+      "sourceSessionId": "289969",
+      "source": {
+        "provider": "gsc",
+        "sourceType": "official-api",
+        "sourceCinemaId": "355",
+        "sourceCinemaName": "GSC Paradigm Mall (Johor Bahru)",
+        "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=355&hallid=5&showdate=2026-09-06&showtime=1240",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "e4da73f1be02f9bbbc865c7ffa9607c2b70e266b3d18e454898bfbfb648e8171"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T12:40:00+08:00",
+      "minutesToShow": 711,
+      "session": {
+        "auditorium": "5",
+        "format": "2D - Digital 2D",
+        "language": null,
+        "experience": null
+      },
+      "seat": {
+        "capacity": 120,
+        "used": 0,
+        "available": 120,
+        "otherUnavailable": 0,
+        "statusCounts": {
+          "A": 120
+        }
+      },
+      "semantics": {
+        "used": "gsc-booked-state-B",
+        "available": "gsc-available-state-A",
+        "capacity": "gsc-observed-seat-map"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "Booked-state seats are not confirmed paid ticket sales."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "gsc-paradigm-jb",
+      "exhibitorId": "gsc",
+      "sessionId": "gsc-paradigm-jb:source:289973",
+      "sourceSessionId": "289973",
+      "source": {
+        "provider": "gsc",
+        "sourceType": "official-api",
+        "sourceCinemaId": "355",
+        "sourceCinemaName": "GSC Paradigm Mall (Johor Bahru)",
+        "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=355&hallid=10&showdate=2026-09-06&showtime=2120",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "fda1f09da2ed7bcbe0dbe8fe0a38b9bd42b4de5cc754d9452516d6cc37532b98"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T21:20:00+08:00",
+      "minutesToShow": 1231,
+      "session": {
+        "auditorium": "10",
+        "format": "2D - Digital 2D",
+        "language": null,
+        "experience": null
+      },
+      "seat": {
+        "capacity": 95,
+        "used": 0,
+        "available": 95,
+        "otherUnavailable": 0,
+        "statusCounts": {
+          "A": 95
+        }
+      },
+      "semantics": {
+        "used": "gsc-booked-state-B",
+        "available": "gsc-available-state-A",
+        "capacity": "gsc-observed-seat-map"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "Booked-state seats are not confirmed paid ticket sales."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "gsc-kuantan-city-mall",
+      "exhibitorId": "gsc",
+      "sessionId": "gsc-kuantan-city-mall:source:79972",
+      "sourceSessionId": "79972",
+      "source": {
+        "provider": "gsc",
+        "sourceType": "official-api",
+        "sourceCinemaId": "431",
+        "sourceCinemaName": "GSC Kuantan City Mall",
+        "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=431&hallid=4&showdate=2026-09-06&showtime=1040",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "16d030a08b8304550e566767b6710ca6e47bb7b1b36e1dbbb26ec3b308f94f3b"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T10:40:00+08:00",
+      "minutesToShow": 591,
+      "session": {
+        "auditorium": "4",
+        "format": "2D - Digital 2D",
+        "language": null,
+        "experience": null
+      },
+      "seat": {
+        "capacity": 157,
+        "used": 3,
+        "available": 152,
+        "otherUnavailable": 2,
+        "statusCounts": {
+          "A": 152,
+          "B": 3,
+          "D": 2
+        }
+      },
+      "semantics": {
+        "used": "gsc-booked-state-B",
+        "available": "gsc-available-state-A",
+        "capacity": "gsc-observed-seat-map"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "Booked-state seats are not confirmed paid ticket sales."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "gsc-kuantan-city-mall",
+      "exhibitorId": "gsc",
+      "sessionId": "gsc-kuantan-city-mall:source:80311",
+      "sourceSessionId": "80311",
+      "source": {
+        "provider": "gsc",
+        "sourceType": "official-api",
+        "sourceCinemaId": "431",
+        "sourceCinemaName": "GSC Kuantan City Mall",
+        "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=431&hallid=8&showdate=2026-09-06&showtime=1935",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "5fbc26475eaea7285da34b558511f13c2ddcaf9fedaa8c4d727e4e7f0b1e34ce"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T19:35:00+08:00",
+      "minutesToShow": 1126,
+      "session": {
+        "auditorium": "8",
+        "format": "2D - Digital 2D",
+        "language": null,
+        "experience": null
+      },
+      "seat": {
+        "capacity": 86,
+        "used": 0,
+        "available": 86,
+        "otherUnavailable": 0,
+        "statusCounts": {
+          "A": 86
+        }
+      },
+      "semantics": {
+        "used": "gsc-booked-state-B",
+        "available": "gsc-available-state-A",
+        "capacity": "gsc-observed-seat-map"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "Booked-state seats are not confirmed paid ticket sales."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "gsc-imago",
+      "exhibitorId": "gsc",
+      "sessionId": "gsc-imago:source:77499",
+      "sourceSessionId": "77499",
+      "source": {
+        "provider": "gsc",
+        "sourceType": "official-api",
+        "sourceCinemaId": "531",
+        "sourceCinemaName": "GSC IMAGO Shopping Mall",
+        "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=531&hallid=8&showdate=2026-09-06&showtime=1055",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "ca8c608dfa0ed9edcd3975b082cd2793530421c1789a8c3add0bcea376c04ad3"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T10:55:00+08:00",
+      "minutesToShow": 606,
+      "session": {
+        "auditorium": "8",
+        "format": "2D - Digital 2D",
+        "language": null,
+        "experience": null
+      },
+      "seat": {
+        "capacity": 107,
+        "used": 0,
+        "available": 107,
+        "otherUnavailable": 0,
+        "statusCounts": {
+          "A": 107
+        }
+      },
+      "semantics": {
+        "used": "gsc-booked-state-B",
+        "available": "gsc-available-state-A",
+        "capacity": "gsc-observed-seat-map"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "Booked-state seats are not confirmed paid ticket sales."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "gsc-imago",
+      "exhibitorId": "gsc",
+      "sessionId": "gsc-imago:source:77498",
+      "sourceSessionId": "77498",
+      "source": {
+        "provider": "gsc",
+        "sourceType": "official-api",
+        "sourceCinemaId": "531",
+        "sourceCinemaName": "GSC IMAGO Shopping Mall",
+        "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=531&hallid=3&showdate=2026-09-06&showtime=2215",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "e2f43943235aa0f3af5377c38c7002612d8a4cc64d202001cb2916114fb5e4a3"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T22:15:00+08:00",
+      "minutesToShow": 1286,
+      "session": {
+        "auditorium": "3",
+        "format": "2D - Digital 2D",
+        "language": null,
+        "experience": null
+      },
+      "seat": {
+        "capacity": 102,
+        "used": 0,
+        "available": 102,
+        "otherUnavailable": 0,
+        "statusCounts": {
+          "A": 102
+        }
+      },
+      "semantics": {
+        "used": "gsc-booked-state-B",
+        "available": "gsc-available-state-A",
+        "capacity": "gsc-observed-seat-map"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "Booked-state seats are not confirmed paid ticket sales."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "gsc-the-spring",
+      "exhibitorId": "gsc",
+      "sessionId": "gsc-the-spring:source:77766",
+      "sourceSessionId": "77766",
+      "source": {
+        "provider": "gsc",
+        "sourceType": "official-api",
+        "sourceCinemaId": "552",
+        "sourceCinemaName": "GSC The Spring (Kuching)",
+        "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=552&hallid=3&showdate=2026-09-06&showtime=1210",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "f31b08799c65ed6ddbf87d9d4b7349301ffa69e807562b25a5c1559e55dd153f"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T12:10:00+08:00",
+      "minutesToShow": 681,
+      "session": {
+        "auditorium": "3",
+        "format": "2D - Digital 2D",
+        "language": null,
+        "experience": null
+      },
+      "seat": {
+        "capacity": 244,
+        "used": 0,
+        "available": 238,
+        "otherUnavailable": 6,
+        "statusCounts": {
+          "D": 6,
+          "A": 238
+        }
+      },
+      "semantics": {
+        "used": "gsc-booked-state-B",
+        "available": "gsc-available-state-A",
+        "capacity": "gsc-observed-seat-map"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "Booked-state seats are not confirmed paid ticket sales."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "gsc-the-spring",
+      "exhibitorId": "gsc",
+      "sessionId": "gsc-the-spring:source:77767",
+      "sourceSessionId": "77767",
+      "source": {
+        "provider": "gsc",
+        "sourceType": "official-api",
+        "sourceCinemaId": "552",
+        "sourceCinemaName": "GSC The Spring (Kuching)",
+        "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=552&hallid=3&showdate=2026-09-06&showtime=1430",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "f31b08799c65ed6ddbf87d9d4b7349301ffa69e807562b25a5c1559e55dd153f"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T14:30:00+08:00",
+      "minutesToShow": 821,
+      "session": {
+        "auditorium": "3",
+        "format": "2D - Digital 2D",
+        "language": null,
+        "experience": null
+      },
+      "seat": {
+        "capacity": 244,
+        "used": 0,
+        "available": 238,
+        "otherUnavailable": 6,
+        "statusCounts": {
+          "D": 6,
+          "A": 238
+        }
+      },
+      "semantics": {
+        "used": "gsc-booked-state-B",
+        "available": "gsc-available-state-A",
+        "capacity": "gsc-observed-seat-map"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "Booked-state seats are not confirmed paid ticket sales."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "gsc-the-spring",
+      "exhibitorId": "gsc",
+      "sessionId": "gsc-the-spring:source:77768",
+      "sourceSessionId": "77768",
+      "source": {
+        "provider": "gsc",
+        "sourceType": "official-api",
+        "sourceCinemaId": "552",
+        "sourceCinemaName": "GSC The Spring (Kuching)",
+        "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=552&hallid=3&showdate=2026-09-06&showtime=1650",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "d028740bec820349584a0fd329582a65773d42bd27f0a9fc92cc052244d123a9"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T16:50:00+08:00",
+      "minutesToShow": 961,
+      "session": {
+        "auditorium": "3",
+        "format": "2D - Digital 2D",
+        "language": null,
+        "experience": null
+      },
+      "seat": {
+        "capacity": 244,
+        "used": 2,
+        "available": 236,
+        "otherUnavailable": 6,
+        "statusCounts": {
+          "D": 6,
+          "A": 236,
+          "B": 2
+        }
+      },
+      "semantics": {
+        "used": "gsc-booked-state-B",
+        "available": "gsc-available-state-A",
+        "capacity": "gsc-observed-seat-map"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "Booked-state seats are not confirmed paid ticket sales."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "gsc-the-spring",
+      "exhibitorId": "gsc",
+      "sessionId": "gsc-the-spring:source:77769",
+      "sourceSessionId": "77769",
+      "source": {
+        "provider": "gsc",
+        "sourceType": "official-api",
+        "sourceCinemaId": "552",
+        "sourceCinemaName": "GSC The Spring (Kuching)",
+        "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=552&hallid=3&showdate=2026-09-06&showtime=1910",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "f31b08799c65ed6ddbf87d9d4b7349301ffa69e807562b25a5c1559e55dd153f"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T19:10:00+08:00",
+      "minutesToShow": 1101,
+      "session": {
+        "auditorium": "3",
+        "format": "2D - Digital 2D",
+        "language": null,
+        "experience": null
+      },
+      "seat": {
+        "capacity": 244,
+        "used": 0,
+        "available": 238,
+        "otherUnavailable": 6,
+        "statusCounts": {
+          "D": 6,
+          "A": 238
+        }
+      },
+      "semantics": {
+        "used": "gsc-booked-state-B",
+        "available": "gsc-available-state-A",
+        "capacity": "gsc-observed-seat-map"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "Booked-state seats are not confirmed paid ticket sales."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "gsc-the-spring",
+      "exhibitorId": "gsc",
+      "sessionId": "gsc-the-spring:source:77770",
+      "sourceSessionId": "77770",
+      "source": {
+        "provider": "gsc",
+        "sourceType": "official-api",
+        "sourceCinemaId": "552",
+        "sourceCinemaName": "GSC The Spring (Kuching)",
+        "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=552&hallid=3&showdate=2026-09-06&showtime=2130",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "f31b08799c65ed6ddbf87d9d4b7349301ffa69e807562b25a5c1559e55dd153f"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T21:30:00+08:00",
+      "minutesToShow": 1241,
+      "session": {
+        "auditorium": "3",
+        "format": "2D - Digital 2D",
+        "language": null,
+        "experience": null
+      },
+      "seat": {
+        "capacity": 244,
+        "used": 0,
+        "available": 238,
+        "otherUnavailable": 6,
+        "statusCounts": {
+          "D": 6,
+          "A": 238
+        }
+      },
+      "semantics": {
+        "used": "gsc-booked-state-B",
+        "available": "gsc-available-state-A",
+        "capacity": "gsc-observed-seat-map"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "Booked-state seats are not confirmed paid ticket sales."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "tgv-tebrau-city",
+      "exhibitorId": "tgv",
+      "sessionId": "tgv-tebrau-city:source:430535",
+      "sourceSessionId": "430535",
+      "source": {
+        "provider": "tgv",
+        "sourceType": "official-api",
+        "sourceCinemaId": "TBR",
+        "sourceCinemaName": "TEBRAU CITY",
+        "sourceUrl": "https://api.tgv.com.my/api/boxoffice/v1/moviesession_getseatstatus",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "ac01c06417cb0e2a157e7c280f3d085fdd8f72cdc868545546c48bb0114eb4d8"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T13:00:00+08:00",
+      "minutesToShow": 731,
+      "session": {
+        "auditorium": "Junior",
+        "format": "2D",
+        "language": null,
+        "experience": "deluxe"
+      },
+      "seat": {
+        "capacity": 76,
+        "used": 1,
+        "available": 75,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "tgv-seatsused",
+        "available": "derived-capacity-minus-used",
+        "capacity": "tgv-seatstotal"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "TGV seatsused may include held or otherwise unavailable inventory."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "tgv-tebrau-city",
+      "exhibitorId": "tgv",
+      "sessionId": "tgv-tebrau-city:source:430542",
+      "sourceSessionId": "430542",
+      "source": {
+        "provider": "tgv",
+        "sourceType": "official-api",
+        "sourceCinemaId": "TBR",
+        "sourceCinemaName": "TEBRAU CITY",
+        "sourceUrl": "https://api.tgv.com.my/api/boxoffice/v1/moviesession_getseatstatus",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "ac01c06417cb0e2a157e7c280f3d085fdd8f72cdc868545546c48bb0114eb4d8"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T23:15:00+08:00",
+      "minutesToShow": 1346,
+      "session": {
+        "auditorium": "Junior",
+        "format": "2D",
+        "language": null,
+        "experience": "deluxe"
+      },
+      "seat": {
+        "capacity": 76,
+        "used": 0,
+        "available": 76,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "tgv-seatsused",
+        "available": "derived-capacity-minus-used",
+        "capacity": "tgv-seatstotal"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "TGV seatsused may include held or otherwise unavailable inventory."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "tgv-wangsa-walk",
+      "exhibitorId": "tgv",
+      "sessionId": "tgv-wangsa-walk:source:311002",
+      "sourceSessionId": "311002",
+      "source": {
+        "provider": "tgv",
+        "sourceType": "official-api",
+        "sourceCinemaId": "WWM",
+        "sourceCinemaName": "SUNWAY WANGSA MALL",
+        "sourceUrl": "https://api.tgv.com.my/api/boxoffice/v1/moviesession_getseatstatus",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "4f03ae090ba551f26bc2ea96e34690ec3f1e8f417328aac1b8bf14bc37bee740"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T16:15:00+08:00",
+      "minutesToShow": 926,
+      "session": {
+        "auditorium": "Cinema 4",
+        "format": "2D",
+        "language": null,
+        "experience": "deluxe"
+      },
+      "seat": {
+        "capacity": 141,
+        "used": 2,
+        "available": 139,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "tgv-seatsused",
+        "available": "derived-capacity-minus-used",
+        "capacity": "tgv-seatstotal"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "TGV seatsused may include held or otherwise unavailable inventory."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "tgv-wangsa-walk",
+      "exhibitorId": "tgv",
+      "sessionId": "tgv-wangsa-walk:source:311006",
+      "sourceSessionId": "311006",
+      "source": {
+        "provider": "tgv",
+        "sourceType": "official-api",
+        "sourceCinemaId": "WWM",
+        "sourceCinemaName": "SUNWAY WANGSA MALL",
+        "sourceUrl": "https://api.tgv.com.my/api/boxoffice/v1/moviesession_getseatstatus",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "4f03ae090ba551f26bc2ea96e34690ec3f1e8f417328aac1b8bf14bc37bee740"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T18:15:00+08:00",
+      "minutesToShow": 1046,
+      "session": {
+        "auditorium": "Cinema 5",
+        "format": "2D",
+        "language": null,
+        "experience": "deluxe"
+      },
+      "seat": {
+        "capacity": 174,
+        "used": 2,
+        "available": 172,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "tgv-seatsused",
+        "available": "derived-capacity-minus-used",
+        "capacity": "tgv-seatstotal"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "TGV seatsused may include held or otherwise unavailable inventory."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "tgv-wangsa-walk",
+      "exhibitorId": "tgv",
+      "sessionId": "tgv-wangsa-walk:source:311017",
+      "sourceSessionId": "311017",
+      "source": {
+        "provider": "tgv",
+        "sourceType": "official-api",
+        "sourceCinemaId": "WWM",
+        "sourceCinemaName": "SUNWAY WANGSA MALL",
+        "sourceUrl": "https://api.tgv.com.my/api/boxoffice/v1/moviesession_getseatstatus",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "4f03ae090ba551f26bc2ea96e34690ec3f1e8f417328aac1b8bf14bc37bee740"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T21:45:00+08:00",
+      "minutesToShow": 1256,
+      "session": {
+        "auditorium": "Cinema 4",
+        "format": "2D",
+        "language": null,
+        "experience": "deluxe"
+      },
+      "seat": {
+        "capacity": 141,
+        "used": 0,
+        "available": 141,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "tgv-seatsused",
+        "available": "derived-capacity-minus-used",
+        "capacity": "tgv-seatstotal"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "TGV seatsused may include held or otherwise unavailable inventory."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "tgv-gurney",
+      "exhibitorId": "tgv",
+      "sessionId": "tgv-gurney:source:220172",
+      "sourceSessionId": "220172",
+      "source": {
+        "provider": "tgv",
+        "sourceType": "official-api",
+        "sourceCinemaId": "GUR",
+        "sourceCinemaName": "GURNEY PARAGON",
+        "sourceUrl": "https://api.tgv.com.my/api/boxoffice/v1/moviesession_getseatstatus",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "be9c59bbe77a546661ff5902a2bc270de7ce302acb529180428d78721a9108a6"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T13:15:00+08:00",
+      "minutesToShow": 746,
+      "session": {
+        "auditorium": "Cinema 5",
+        "format": "2D",
+        "language": null,
+        "experience": "deluxe"
+      },
+      "seat": {
+        "capacity": 92,
+        "used": 1,
+        "available": 91,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "tgv-seatsused",
+        "available": "derived-capacity-minus-used",
+        "capacity": "tgv-seatstotal"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "TGV seatsused may include held or otherwise unavailable inventory."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "tgv-gurney",
+      "exhibitorId": "tgv",
+      "sessionId": "tgv-gurney:source:220184",
+      "sourceSessionId": "220184",
+      "source": {
+        "provider": "tgv",
+        "sourceType": "official-api",
+        "sourceCinemaId": "GUR",
+        "sourceCinemaName": "GURNEY PARAGON",
+        "sourceUrl": "https://api.tgv.com.my/api/boxoffice/v1/moviesession_getseatstatus",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "be9c59bbe77a546661ff5902a2bc270de7ce302acb529180428d78721a9108a6"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T18:40:00+08:00",
+      "minutesToShow": 1071,
+      "session": {
+        "auditorium": "Cinema 5",
+        "format": "2D",
+        "language": null,
+        "experience": "deluxe"
+      },
+      "seat": {
+        "capacity": 92,
+        "used": 0,
+        "available": 92,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "tgv-seatsused",
+        "available": "derived-capacity-minus-used",
+        "capacity": "tgv-seatstotal"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "TGV seatsused may include held or otherwise unavailable inventory."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "tgv-bukit-tinggi",
+      "exhibitorId": "tgv",
+      "sessionId": "tgv-bukit-tinggi:source:409460",
+      "sourceSessionId": "409460",
+      "source": {
+        "provider": "tgv",
+        "sourceType": "official-api",
+        "sourceCinemaId": "BBT",
+        "sourceCinemaName": "BUKIT TINGGI",
+        "sourceUrl": "https://api.tgv.com.my/api/boxoffice/v1/moviesession_getseatstatus",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "ab902ae77a02f39290756af79909e56cc26385cf32db28d3df5ad0bd3b8bef66"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T11:45:00+08:00",
+      "minutesToShow": 656,
+      "session": {
+        "auditorium": "Cinema 3",
+        "format": "2D",
+        "language": null,
+        "experience": "deluxe"
+      },
+      "seat": {
+        "capacity": 115,
+        "used": 0,
+        "available": 115,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "tgv-seatsused",
+        "available": "derived-capacity-minus-used",
+        "capacity": "tgv-seatstotal"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "TGV seatsused may include held or otherwise unavailable inventory."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "tgv-bukit-tinggi",
+      "exhibitorId": "tgv",
+      "sessionId": "tgv-bukit-tinggi:source:409468",
+      "sourceSessionId": "409468",
+      "source": {
+        "provider": "tgv",
+        "sourceType": "official-api",
+        "sourceCinemaId": "BBT",
+        "sourceCinemaName": "BUKIT TINGGI",
+        "sourceUrl": "https://api.tgv.com.my/api/boxoffice/v1/moviesession_getseatstatus",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "ab902ae77a02f39290756af79909e56cc26385cf32db28d3df5ad0bd3b8bef66"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T14:10:00+08:00",
+      "minutesToShow": 801,
+      "session": {
+        "auditorium": "Cinema 3",
+        "format": "2D",
+        "language": null,
+        "experience": "deluxe"
+      },
+      "seat": {
+        "capacity": 115,
+        "used": 3,
+        "available": 112,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "tgv-seatsused",
+        "available": "derived-capacity-minus-used",
+        "capacity": "tgv-seatstotal"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "TGV seatsused may include held or otherwise unavailable inventory."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "tgv-1utama",
+      "exhibitorId": "tgv",
+      "sessionId": "tgv-1utama:source:324774",
+      "sourceSessionId": "324774",
+      "source": {
+        "provider": "tgv",
+        "sourceType": "official-api",
+        "sourceCinemaId": "BU0",
+        "sourceCinemaName": "1 UTAMA",
+        "sourceUrl": "https://api.tgv.com.my/api/boxoffice/v1/moviesession_getseatstatus",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "43b7b7789a0b445c0f962eb3f6ae8e06c85b61caf6f125a94ac35c0130a45861"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T15:00:00+08:00",
+      "minutesToShow": 851,
+      "session": {
+        "auditorium": "Cinema 1",
+        "format": "2D",
+        "language": null,
+        "experience": "deluxe"
+      },
+      "seat": {
+        "capacity": 117,
+        "used": 0,
+        "available": 117,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "tgv-seatsused",
+        "available": "derived-capacity-minus-used",
+        "capacity": "tgv-seatstotal"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "TGV seatsused may include held or otherwise unavailable inventory."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "paragon-batu-pahat",
+      "exhibitorId": "paragon",
+      "sessionId": "paragon-batu-pahat:source:122552",
+      "sourceSessionId": "122552",
+      "source": {
+        "provider": "paragon",
+        "sourceType": "official-public-page",
+        "sourceCinemaId": "0000000002",
+        "sourceCinemaName": "Paragon Batu Pahat",
+        "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
+        "collectorVersion": "paragon-schedule/1.3.0",
+        "rawPayloadHash": "355333abb3236a4c92c3af270a6bb63dc73a069bddd6fc90381c1ab317725892"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T12:15:00+08:00",
+      "minutesToShow": 686,
+      "session": {
+        "auditorium": null,
+        "format": "2D",
+        "language": "Malay",
+        "experience": null
+      },
+      "seat": {
+        "capacity": null,
+        "used": null,
+        "available": null,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "unavailable",
+        "available": "unavailable",
+        "capacity": "unavailable"
+      },
+      "quality": {
+        "measurementStatus": "schedule-only",
+        "seatMeasured": false,
+        "warnings": [
+          "No public seat count is used or inferred."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "paragon-batu-pahat",
+      "exhibitorId": "paragon",
+      "sessionId": "paragon-batu-pahat:source:122554",
+      "sourceSessionId": "122554",
+      "source": {
+        "provider": "paragon",
+        "sourceType": "official-public-page",
+        "sourceCinemaId": "0000000002",
+        "sourceCinemaName": "Paragon Batu Pahat",
+        "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
+        "collectorVersion": "paragon-schedule/1.3.0",
+        "rawPayloadHash": "355333abb3236a4c92c3af270a6bb63dc73a069bddd6fc90381c1ab317725892"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T16:45:00+08:00",
+      "minutesToShow": 956,
+      "session": {
+        "auditorium": null,
+        "format": "2D",
+        "language": "Malay",
+        "experience": null
+      },
+      "seat": {
+        "capacity": null,
+        "used": null,
+        "available": null,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "unavailable",
+        "available": "unavailable",
+        "capacity": "unavailable"
+      },
+      "quality": {
+        "measurementStatus": "schedule-only",
+        "seatMeasured": false,
+        "warnings": [
+          "No public seat count is used or inferred."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "paragon-batu-pahat",
+      "exhibitorId": "paragon",
+      "sessionId": "paragon-batu-pahat:source:122555",
+      "sourceSessionId": "122555",
+      "source": {
+        "provider": "paragon",
+        "sourceType": "official-public-page",
+        "sourceCinemaId": "0000000002",
+        "sourceCinemaName": "Paragon Batu Pahat",
+        "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
+        "collectorVersion": "paragon-schedule/1.3.0",
+        "rawPayloadHash": "355333abb3236a4c92c3af270a6bb63dc73a069bddd6fc90381c1ab317725892"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T19:00:00+08:00",
+      "minutesToShow": 1091,
+      "session": {
+        "auditorium": null,
+        "format": "2D",
+        "language": "Malay",
+        "experience": null
+      },
+      "seat": {
+        "capacity": null,
+        "used": null,
+        "available": null,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "unavailable",
+        "available": "unavailable",
+        "capacity": "unavailable"
+      },
+      "quality": {
+        "measurementStatus": "schedule-only",
+        "seatMeasured": false,
+        "warnings": [
+          "No public seat count is used or inferred."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "paragon-batu-pahat",
+      "exhibitorId": "paragon",
+      "sessionId": "paragon-batu-pahat:source:122556",
+      "sourceSessionId": "122556",
+      "source": {
+        "provider": "paragon",
+        "sourceType": "official-public-page",
+        "sourceCinemaId": "0000000002",
+        "sourceCinemaName": "Paragon Batu Pahat",
+        "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
+        "collectorVersion": "paragon-schedule/1.3.0",
+        "rawPayloadHash": "355333abb3236a4c92c3af270a6bb63dc73a069bddd6fc90381c1ab317725892"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T21:15:00+08:00",
+      "minutesToShow": 1226,
+      "session": {
+        "auditorium": null,
+        "format": "2D",
+        "language": "Malay",
+        "experience": null
+      },
+      "seat": {
+        "capacity": null,
+        "used": null,
+        "available": null,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "unavailable",
+        "available": "unavailable",
+        "capacity": "unavailable"
+      },
+      "quality": {
+        "measurementStatus": "schedule-only",
+        "seatMeasured": false,
+        "warnings": [
+          "No public seat count is used or inferred."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "paragon-ktcc",
+      "exhibitorId": "paragon",
+      "sessionId": "paragon-ktcc:source:83286",
+      "sourceSessionId": "83286",
+      "source": {
+        "provider": "paragon",
+        "sourceType": "official-public-page",
+        "sourceCinemaId": "0000000004",
+        "sourceCinemaName": "Paragon KTCC",
+        "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
+        "collectorVersion": "paragon-schedule/1.3.0",
+        "rawPayloadHash": "c8cd5d67b7d47aac8099a2ffebf0a3e0a7f3753f67a892435caa767a0c7ec9b2"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T11:30:00+08:00",
+      "minutesToShow": 641,
+      "session": {
+        "auditorium": null,
+        "format": "2D",
+        "language": "Malay",
+        "experience": null
+      },
+      "seat": {
+        "capacity": null,
+        "used": null,
+        "available": null,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "unavailable",
+        "available": "unavailable",
+        "capacity": "unavailable"
+      },
+      "quality": {
+        "measurementStatus": "schedule-only",
+        "seatMeasured": false,
+        "warnings": [
+          "No public seat count is used or inferred."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "paragon-ktcc",
+      "exhibitorId": "paragon",
+      "sessionId": "paragon-ktcc:source:83287",
+      "sourceSessionId": "83287",
+      "source": {
+        "provider": "paragon",
+        "sourceType": "official-public-page",
+        "sourceCinemaId": "0000000004",
+        "sourceCinemaName": "Paragon KTCC",
+        "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
+        "collectorVersion": "paragon-schedule/1.3.0",
+        "rawPayloadHash": "c8cd5d67b7d47aac8099a2ffebf0a3e0a7f3753f67a892435caa767a0c7ec9b2"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T13:45:00+08:00",
+      "minutesToShow": 776,
+      "session": {
+        "auditorium": null,
+        "format": "2D",
+        "language": "Malay",
+        "experience": null
+      },
+      "seat": {
+        "capacity": null,
+        "used": null,
+        "available": null,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "unavailable",
+        "available": "unavailable",
+        "capacity": "unavailable"
+      },
+      "quality": {
+        "measurementStatus": "schedule-only",
+        "seatMeasured": false,
+        "warnings": [
+          "No public seat count is used or inferred."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "paragon-ktcc",
+      "exhibitorId": "paragon",
+      "sessionId": "paragon-ktcc:source:83288",
+      "sourceSessionId": "83288",
+      "source": {
+        "provider": "paragon",
+        "sourceType": "official-public-page",
+        "sourceCinemaId": "0000000004",
+        "sourceCinemaName": "Paragon KTCC",
+        "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
+        "collectorVersion": "paragon-schedule/1.3.0",
+        "rawPayloadHash": "c8cd5d67b7d47aac8099a2ffebf0a3e0a7f3753f67a892435caa767a0c7ec9b2"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T16:00:00+08:00",
+      "minutesToShow": 911,
+      "session": {
+        "auditorium": null,
+        "format": "2D",
+        "language": "Malay",
+        "experience": null
+      },
+      "seat": {
+        "capacity": null,
+        "used": null,
+        "available": null,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "unavailable",
+        "available": "unavailable",
+        "capacity": "unavailable"
+      },
+      "quality": {
+        "measurementStatus": "schedule-only",
+        "seatMeasured": false,
+        "warnings": [
+          "No public seat count is used or inferred."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "paragon-ktcc",
+      "exhibitorId": "paragon",
+      "sessionId": "paragon-ktcc:source:83289",
+      "sourceSessionId": "83289",
+      "source": {
+        "provider": "paragon",
+        "sourceType": "official-public-page",
+        "sourceCinemaId": "0000000004",
+        "sourceCinemaName": "Paragon KTCC",
+        "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
+        "collectorVersion": "paragon-schedule/1.3.0",
+        "rawPayloadHash": "c8cd5d67b7d47aac8099a2ffebf0a3e0a7f3753f67a892435caa767a0c7ec9b2"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T19:40:00+08:00",
+      "minutesToShow": 1131,
+      "session": {
+        "auditorium": null,
+        "format": "2D",
+        "language": "Malay",
+        "experience": null
+      },
+      "seat": {
+        "capacity": null,
+        "used": null,
+        "available": null,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "unavailable",
+        "available": "unavailable",
+        "capacity": "unavailable"
+      },
+      "quality": {
+        "measurementStatus": "schedule-only",
+        "seatMeasured": false,
+        "warnings": [
+          "No public seat count is used or inferred."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "paragon-ktcc",
+      "exhibitorId": "paragon",
+      "sessionId": "paragon-ktcc:source:83290",
+      "sourceSessionId": "83290",
+      "source": {
+        "provider": "paragon",
+        "sourceType": "official-public-page",
+        "sourceCinemaId": "0000000004",
+        "sourceCinemaName": "Paragon KTCC",
+        "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
+        "collectorVersion": "paragon-schedule/1.3.0",
+        "rawPayloadHash": "c8cd5d67b7d47aac8099a2ffebf0a3e0a7f3753f67a892435caa767a0c7ec9b2"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T21:55:00+08:00",
+      "minutesToShow": 1266,
+      "session": {
+        "auditorium": null,
+        "format": "2D",
+        "language": "Malay",
+        "experience": null
+      },
+      "seat": {
+        "capacity": null,
+        "used": null,
+        "available": null,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "unavailable",
+        "available": "unavailable",
+        "capacity": "unavailable"
+      },
+      "quality": {
+        "measurementStatus": "schedule-only",
+        "seatMeasured": false,
+        "warnings": [
+          "No public seat count is used or inferred."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "mega-riverfront-mall",
+      "exhibitorId": "mega",
+      "sessionId": "mega-riverfront-mall:fingerprint:2026-09-06:12:50:unknown",
+      "sourceSessionId": null,
+      "source": {
+        "provider": "mega",
+        "sourceType": "public-listing",
+        "sourceCinemaId": "riverfront-sungai-petani",
+        "sourceCinemaName": "Riverfront, Sungai Petani",
+        "sourceUrl": "https://www.megacineplex.com.my/Movies/Details?id=3788",
+        "collectorVersion": "mega-schedule/1.0.0",
+        "rawPayloadHash": "92c962aac4af691d157dc30f0a87ae22d9f13400644ef3a23b4c6429b1d20f8d"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T12:50:00+08:00",
+      "minutesToShow": 721,
+      "session": {
+        "auditorium": null,
+        "format": null,
+        "language": "Malay",
+        "experience": null
+      },
+      "seat": {
+        "capacity": null,
+        "used": null,
+        "available": null,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "unavailable",
+        "available": "unavailable",
+        "capacity": "unavailable"
+      },
+      "quality": {
+        "measurementStatus": "schedule-only",
+        "seatMeasured": false,
+        "warnings": [
+          "No public seat count is used or inferred."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "mega-riverfront-mall",
+      "exhibitorId": "mega",
+      "sessionId": "mega-riverfront-mall:fingerprint:2026-09-06:13:30:unknown",
+      "sourceSessionId": null,
+      "source": {
+        "provider": "mega",
+        "sourceType": "public-listing",
+        "sourceCinemaId": "riverfront-sungai-petani",
+        "sourceCinemaName": "Riverfront, Sungai Petani",
+        "sourceUrl": "https://www.megacineplex.com.my/Movies/Details?id=3788",
+        "collectorVersion": "mega-schedule/1.0.0",
+        "rawPayloadHash": "92c962aac4af691d157dc30f0a87ae22d9f13400644ef3a23b4c6429b1d20f8d"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T13:30:00+08:00",
+      "minutesToShow": 761,
+      "session": {
+        "auditorium": null,
+        "format": null,
+        "language": "Malay",
+        "experience": null
+      },
+      "seat": {
+        "capacity": null,
+        "used": null,
+        "available": null,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "unavailable",
+        "available": "unavailable",
+        "capacity": "unavailable"
+      },
+      "quality": {
+        "measurementStatus": "schedule-only",
+        "seatMeasured": false,
+        "warnings": [
+          "No public seat count is used or inferred."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "mega-riverfront-mall",
+      "exhibitorId": "mega",
+      "sessionId": "mega-riverfront-mall:fingerprint:2026-09-06:19:05:unknown",
+      "sourceSessionId": null,
+      "source": {
+        "provider": "mega",
+        "sourceType": "public-listing",
+        "sourceCinemaId": "riverfront-sungai-petani",
+        "sourceCinemaName": "Riverfront, Sungai Petani",
+        "sourceUrl": "https://www.megacineplex.com.my/Movies/Details?id=3788",
+        "collectorVersion": "mega-schedule/1.0.0",
+        "rawPayloadHash": "92c962aac4af691d157dc30f0a87ae22d9f13400644ef3a23b4c6429b1d20f8d"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T19:05:00+08:00",
+      "minutesToShow": 1096,
+      "session": {
+        "auditorium": null,
+        "format": null,
+        "language": "Malay",
+        "experience": null
+      },
+      "seat": {
+        "capacity": null,
+        "used": null,
+        "available": null,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "unavailable",
+        "available": "unavailable",
+        "capacity": "unavailable"
+      },
+      "quality": {
+        "measurementStatus": "schedule-only",
+        "seatMeasured": false,
+        "warnings": [
+          "No public seat count is used or inferred."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T004853+0800-b2a94f0e",
+      "filmId": "tikus",
+      "cinemaId": "mega-riverfront-mall",
+      "exhibitorId": "mega",
+      "sessionId": "mega-riverfront-mall:fingerprint:2026-09-06:22:40:unknown",
+      "sourceSessionId": null,
+      "source": {
+        "provider": "mega",
+        "sourceType": "public-listing",
+        "sourceCinemaId": "riverfront-sungai-petani",
+        "sourceCinemaName": "Riverfront, Sungai Petani",
+        "sourceUrl": "https://www.megacineplex.com.my/Movies/Details?id=3788",
+        "collectorVersion": "mega-schedule/1.0.0",
+        "rawPayloadHash": "92c962aac4af691d157dc30f0a87ae22d9f13400644ef3a23b4c6429b1d20f8d"
+      },
+      "collectedAt": "2026-09-06T00:48:53+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T22:40:00+08:00",
+      "minutesToShow": 1311,
+      "session": {
+        "auditorium": null,
+        "format": null,
+        "language": "Malay",
+        "experience": null
+      },
+      "seat": {
+        "capacity": null,
+        "used": null,
+        "available": null,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "unavailable",
+        "available": "unavailable",
+        "capacity": "unavailable"
+      },
+      "quality": {
+        "measurementStatus": "schedule-only",
+        "seatMeasured": false,
+        "warnings": [
+          "No public seat count is used or inferred."
+        ]
+      }
+    }
+  ]
+}
