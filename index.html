@@ -196,8 +196,21 @@
       <button type="button" class="dialog-close" aria-label="Close session detail">×</button>
     </div>
     <div id="session-dialog-summary" class="dialog-summary"></div>
+    <section class="screening-explorer" aria-labelledby="screening-explorer-title">
+      <div class="screening-explorer__head">
+        <div>
+          <p class="eyebrow">INDIVIDUAL SCREENING</p>
+          <h3 id="screening-explorer-title">Trajectory Explorer</h3>
+        </div>
+        <label>Screening
+          <select id="trajectory-session-filter" aria-label="Select screening trajectory"></select>
+        </label>
+      </div>
+      <p class="panel-note" id="trajectory-session-note">Select a seat-measured screening to inspect its hindsight-safe pre-show checkpoints.</p>
+      <div class="trajectory-strip" id="trajectory-session-strip" aria-live="polite"></div>
+    </section>
     <div class="table-scroll"><table class="data-table session-table" id="session-table"></table></div>
-    <p class="dialog-footnote">“Used / Booked” reflects source-defined observed seat state, not confirmed ticket transactions.</p>
+    <p class="dialog-footnote">“Used / Booked” reflects source-defined observed seat state, not confirmed ticket transactions. Trajectory checkpoints use only observations available at or before each cutoff.</p>
   </dialog>
 
   <div class="load-error" id="load-error" hidden role="alert"></div>

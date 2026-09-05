@@ -181,3 +181,11 @@ The dashboard adds **As-of replay** to the Observation selector and reveals a Re
 v12 adds `intelligence.sessionTrajectories`, a comparable relative-to-showtime view for seat-measured screenings. Each screening can expose T−6h, T−3h, T−1h and finalized pre-show checkpoints. A checkpoint always uses the latest valid seat-state observation collected at or before that cutoff; later observations never backfill an earlier checkpoint.
 
 Cinema trajectory rollups are capacity-weighted and report checkpoint coverage explicitly. `occupancyLift6hToFinal` is an observed utilisation change in percentage points, not a ticket-sales or admissions estimate. As-of replay rebuilds trajectories from its restricted knowledge history, so replayed curves remain hindsight-safe.
+
+
+## v13 individual screening trajectory explorer
+- Adds a screening selector inside cinema detail for seat-measured sessions.
+- Displays T−6h, T−3h, T−1h and final pre-show used/capacity, occupancy, exact observation timestamp and minutes-before-show.
+- Session-table rows can select the trajectory with mouse or keyboard.
+- Uses the active backend trajectory object, including hindsight-safe as-of replay trajectories.
+- Does not alter collectors, raw history, corrections, reconciliation, or metric semantics.

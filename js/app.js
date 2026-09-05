@@ -87,6 +87,7 @@ function setupControls() {
   });
   $('#session-dialog .dialog-close').addEventListener('click', () => $('#session-dialog').close());
   $('#session-dialog').addEventListener('click', e => { if (e.target === $('#session-dialog')) $('#session-dialog').close(); });
+  $('#trajectory-session-filter').addEventListener('change', e => renderScreeningTrajectory(e.target.value));
 }
 
 function populateReplayControl() {
@@ -326,11 +327,73 @@ function renderQuality() {
   const exs=state.bootstrap.exhibitors.exhibitors; exs.forEach(ex=>{ const s=statuses[ex.id] || {status:'not-collected',snapshots:0}; const item=el('div','quality-item'); const cls=s.status==='error'?'quality-status error':'quality-status'; const loc = Array.isArray(s.cinemaIds) ? ` · ${s.cinemaIds.length}/${s.expectedCinemas ?? '?'} locations observed` : ''; item.innerHTML=`<strong>${escapeHtml(ex.name)}</strong><span class="${cls}">${escapeHtml(s.status)}</span><span>${fmt.int(s.snapshots||0)} snapshots${s.seatMeasured!=null?` · ${s.seatMeasured} seat-measured`:''}${loc}</span><span>${escapeHtml(ex.seatDataCapability)}</span>`; root.append(item); });
 }
 
+function activeTrajectoryData() { return currentIntelligence()?.sessionTrajectories || {}; }
+
+function trajectoryRow(sessionId) {
+  return (activeTrajectoryData().sessions || []).find(r => r.sessionId === sessionId) || null;
+}
+
+function trajectoryCheckpointLabel(key) {
+  return ({tMinus6h:'T−6h',tMinus3h:'T−3h',tMinus1h:'T−1h',finalPreShow:'Final pre-show'})[key] || key;
+}
+
+function renderScreeningTrajectory(sessionId) {
+  const strip=$('#trajectory-session-strip'); const note=$('#trajectory-session-note');
+  if(!strip||!note) return;
+  strip.innerHTML='';
+  const row=trajectoryRow(sessionId);
+  if(!row){
+    note.textContent='No seat-measured trajectory is available for this screening in the current observation scope.';
+    const empty=el('div','trajectory-empty','Trajectory unavailable.'); strip.append(empty); return;
+  }
+  const session=(currentSessions().find(s=>s.sessionId===sessionId) || state.product.sessions?.find(s=>s.sessionId===sessionId));
+  const start=session?.startAt || row.startAt;
+  note.textContent=`${fmt.time(start)} screening · ${row.knownCheckpoints}/4 checkpoints observed${row.completeTrajectory?' · complete curve':''}. Each checkpoint uses the latest valid observation at or before its cutoff.`;
+  ['tMinus6h','tMinus3h','tMinus1h','finalPreShow'].forEach((key,idx,arr)=>{
+    const point=row.points?.[key];
+    const card=el('article','trajectory-point');
+    card.dataset.status=point?'observed':'unavailable';
+    const head=el('div','trajectory-point__head'); head.append(el('strong',null,trajectoryCheckpointLabel(key)), el('span',null,point?'OBSERVED':'UNAVAILABLE')); card.append(head);
+    if(point){
+      const usedCap=el('div','trajectory-point__value',`${fmt.int(point.used)} / ${fmt.int(point.capacity)}`);
+      const occ=el('div','trajectory-point__occ',`${fmt.pct(point.occupancy)} occupancy`);
+      const meta=el('div','trajectory-point__meta');
+      meta.append(el('span',null,`Observed ${fmt.datetime(point.collectedAt)}`));
+      meta.append(el('span',null,`${fmt.int(point.minutesBeforeShow)} min before show`));
+      card.append(usedCap,occ,meta);
+    } else {
+      const finalKey=key==='finalPreShow';
+      const future=start && new Date(start)>new Date(activeReplay()?.asOf || state.product.generatedAt);
+      const msg=finalKey&&future?'Not finalized yet.':'No valid observation by this cutoff.';
+      card.append(el('div','trajectory-point__missing',msg));
+    }
+    strip.append(card);
+    if(idx<arr.length-1) strip.append(el('div','trajectory-connector','→'));
+  });
+}
+
 function openCinema(row, sessions) {
   const own=sessions.filter(s=>s.cinemaId===row.id).sort((a,b)=>a.startAt.localeCompare(b.startAt)); const dialog=$('#session-dialog'); $('#session-dialog-title').textContent=row.name;
   $('#session-dialog-summary').innerHTML=`<span><strong>${row.totalShows}</strong> shows</span><span><strong>${fmt.int(row.observedCapacity)}</strong> capacity</span><span><strong>${fmt.int(row.observedUsed)}</strong> used/booked</span><span><strong>${fmt.pct(row.occupancy)}</strong> occupancy</span><span><strong>${fmt.ratio(row.performanceIndex)}</strong> performance index</span>`;
+
+  const trajectorySelect=$('#trajectory-session-filter'); trajectorySelect.innerHTML='';
+  const trajectoryRows=(activeTrajectoryData().sessions||[]).filter(r=>r.cinemaId===row.id);
+  const measurableIds=new Set(trajectoryRows.map(r=>r.sessionId));
+  const selectable=own.filter(s=>measurableIds.has(s.sessionId));
+  if(selectable.length){
+    selectable.forEach(s=>trajectorySelect.append(new Option(`${fmt.time(s.startAt)}${s.session?.auditorium?` · ${s.session.auditorium}`:''}`,s.sessionId)));
+    trajectorySelect.disabled=false;
+    trajectorySelect.value=selectable[0].sessionId;
+    renderScreeningTrajectory(selectable[0].sessionId);
+  } else {
+    trajectorySelect.append(new Option('No measured screening in scope',''));
+    trajectorySelect.disabled=true;
+    renderScreeningTrajectory('');
+  }
+
   const table=$('#session-table'); table.innerHTML='<thead><tr><th>Start</th><th>Hall</th><th>Source</th><th>Capacity</th><th>Used / Booked</th><th>Available</th><th>Other</th><th>Occ.</th><th>Latest Δ</th><th>Velocity</th><th>Observed</th></tr></thead>';
-  const body=el('tbody'); own.forEach(s=>{ const change=currentSessionChanges()?.[s.sessionId]||{}; const tr=el('tr'); const vals=[fmt.time(s.startAt),s.session?.auditorium||'—',s.source?.provider?.toUpperCase()||'—',fmt.int(s.seat?.capacity),fmt.int(s.seat?.used),fmt.int(s.seat?.available),fmt.int(s.seat?.otherUnavailable),isMeasured(s)?fmt.pct(s.seat.used/s.seat.capacity):'—',fmt.signed(change.usedDelta),change.seatsPerHour==null?'—':`${fmt.signed(change.seatsPerHour,1)}/hr`,fmt.datetime(s.collectedAt)]; vals.forEach(v=>tr.append(el('td',v==='—'?'na':'',v))); body.append(tr); });
+  const body=el('tbody'); own.forEach(s=>{ const change=currentSessionChanges()?.[s.sessionId]||{}; const tr=el('tr'); if(measurableIds.has(s.sessionId)){ tr.classList.add('is-trajectory-selectable'); tr.tabIndex=0; tr.title='Select this screening trajectory'; const choose=()=>{ trajectorySelect.value=s.sessionId; renderScreeningTrajectory(s.sessionId); }; tr.addEventListener('click',choose); tr.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();choose();} }); }
+    const vals=[fmt.time(s.startAt),s.session?.auditorium||'—',s.source?.provider?.toUpperCase()||'—',fmt.int(s.seat?.capacity),fmt.int(s.seat?.used),fmt.int(s.seat?.available),fmt.int(s.seat?.otherUnavailable),isMeasured(s)?fmt.pct(s.seat.used/s.seat.capacity):'—',fmt.signed(change.usedDelta),change.seatsPerHour==null?'—':`${fmt.signed(change.seatsPerHour,1)}/hr`,fmt.datetime(s.collectedAt)]; vals.forEach(v=>tr.append(el('td',v==='—'?'na':'',v))); body.append(tr); });
   if(!own.length){ const tr=el('tr'); const td=el('td','na','No observed TIKUS! sessions in the current scope.'); td.colSpan=11; tr.append(td); body.append(tr); } table.append(body); dialog.showModal();
 }
 function isMeasured(s){return Boolean(s.quality?.seatMeasured&&s.seat?.capacity>0&&Number.isInteger(s.seat?.used));}
