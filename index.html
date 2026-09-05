@@ -106,6 +106,34 @@
       </section>
     </div>
 
+    <div class="analysis-grid analysis-grid--wide-left intelligence-grid">
+      <section class="panel" id="momentum-panel">
+        <div class="panel__header">
+          <div><p class="eyebrow">REPEATED OBSERVATIONS</p><h2>Seat-State Momentum</h2></div>
+          <span class="subtle">not ticket sales</span>
+        </div>
+        <p class="panel-note">Latest observed change across sessions with at least two valid seat measurements. Values can be negative when source-defined used/booked states fall.</p>
+        <div class="compact-table-wrap"><table class="compact-table" id="momentum-table"></table></div>
+      </section>
+
+      <section class="panel" id="prime-efficiency-panel">
+        <div class="panel__header">
+          <div><p class="eyebrow">18:00–20:59 STARTS</p><h2>Prime-Time Efficiency</h2></div>
+        </div>
+        <p class="panel-note">Capacity-weighted observed utilisation for prime-time sessions versus each cinema’s all-day observed utilisation.</p>
+        <div class="compact-table-wrap"><table class="compact-table" id="prime-efficiency-table"></table></div>
+      </section>
+    </div>
+
+    <section class="panel" id="allocation-panel">
+      <div class="panel__header">
+        <div><p class="eyebrow">PROGRAMMING SIGNAL</p><h2>Observed Allocation Change</h2></div>
+        <span class="subtle" id="allocation-quality">—</span>
+      </div>
+      <p class="panel-note" id="allocation-note">Compares observed show counts with the previous available theatrical day. Partial acquisition days are explicitly marked limited.</p>
+      <div class="compact-table-wrap"><table class="compact-table" id="allocation-table"></table></div>
+    </section>
+
     <div class="analysis-grid analysis-grid--wide-left">
       <section class="panel" id="trend-panel">
         <div class="panel__header">

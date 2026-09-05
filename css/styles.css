@@ -167,3 +167,9 @@ footer a { margin-left: auto; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
 }
+
+
+/* v9 distribution-intelligence panels */
+.panel-note { margin: -.2rem 1.25rem 1rem; color: var(--muted); font-size: .82rem; line-height: 1.45; max-width: 74ch; }
+.intelligence-grid .compact-table td:nth-child(n+2), .intelligence-grid .compact-table th:nth-child(n+2), #allocation-table td:nth-child(n+2), #allocation-table th:nth-child(n+2) { text-align: right; }
+#momentum-table td:first-child, #prime-efficiency-table td:first-child, #allocation-table td:first-child { text-align: left; }

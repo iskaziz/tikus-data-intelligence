@@ -251,3 +251,34 @@ Collectors are read-only. They must not:
 Analytical products may exclude observations through `data/meta/corrections.json` when a collector defect is proven. Raw history is never rewritten or deleted. Each exclusion remains attributable to a correction ID and reason.
 
 A **final pre-show** observation is only finalized after the session start time has passed, because only then can the system know which stored pre-start observation was the last one. Future sessions remain provisional and are excluded from final-pre-show metrics.
+
+## 13. Distribution-intelligence layer
+
+v9 adds derived distribution intelligence while preserving the source semantics above.
+
+### Seat-State Momentum
+
+For each session with at least two valid seat measurements, the latest two observations produce:
+
+```text
+latest_used_delta = used(t2) - used(t1)
+latest_velocity = latest_used_delta / elapsed_hours
+```
+
+Cinema momentum aggregates only these qualifying repeated observations. `netUsedDelta` is the sum of latest session deltas and `averageSeatsPerHour` is the arithmetic mean of qualifying session velocities. It is an **observed seat-state signal**, not ticket-sales momentum.
+
+### Prime-Time Efficiency
+
+Prime time remains 18:00 inclusive to 21:00 exclusive. Prime-time occupancy is capacity-weighted:
+
+```text
+prime_occupancy = sum(prime_used) / sum(prime_capacity)
+```
+
+`occupancyDelta` is prime-time occupancy minus that cinema's all-day observed occupancy. It is shown as a percentage-point difference, not a sales uplift.
+
+### Observed Allocation Change
+
+The day comparison uses distinct repository-observed sessions by cinema and compares show count and prime-time show count with the previous available theatrical day.
+
+If either day's acquisition is partial, the comparison quality is `limited-partial-day`. In that state, differences are descriptive of observed repository coverage and must **not** be presented as definitive exhibitor programming changes.

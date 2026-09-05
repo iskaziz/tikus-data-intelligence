@@ -1,21 +1,45 @@
-# v8 — Paragon identity reconciliation
+# v9 — Distribution Intelligence
 
-v8 is a correctness-only analytical patch based on the 2026-09-05 17:52 MYT live product.
+## Scope
 
-## Changes
+v9 leaves collectors and normalization unchanged and adds a derived analytics/presentation layer.
 
-- Added targeted quarantine for Paragon Batu Pahat native session IDs `122652` and `122653` from collector `paragon-schedule/1.3.0` on 2026-09-05.
-- Added `reconcile_schedule_only_session_ids()` in `scripts/analytics/build_products.py`.
-- Reconciliation applies only to schedule-only observations sharing provider + cinema + show date + exact start time.
-- Native source session IDs are preferred over legacy time fingerprints.
-- Raw immutable history remains unchanged.
-- Seat-measured GSC/TGV observations are never rewritten.
-- Day/current products now expose reconciliation audit metadata under `quality.reconciledSessions`.
+## Added analytical products
 
-## Live-product regression result
+`intelligence.cinemaMomentum`
+- qualifying repeated-measurement session count
+- net latest used/booked-state delta
+- average latest seats/hour
+- max/min latest seats/hour
 
-The supplied v7 current product contains 77 analytical sessions. v8 produces 73 after exactly two targeted exclusions and two KTCC identity merges.
+`intelligence.primeTimeEfficiency`
+- prime show count
+- measured prime sessions
+- prime capacity / observed used
+- prime occupancy
+- all-day occupancy
+- percentage-point occupancy delta
+
+`intelligence.sessionVelocityLeaders`
+- fastest positive latest observed seat-state velocities with session/cinema/timestamp context
+
+`intelligence.allocationComparison`
+- current vs previous observed show count by cinema
+- current vs previous prime-time show count
+- explicit `comparable` or `limited-partial-day` quality
+
+## Dashboard
+
+New panels:
+- Seat-State Momentum
+- Prime-Time Efficiency
+- Observed Allocation Change
+
+All language remains source-semantic and avoids implying ticket sales, admissions or box office.
 
 ## QA
 
-25 automated tests pass, including targeted correction and identity-reconciliation regression tests.
+- 28/28 unit tests passing
+- semantic validator passing
+- Python compileall passing
+- JavaScript syntax checks passing

@@ -104,7 +104,7 @@ function render() {
   const sessions = currentSessions();
   const scoped = scopedCinemas(state.bootstrap.cinemas.cinemas, state.scope);
   const metrics = aggregate(sessions, state.bootstrap.methodology);
-  renderFreshness(); renderScope(metrics, scoped); renderKpis(metrics, scoped.length); renderTable(); renderExhibitors(sessions); renderDistribution(sessions); renderTrend(); renderGeography(sessions); renderQuality();
+  renderFreshness(); renderScope(metrics, scoped); renderKpis(metrics, scoped.length); renderTable(); renderExhibitors(sessions); renderDistribution(sessions); renderMomentum(); renderPrimeEfficiency(); renderAllocation(); renderTrend(); renderGeography(sessions); renderQuality();
 }
 
 function renderFreshness() {
@@ -186,6 +186,54 @@ function renderDistribution(sessions) {
   const rows=occupancyDistribution(sessions,state.bootstrap.methodology.occupancyBands||[]); const root=$('#occupancy-distribution'); root.innerHTML='';
   const max=Math.max(1,...rows.map(r=>r.count)); rows.forEach(r=>{ const n=el('div','dist-row'); n.innerHTML=`<span class="dist-label">${escapeHtml(bandLabels[r.id]||r.id)}</span><span class="dist-track"><span class="dist-fill" style="width:${(r.count/max)*100}%"></span></span><span class="dist-value">${r.count} · ${fmt.pct(r.share,0)}</span>`; root.append(n); });
   if(!sessions.some(s=>s.quality?.seatMeasured)) root.append(el('p','subtle','No seat-measured sessions in this scope.'));
+}
+
+function intelligenceCinemaAllowed(cinemaId) {
+  const c=state.bootstrap.cinemas.cinemas.find(x=>x.id===cinemaId);
+  if(!c) return false;
+  if(state.scope.exhibitor!=='all' && c.exhibitorId!==state.scope.exhibitor) return false;
+  if(state.scope.state!=='all' && c.state!==state.scope.state) return false;
+  return true;
+}
+
+function cinemaName(cinemaId) {
+  return state.bootstrap.cinemas.cinemas.find(x=>x.id===cinemaId)?.name || cinemaId;
+}
+
+function renderMomentum() {
+  const table=$('#momentum-table'); if(!table) return;
+  table.innerHTML='<thead><tr><th>Cinema</th><th>Measured Sessions</th><th>Net Δ Used</th><th>Avg Seats/hr</th><th>Peak Seats/hr</th></tr></thead>';
+  const body=el('tbody');
+  const rows=(state.product.intelligence?.cinemaMomentum||[]).filter(r=>intelligenceCinemaAllowed(r.cinemaId)).slice(0,10);
+  rows.forEach(r=>{ const tr=el('tr'); [cinemaName(r.cinemaId),fmt.int(r.qualifyingSessions),fmt.signed(r.netUsedDelta),r.averageSeatsPerHour==null?'—':`${fmt.signed(r.averageSeatsPerHour,1)}/hr`,r.maxSeatsPerHour==null?'—':`${fmt.signed(r.maxSeatsPerHour,1)}/hr`].forEach(v=>tr.append(el('td',v==='—'?'na':'',v))); body.append(tr); });
+  if(!rows.length){ const tr=el('tr'); const td=el('td','na','Momentum appears after sessions have at least two valid seat-state measurements.'); td.colSpan=5; tr.append(td); body.append(tr); }
+  table.append(body);
+}
+
+function renderPrimeEfficiency() {
+  const table=$('#prime-efficiency-table'); if(!table) return;
+  table.innerHTML='<thead><tr><th>Cinema</th><th>Prime Shows</th><th>Measured</th><th>Prime Occ.</th><th>All-day Occ.</th><th>Δ pp</th></tr></thead>';
+  const body=el('tbody');
+  const rows=(state.product.intelligence?.primeTimeEfficiency||[]).filter(r=>intelligenceCinemaAllowed(r.cinemaId)&&r.primeShows>0).slice(0,12);
+  rows.forEach(r=>{ const pp=r.occupancyDelta==null?'—':`${fmt.signed(r.occupancyDelta*100,2)} pp`; const tr=el('tr'); [cinemaName(r.cinemaId),fmt.int(r.primeShows),`${r.primeMeasuredSessions}/${r.primeShows}`,fmt.pct(r.primeOccupancy),fmt.pct(r.allDayOccupancy),pp].forEach(v=>tr.append(el('td',v==='—'?'na':'',v))); body.append(tr); });
+  if(!rows.length){ const tr=el('tr'); const td=el('td','na','No prime-time sessions in this cinema/geography scope.'); td.colSpan=6; tr.append(td); body.append(tr); }
+  table.append(body);
+}
+
+function renderAllocation() {
+  const table=$('#allocation-table'); if(!table) return;
+  const cmp=state.product.intelligence?.allocationComparison||{};
+  const quality=$('#allocation-quality');
+  quality.textContent=cmp.status!=='ok'?'No previous day':(cmp.quality==='comparable'?'Comparable days':'Limited · partial observation');
+  table.innerHTML='<thead><tr><th>Cinema</th><th>Shows</th><th>Prev.</th><th>Δ Shows</th><th>Prime</th><th>Prev. Prime</th><th>Δ Prime</th></tr></thead>';
+  const body=el('tbody');
+  let rows=(cmp.cinemas||[]).filter(r=>intelligenceCinemaAllowed(r.cinemaId));
+  rows.sort((a,b)=>Math.abs(b.showDelta)-Math.abs(a.showDelta)||Math.abs(b.primeShowDelta)-Math.abs(a.primeShowDelta)||cinemaName(a.cinemaId).localeCompare(cinemaName(b.cinemaId)));
+  rows.forEach(r=>{ const tr=el('tr'); [cinemaName(r.cinemaId),fmt.int(r.shows),fmt.int(r.previousShows),fmt.signed(r.showDelta),fmt.int(r.primeShows),fmt.int(r.previousPrimeShows),fmt.signed(r.primeShowDelta)].forEach(v=>tr.append(el('td',v==='—'?'na':'',v))); body.append(tr); });
+  if(!rows.length){ const tr=el('tr'); const td=el('td','na','Allocation comparison becomes available when a previous observed theatrical day exists.'); td.colSpan=7; tr.append(td); body.append(tr); }
+  table.append(body);
+  const note=$('#allocation-note');
+  if(cmp.status==='ok') note.textContent=`Observed schedule-count comparison: ${cmp.previousDate} → ${state.product.showDate}. ${cmp.quality==='comparable'?'Both days pass the repository completeness rule.':'At least one day is partial; treat deltas as observed differences, not definitive exhibitor programming changes.'}`;
 }
 
 function renderTrend() {

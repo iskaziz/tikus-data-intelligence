@@ -151,3 +151,15 @@ Paragon schedule acquisition now uses the exhibitor's link semantics rather than
 ## v8 schedule-only identity reconciliation
 
 Analytical products canonicalize duplicate schedule-only identities when legacy time fingerprints and newer native source-session IDs describe the exact same provider/cinema/date/start-time screening. Native IDs win. Raw history is never rewritten, and seat-measured observations are excluded from this reconciliation rule. Targeted correction-ledger entries quarantine known false observations while retaining them for audit.
+
+## v9 distribution intelligence
+
+v9 adds a derived analytical layer without changing acquisition behaviour:
+
+- Seat-State Momentum from repeated valid measurements;
+- Prime-Time Efficiency for 18:00–20:59 starts;
+- session velocity leaders;
+- observed day-over-day show and prime-show allocation deltas;
+- explicit comparison-quality gating when either theatrical day is partial.
+
+All momentum/velocity language refers to observed source-defined seat states, never confirmed paid tickets or admissions. See `docs/METHODOLOGY.md`.

@@ -69,3 +69,32 @@ class ProductCorrectnessTests(unittest.TestCase):
 
 if __name__=='__main__':
     unittest.main()
+
+class DistributionIntelligenceTests(unittest.TestCase):
+    def test_cinema_momentum_uses_repeated_measurements_only(self):
+        from scripts.analytics.build_products import cinema_momentum
+        a=snap('x','2026-09-05T20:00:00+08:00','2026-09-05T17:00:00+08:00')
+        b=deepcopy(a); b['collectedAt']='2026-09-05T18:00:00+08:00'; b['seat']['used']=4
+        rows=cinema_momentum([a,b])
+        self.assertEqual(len(rows),1)
+        self.assertEqual(rows[0]['netUsedDelta'],3)
+        self.assertAlmostEqual(rows[0]['averageSeatsPerHour'],3.0)
+
+    def test_prime_time_efficiency_is_capacity_weighted(self):
+        from scripts.analytics.build_products import prime_time_efficiency
+        a=snap('a','2026-09-05T18:30:00+08:00','2026-09-05T17:00:00+08:00')
+        a['seat']={'capacity':100,'used':10,'available':90,'otherUnavailable':0}
+        b=snap('b','2026-09-05T15:00:00+08:00','2026-09-05T14:00:00+08:00')
+        b['seat']={'capacity':300,'used':0,'available':300,'otherUnavailable':0}
+        row=prime_time_efficiency([a,b])[0]
+        self.assertAlmostEqual(row['primeOccupancy'],0.10)
+        self.assertAlmostEqual(row['allDayOccupancy'],0.025)
+        self.assertAlmostEqual(row['occupancyDelta'],0.075)
+
+    def test_allocation_comparison_marks_partial_days_limited(self):
+        from scripts.analytics.build_products import allocation_comparison
+        a=snap('a','2026-09-05T18:30:00+08:00','2026-09-05T17:00:00+08:00')
+        b=snap('b','2026-09-04T18:30:00+08:00','2026-09-04T17:00:00+08:00')
+        cmp=allocation_comparison([a],[b],current_complete='observed',previous_complete='partial',previous_date='2026-09-04')
+        self.assertEqual(cmp['quality'],'limited-partial-day')
+        self.assertEqual(cmp['cinemas'][0]['showDelta'],0)

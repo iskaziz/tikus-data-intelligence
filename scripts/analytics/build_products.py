@@ -184,6 +184,104 @@ def session_changes(snapshots: list[dict]) -> dict[str, dict]:
     return result
 
 
+
+
+def cinema_momentum(snapshots: list[dict]) -> list[dict]:
+    """Recent observed seat-state change by cinema from the latest two measurements per session.
+
+    This is deliberately not a ticket-sales metric. It uses source-defined observed
+    used/booked seat states and only sessions with at least two valid measurements.
+    """
+    changes = session_changes(snapshots)
+    grouped: dict[str, list[dict]] = defaultdict(list)
+    latest = {x["sessionId"]: x for x in latest_by_session(snapshots)}
+    for sid, change in changes.items():
+        if change.get("usedDelta") is None or change.get("seatsPerHour") is None:
+            continue
+        item = latest.get(sid)
+        if not item:
+            continue
+        grouped[item["cinemaId"]].append(change)
+    rows=[]
+    for cinema_id, items in grouped.items():
+        rows.append({
+            "cinemaId": cinema_id,
+            "qualifyingSessions": len(items),
+            "netUsedDelta": sum(x["usedDelta"] for x in items),
+            "averageSeatsPerHour": sum(x["seatsPerHour"] for x in items) / len(items),
+            "maxSeatsPerHour": max(x["seatsPerHour"] for x in items),
+            "minSeatsPerHour": min(x["seatsPerHour"] for x in items),
+        })
+    return sorted(rows, key=lambda x: (x["averageSeatsPerHour"], x["netUsedDelta"]), reverse=True)
+
+
+def prime_time_efficiency(snapshots: list[dict]) -> list[dict]:
+    """Compare measured prime-time utilisation with each cinema's all-day utilisation."""
+    grouped: dict[str, list[dict]] = defaultdict(list)
+    for item in snapshots:
+        grouped[item["cinemaId"]].append(item)
+    rows=[]
+    for cinema_id, items in grouped.items():
+        all_summary = aggregate(items)
+        prime = [x for x in items if "18:00" <= x["startAt"][11:16] < "21:00"]
+        prime_summary = aggregate(prime)
+        delta = None
+        if prime_summary["occupancy"] is not None and all_summary["occupancy"] is not None:
+            delta = prime_summary["occupancy"] - all_summary["occupancy"]
+        rows.append({
+            "cinemaId": cinema_id,
+            "primeShows": prime_summary["totalShows"],
+            "primeMeasuredSessions": prime_summary["seatMeasuredSessions"],
+            "primeCapacity": prime_summary["observedCapacity"],
+            "primeUsed": prime_summary["observedUsed"],
+            "primeOccupancy": prime_summary["occupancy"],
+            "allDayOccupancy": all_summary["occupancy"],
+            "occupancyDelta": delta,
+            "seatCoverage": prime_summary["seatCoverage"],
+        })
+    return sorted(rows, key=lambda x: (x["primeOccupancy"] is not None, x["primeOccupancy"] or -1), reverse=True)
+
+
+def allocation_comparison(current: list[dict], previous: list[dict] | None, *, current_complete: str, previous_complete: str | None, previous_date: str | None) -> dict:
+    """Observed schedule-allocation deltas between two day products.
+
+    Deltas remain descriptive of repository-observed schedules. A comparison is
+    marked limited whenever either day is partial, preventing partial acquisition
+    from being presented as a definitive programming change.
+    """
+    if not previous or not previous_date:
+        return {"status":"unavailable","previousDate":previous_date,"quality":"no-previous-day","cinemas":[]}
+    by_cur: dict[str,list[dict]] = defaultdict(list)
+    by_prev: dict[str,list[dict]] = defaultdict(list)
+    for x in current: by_cur[x["cinemaId"]].append(x)
+    for x in previous: by_prev[x["cinemaId"]].append(x)
+    ids=sorted(set(by_cur)|set(by_prev))
+    rows=[]
+    for cid in ids:
+        cur=by_cur.get(cid,[]); prev=by_prev.get(cid,[])
+        cur_prime=sum(1 for x in cur if "18:00" <= x["startAt"][11:16] < "21:00")
+        prev_prime=sum(1 for x in prev if "18:00" <= x["startAt"][11:16] < "21:00")
+        rows.append({
+            "cinemaId":cid,
+            "shows":len(cur),"previousShows":len(prev),"showDelta":len(cur)-len(prev),
+            "primeShows":cur_prime,"previousPrimeShows":prev_prime,"primeShowDelta":cur_prime-prev_prime,
+        })
+    quality = "comparable" if current_complete == "observed" and previous_complete == "observed" else "limited-partial-day"
+    return {"status":"ok","previousDate":previous_date,"quality":quality,"cinemas":rows}
+
+
+def velocity_leaders(snapshots: list[dict], limit: int = 10) -> list[dict]:
+    changes=session_changes(snapshots)
+    latest={x["sessionId"]:x for x in latest_by_session(snapshots)}
+    rows=[]
+    for sid,c in changes.items():
+        if c.get("seatsPerHour") is None: continue
+        s=latest.get(sid)
+        if not s: continue
+        rows.append({"sessionId":sid,"cinemaId":s["cinemaId"],"startAt":s["startAt"],"usedDelta":c.get("usedDelta"),"hours":c.get("hours"),"seatsPerHour":c.get("seatsPerHour"),"previousCollectedAt":c.get("previousCollectedAt"),"latestCollectedAt":s.get("collectedAt")})
+    return sorted(rows,key=lambda x:x["seatsPerHour"],reverse=True)[:limit]
+
+
 def _state_summaries(root: Path, latest: list[dict]) -> list[dict]:
     registry = json.loads((root / "data/meta/cinemas.json").read_text(encoding="utf-8"))
     state_by_cinema = {c["id"]: c["state"] for c in registry["cinemas"]}
@@ -266,8 +364,11 @@ def build_day_product(root: Path, show_date: str, snapshots: list[dict], *, excl
     collected_times = sorted(x["collectedAt"] for x in day)
     flagged = first_seen_after_show(day)
     latest_run = latest_run_for_date(root, show_date)
+    momentum = cinema_momentum(day)
+    prime_efficiency = prime_time_efficiency(latest)
+    velocity = velocity_leaders(day)
     return {
-        "schemaVersion": "1.3.0",
+        "schemaVersion": "1.4.0",
         "generatedAt": generated_at.isoformat(timespec="seconds"),
         "filmId": "tikus",
         "showDate": show_date,
@@ -291,6 +392,17 @@ def build_day_product(root: Path, show_date: str, snapshots: list[dict], *, excl
         "series": session_series(day),
         "exhibitors": grouped_summary(latest, "exhibitorId"),
         "states": _state_summaries(root, latest),
+        "intelligence": {
+            "cinemaMomentum": momentum,
+            "primeTimeEfficiency": prime_efficiency,
+            "sessionVelocityLeaders": velocity,
+            "allocationComparison": {"status":"pending-build","previousDate":None,"quality":"not-evaluated","cinemas":[]},
+            "definitions": {
+                "momentum": "Latest observed seat-state change across sessions with at least two valid measurements. Not paid ticket sales.",
+                "primeTimeEfficiency": "Capacity-weighted observed utilisation for sessions starting 18:00 inclusive to 21:00 exclusive, compared with all-day utilisation.",
+                "allocationComparison": "Observed schedule-count change versus the previous available day; limited when either day is partial."
+            }
+        },
         "observationWindow": {
             "firstCollectedAt": collected_times[0] if collected_times else None,
             "lastCollectedAt": collected_times[-1] if collected_times else None,
@@ -327,10 +439,19 @@ def build_all_products(root: Path) -> None:
     snapshots, reconciliation_audit = reconcile_schedule_only_session_ids(snapshots)
     dates = sorted({x["showDate"] for x in raw_snapshots})
     products: dict[str, dict] = {}
-    for show_date in dates:
+    for index, show_date in enumerate(dates):
         excluded_for_day = [x for x in excluded if any(r.get("sessionId") == x.get("sessionId") and r.get("showDate") == show_date for r in raw_snapshots)]
         reconciliations_for_day = [x for x in reconciliation_audit if x.get("showDate") == show_date]
         product = build_day_product(root, show_date, snapshots, excluded=excluded_for_day, reconciliations=reconciliations_for_day)
+        previous_date = dates[index-1] if index else None
+        previous_product = products.get(previous_date) if previous_date else None
+        product["intelligence"]["allocationComparison"] = allocation_comparison(
+            product.get("sessions", []),
+            previous_product.get("sessions", []) if previous_product else None,
+            current_complete=product.get("collection", {}).get("dailyCompleteness"),
+            previous_complete=previous_product.get("collection", {}).get("dailyCompleteness") if previous_product else None,
+            previous_date=previous_date,
+        )
         products[show_date] = product
         _write(root / "data/days" / f"{show_date}.json", product)
 
@@ -339,7 +460,7 @@ def build_all_products(root: Path) -> None:
         current = {**products[latest_date], "mode": "current"}
     else:
         current = {
-            "schemaVersion": "1.3.0",
+            "schemaVersion": "1.4.0",
             "generatedAt": datetime.now(TZ).isoformat(timespec="seconds"),
             "filmId": "tikus",
             "showDate": None,
@@ -351,6 +472,7 @@ def build_all_products(root: Path) -> None:
             "finalPreShowState": {"status":"no-observations","startedSessions":0,"futureSessions":0,"finalizedSessions":0,"missingFinalPreShowSessionIds":[]},
             "cinemas": [], "sessions": [], "liveSessions": [], "finalPreShowSessions": [], "sessionChanges": {}, "series": {},
             "exhibitors": [], "states": [],
+            "intelligence": {"cinemaMomentum":[],"primeTimeEfficiency":[],"sessionVelocityLeaders":[],"allocationComparison":{"status":"unavailable","previousDate":None,"quality":"no-previous-day","cinemas":[]},"definitions":{}},
             "observationWindow": {"firstCollectedAt": None, "lastCollectedAt": None, "observations": 0},
             "collection": {"latestRun": None, "firstSeenAfterShowSessionIds": [], "firstSeenAfterShowCount": 0, "dailyCompleteness": "no-observations", "note": None},
             "quality": {"seatCoverage": None, "methodology": "docs/METHODOLOGY.md", "observedSeatStateIsNotSales": True, "excludedObservationCount": 0, "correctionsApplied": [], "sessionIdentityReconciliations": 0, "reconciledSessions": []},
