@@ -167,3 +167,11 @@ All momentum/velocity language refers to observed source-defined seat states, ne
 ## v10 decision intelligence
 
 v10 adds `intelligence.decisionSignals`, a cautious operational-triage layer derived from corrected observed seat-state performance, repeated-measurement momentum and prime-time utilisation. Signals are labelled **Review opportunity**, **Mixed signal**, **Capacity watch** or **Monitor**. They are not forecasts, sales estimates or automated programming recommendations. Partial-day acquisition automatically reduces confidence to low.
+
+## v11 as-of replay
+
+v11 adds hindsight-safe historical replay without changing acquisition. Each generated day product now exposes `asOfReplay.checkpoints` at fixed Asia/Kuala_Lumpur cutoffs (12:00, 15:00, 18:00 and 21:00 where that cutoff had actually occurred).
+
+A replay checkpoint is rebuilt from corrected/reconciled observations whose `collectedAt` is **at or before** the cutoff. Later observations are excluded from session state, rankings, momentum, prime-time efficiency, velocity and decision signals. Intraday replay decision confidence is capped at low and allocation comparison remains limited because the current-day side is necessarily partial.
+
+The dashboard adds **As-of replay** to the Observation selector and reveals a Replay cutoff selector. Final pre-show remains a separate observation mode because it answers a different question: the last valid pre-start observation after a session has actually begun.

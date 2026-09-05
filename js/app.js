@@ -5,7 +5,7 @@ const state = {
   bootstrap: null,
   product: null,
   trendProducts: [],
-  scope: { date: null, time: 'all', exhibitor: 'all', state: 'all', observation: 'latest' },
+  scope: { date: null, time: 'all', exhibitor: 'all', state: 'all', observation: 'latest', replay: null },
   search: '',
   sort: { key: 'observedUsed', direction: 'desc' },
   visibleColumns: new Set(['rank','cinema','shows','showShare','capacity','used','occupancy','avgUsed','primeShows','primeOccupancy','performanceIndex','usedDelta']),
@@ -57,6 +57,7 @@ function setupControls() {
     if (!date.value) return;
     state.scope.date = date.value;
     state.product = await loadDateProduct(date.value, index, state.bootstrap.current);
+    populateReplayControl();
     render();
   });
 
@@ -70,13 +71,16 @@ function setupControls() {
   stateSelect.addEventListener('change', () => { state.scope.state = stateSelect.value; render(); });
 
   $('#time-filter').addEventListener('change', e => { state.scope.time = e.target.value; render(); });
-  $('#observation-filter').addEventListener('change', e => { state.scope.observation = e.target.value; render(); });
+  $('#observation-filter').addEventListener('change', e => { state.scope.observation = e.target.value; updateReplayVisibility(); render(); });
+  $('#replay-time-filter').addEventListener('change', e => { state.scope.replay = e.target.value || null; render(); });
   $('#cinema-search').addEventListener('input', e => { state.search = e.target.value.toLowerCase().trim(); renderTable(); });
   $('#reset-filters').addEventListener('click', () => {
-    state.scope.time='all'; state.scope.exhibitor='all'; state.scope.state='all'; state.scope.observation='latest'; state.search='';
-    $('#time-filter').value='all'; $('#exhibitor-filter').value='all'; $('#state-filter').value='all'; $('#observation-filter').value='latest'; $('#cinema-search').value='';
+    state.scope.time='all'; state.scope.exhibitor='all'; state.scope.state='all'; state.scope.observation='latest'; state.scope.replay=null; state.search='';
+    $('#time-filter').value='all'; $('#exhibitor-filter').value='all'; $('#state-filter').value='all'; $('#observation-filter').value='latest'; $('#cinema-search').value=''; populateReplayControl(); updateReplayVisibility();
     render();
   });
+  populateReplayControl();
+  updateReplayVisibility();
   setupColumnMenu();
   $('#column-toggle').addEventListener('click', () => {
     const menu=$('#column-menu'); const open=menu.hidden; menu.hidden=!open; $('#column-toggle').setAttribute('aria-expanded', String(open));
@@ -84,6 +88,31 @@ function setupControls() {
   $('#session-dialog .dialog-close').addEventListener('click', () => $('#session-dialog').close());
   $('#session-dialog').addEventListener('click', e => { if (e.target === $('#session-dialog')) $('#session-dialog').close(); });
 }
+
+function populateReplayControl() {
+  const select=$('#replay-time-filter'); if(!select) return;
+  const checkpoints=state.product?.asOfReplay?.checkpoints||[];
+  select.innerHTML='';
+  if(!checkpoints.length){ select.append(new Option('No replay checkpoints', '')); state.scope.replay=null; return; }
+  checkpoints.forEach(cp=>select.append(new Option(`${cp.label} MYT`,cp.id)));
+  const exists=checkpoints.some(cp=>cp.id===state.scope.replay);
+  state.scope.replay=exists?state.scope.replay:checkpoints[checkpoints.length-1].id;
+  select.value=state.scope.replay;
+}
+
+function updateReplayVisibility() {
+  const label=$('#replay-time-label'); if(!label) return;
+  label.hidden=state.scope.observation!=='asof';
+}
+
+function activeReplay() {
+  if(state.scope.observation!=='asof') return null;
+  const checkpoints=state.product?.asOfReplay?.checkpoints||[];
+  return checkpoints.find(cp=>cp.id===state.scope.replay) || checkpoints[checkpoints.length-1] || null;
+}
+
+function currentIntelligence() { return activeReplay()?.intelligence || state.product.intelligence || {}; }
+function currentSessionChanges() { return activeReplay()?.sessionChanges || state.product.sessionChanges || {}; }
 
 function setupColumnMenu() {
   const menu=$('#column-menu'); menu.innerHTML='';
@@ -95,7 +124,7 @@ function setupColumnMenu() {
 }
 
 function currentSessions() {
-  const base = state.scope.observation === 'final' ? (state.product.finalPreShowSessions || []) : state.scope.observation === 'live' ? (state.product.liveSessions || []) : (state.product.sessions || []);
+  const replay=activeReplay(); const base = state.scope.observation === 'final' ? (state.product.finalPreShowSessions || []) : state.scope.observation === 'live' ? (state.product.liveSessions || []) : state.scope.observation === 'asof' ? (replay?.sessions || []) : (state.product.sessions || []);
   return filterSessions(base, state.scope, state.bootstrap.cinemas.cinemas, state.bootstrap.methodology);
 }
 
@@ -109,9 +138,9 @@ function render() {
 
 function renderFreshness() {
   const node=$('#freshness'); const dot=node.querySelector('.status-dot');
-  const when=state.product.observationWindow?.lastCollectedAt;
+  const replay=activeReplay(); const when=replay?.asOf || state.product.observationWindow?.lastCollectedAt;
   dot.classList.toggle('is-live', Boolean(when));
-  node.querySelector('span:last-child').textContent = when ? `Last observed ${fmt.datetime(when)} MYT` : 'No session observations stored yet';
+  node.querySelector('span:last-child').textContent = when ? (replay ? `As-of replay ${fmt.datetime(when)} MYT · no later observations used` : `Last observed ${fmt.datetime(when)} MYT`) : 'No session observations stored yet';
 }
 
 function renderScope(metrics, scoped) {
@@ -124,7 +153,8 @@ function renderScope(metrics, scoped) {
   const correctionCount = state.product.quality?.excludedObservationCount || 0;
   const finalState = state.product.finalPreShowState?.status;
   const finalNote = state.scope.observation==='final' && finalState ? ` · final pre-show ${finalState}` : '';
-  $('#coverage-note').textContent = metrics.totalShows ? `Seat measurement coverage ${metrics.seatMeasuredSessions}/${metrics.totalShows} sessions · ${fmt.pct(metrics.seatCoverage)}${lateSeen ? ` · ${lateSeen} session${lateSeen===1?'':'s'} first observed after showtime` : ''}${correctionCount ? ` · ${correctionCount} corrected observation${correctionCount===1?'':'s'} excluded` : ''}${finalNote}` : (state.scope.observation==='final' && finalState==='provisional' ? 'No finalized pre-show sessions yet · day remains provisional.' : 'No observed TIKUS! sessions in this scope.');
+  const replayNote = activeReplay() ? ` · replay cutoff ${activeReplay().label} MYT` : '';
+  $('#coverage-note').textContent = metrics.totalShows ? `Seat measurement coverage ${metrics.seatMeasuredSessions}/${metrics.totalShows} sessions · ${fmt.pct(metrics.seatCoverage)}${lateSeen ? ` · ${lateSeen} session${lateSeen===1?'':'s'} first observed after showtime` : ''}${correctionCount ? ` · ${correctionCount} corrected observation${correctionCount===1?'':'s'} excluded` : ''}${finalNote}${replayNote}` : (state.scope.observation==='final' && finalState==='provisional' ? 'No finalized pre-show sessions yet · day remains provisional.' : 'No observed TIKUS! sessions in this scope.');
   $('#table-meta').textContent = `${metrics.totalShows} observed show${metrics.totalShows===1?'':'s'} · ${metrics.locationsWithConfirmedShows} location${metrics.locationsWithConfirmedShows===1?'':'s'} with shows · denominator follows scope filters, not search`;
 }
 
@@ -146,7 +176,7 @@ function renderKpis(m, scopedCount) {
 function renderTable() {
   if(!state.bootstrap || !state.product) return;
   const sessions=currentSessions();
-  let rows=cinemaRows(sessions, state.bootstrap.cinemas.cinemas, state.scope, state.bootstrap.methodology, state.product.sessionChanges || {});
+  let rows=cinemaRows(sessions, state.bootstrap.cinemas.cinemas, state.scope, state.bootstrap.methodology, currentSessionChanges());
   if(state.search) rows=rows.filter(r=>`${r.name} ${r.city} ${r.state} ${r.exhibitorId}`.toLowerCase().includes(state.search));
   const {key,direction}=state.sort;
   rows.sort((a,b)=>compare(a[key],b[key],direction));
@@ -204,7 +234,7 @@ function renderMomentum() {
   const table=$('#momentum-table'); if(!table) return;
   table.innerHTML='<thead><tr><th>Cinema</th><th>Measured Sessions</th><th>Net Δ Used</th><th>Avg Seats/hr</th><th>Peak Seats/hr</th></tr></thead>';
   const body=el('tbody');
-  const rows=(state.product.intelligence?.cinemaMomentum||[]).filter(r=>intelligenceCinemaAllowed(r.cinemaId)).slice(0,10);
+  const rows=(currentIntelligence()?.cinemaMomentum||[]).filter(r=>intelligenceCinemaAllowed(r.cinemaId)).slice(0,10);
   rows.forEach(r=>{ const tr=el('tr'); [cinemaName(r.cinemaId),fmt.int(r.qualifyingSessions),fmt.signed(r.netUsedDelta),r.averageSeatsPerHour==null?'—':`${fmt.signed(r.averageSeatsPerHour,1)}/hr`,r.maxSeatsPerHour==null?'—':`${fmt.signed(r.maxSeatsPerHour,1)}/hr`].forEach(v=>tr.append(el('td',v==='—'?'na':'',v))); body.append(tr); });
   if(!rows.length){ const tr=el('tr'); const td=el('td','na','Momentum appears after sessions have at least two valid seat-state measurements.'); td.colSpan=5; tr.append(td); body.append(tr); }
   table.append(body);
@@ -214,7 +244,7 @@ function renderPrimeEfficiency() {
   const table=$('#prime-efficiency-table'); if(!table) return;
   table.innerHTML='<thead><tr><th>Cinema</th><th>Prime Shows</th><th>Measured</th><th>Prime Occ.</th><th>All-day Occ.</th><th>Δ pp</th></tr></thead>';
   const body=el('tbody');
-  const rows=(state.product.intelligence?.primeTimeEfficiency||[]).filter(r=>intelligenceCinemaAllowed(r.cinemaId)&&r.primeShows>0).slice(0,12);
+  const rows=(currentIntelligence()?.primeTimeEfficiency||[]).filter(r=>intelligenceCinemaAllowed(r.cinemaId)&&r.primeShows>0).slice(0,12);
   rows.forEach(r=>{ const pp=r.occupancyDelta==null?'—':`${fmt.signed(r.occupancyDelta*100,2)} pp`; const tr=el('tr'); [cinemaName(r.cinemaId),fmt.int(r.primeShows),`${r.primeMeasuredSessions}/${r.primeShows}`,fmt.pct(r.primeOccupancy),fmt.pct(r.allDayOccupancy),pp].forEach(v=>tr.append(el('td',v==='—'?'na':'',v))); body.append(tr); });
   if(!rows.length){ const tr=el('tr'); const td=el('td','na','No prime-time sessions in this cinema/geography scope.'); td.colSpan=6; tr.append(td); body.append(tr); }
   table.append(body);
@@ -222,7 +252,7 @@ function renderPrimeEfficiency() {
 
 function renderAllocation() {
   const table=$('#allocation-table'); if(!table) return;
-  const cmp=state.product.intelligence?.allocationComparison||{};
+  const cmp=currentIntelligence()?.allocationComparison||{};
   const quality=$('#allocation-quality');
   quality.textContent=cmp.status!=='ok'?'No previous day':(cmp.quality==='comparable'?'Comparable days':'Limited · partial observation');
   table.innerHTML='<thead><tr><th>Cinema</th><th>Shows</th><th>Prev.</th><th>Δ Shows</th><th>Prime</th><th>Prev. Prime</th><th>Δ Prime</th></tr></thead>';
@@ -233,12 +263,12 @@ function renderAllocation() {
   if(!rows.length){ const tr=el('tr'); const td=el('td','na','Allocation comparison becomes available when a previous observed theatrical day exists.'); td.colSpan=7; tr.append(td); body.append(tr); }
   table.append(body);
   const note=$('#allocation-note');
-  if(cmp.status==='ok') note.textContent=`Observed schedule-count comparison: ${cmp.previousDate} → ${state.product.showDate}. ${cmp.quality==='comparable'?'Both days pass the repository completeness rule.':'At least one day is partial; treat deltas as observed differences, not definitive exhibitor programming changes.'}`;
+  if(cmp.status==='ok') note.textContent=`Observed schedule-count comparison: ${cmp.previousDate} → ${state.product.showDate}. ${activeReplay()?'Current-day side is restricted to the replay cutoff; comparison is intentionally limited.':(cmp.quality==='comparable'?'Both days pass the repository completeness rule.':'At least one day is partial; treat deltas as observed differences, not definitive exhibitor programming changes.')}`;
 }
 
 function renderDecisionSignals() {
   const table=$('#decision-table'); if(!table) return;
-  const data=state.product.intelligence?.decisionSignals||{};
+  const data=currentIntelligence()?.decisionSignals||{};
   const quality=$('#decision-quality');
   quality.textContent=data.quality==='observed-day'?'Observed-day evidence':'Provisional · live observation';
   const summary=$('#decision-summary'); summary.innerHTML='';
@@ -279,7 +309,7 @@ function openCinema(row, sessions) {
   const own=sessions.filter(s=>s.cinemaId===row.id).sort((a,b)=>a.startAt.localeCompare(b.startAt)); const dialog=$('#session-dialog'); $('#session-dialog-title').textContent=row.name;
   $('#session-dialog-summary').innerHTML=`<span><strong>${row.totalShows}</strong> shows</span><span><strong>${fmt.int(row.observedCapacity)}</strong> capacity</span><span><strong>${fmt.int(row.observedUsed)}</strong> used/booked</span><span><strong>${fmt.pct(row.occupancy)}</strong> occupancy</span><span><strong>${fmt.ratio(row.performanceIndex)}</strong> performance index</span>`;
   const table=$('#session-table'); table.innerHTML='<thead><tr><th>Start</th><th>Hall</th><th>Source</th><th>Capacity</th><th>Used / Booked</th><th>Available</th><th>Other</th><th>Occ.</th><th>Latest Δ</th><th>Velocity</th><th>Observed</th></tr></thead>';
-  const body=el('tbody'); own.forEach(s=>{ const change=state.product.sessionChanges?.[s.sessionId]||{}; const tr=el('tr'); const vals=[fmt.time(s.startAt),s.session?.auditorium||'—',s.source?.provider?.toUpperCase()||'—',fmt.int(s.seat?.capacity),fmt.int(s.seat?.used),fmt.int(s.seat?.available),fmt.int(s.seat?.otherUnavailable),isMeasured(s)?fmt.pct(s.seat.used/s.seat.capacity):'—',fmt.signed(change.usedDelta),change.seatsPerHour==null?'—':`${fmt.signed(change.seatsPerHour,1)}/hr`,fmt.datetime(s.collectedAt)]; vals.forEach(v=>tr.append(el('td',v==='—'?'na':'',v))); body.append(tr); });
+  const body=el('tbody'); own.forEach(s=>{ const change=currentSessionChanges()?.[s.sessionId]||{}; const tr=el('tr'); const vals=[fmt.time(s.startAt),s.session?.auditorium||'—',s.source?.provider?.toUpperCase()||'—',fmt.int(s.seat?.capacity),fmt.int(s.seat?.used),fmt.int(s.seat?.available),fmt.int(s.seat?.otherUnavailable),isMeasured(s)?fmt.pct(s.seat.used/s.seat.capacity):'—',fmt.signed(change.usedDelta),change.seatsPerHour==null?'—':`${fmt.signed(change.seatsPerHour,1)}/hr`,fmt.datetime(s.collectedAt)]; vals.forEach(v=>tr.append(el('td',v==='—'?'na':'',v))); body.append(tr); });
   if(!own.length){ const tr=el('tr'); const td=el('td','na','No observed TIKUS! sessions in the current scope.'); td.colSpan=11; tr.append(td); body.append(tr); } table.append(body); dialog.showModal();
 }
 function isMeasured(s){return Boolean(s.quality?.seatMeasured&&s.seat?.capacity>0&&Number.isInteger(s.seat?.used));}

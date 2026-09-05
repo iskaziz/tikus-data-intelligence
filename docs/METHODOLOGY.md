@@ -282,3 +282,9 @@ prime_occupancy = sum(prime_used) / sum(prime_capacity)
 The day comparison uses distinct repository-observed sessions by cinema and compares show count and prime-time show count with the previous available theatrical day.
 
 If either day's acquisition is partial, the comparison quality is `limited-partial-day`. In that state, differences are descriptive of observed repository coverage and must **not** be presented as definitive exhibitor programming changes.
+
+## As-of replay
+
+As-of replay is a knowledge-time reconstruction. For a checkpoint at time **T**, only observations whose `collectedAt <= T` are eligible. All session state and derived analytics are recomputed after that restriction; later observations are never back-propagated into an earlier checkpoint.
+
+Standard replay checkpoints are 12:00, 15:00, 18:00 and 21:00 Asia/Kuala_Lumpur when available. Intraday replay is always treated as partial-day evidence. Decision-signal confidence is capped at low and allocation deltas remain limited. Final pre-show is a separate session-relative measure and must not be conflated with a wall-clock replay.

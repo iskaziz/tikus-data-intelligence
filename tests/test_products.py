@@ -128,3 +128,26 @@ class DecisionIntelligenceTests(unittest.TestCase):
         data=decision_intelligence([],[],[],{'status':'unavailable','quality':'no-previous-day','cinemas':[]},daily_completeness='observed')
         self.assertIn('not forecasts',data['definition'])
         self.assertIn('ticket-sales',data['definition'])
+
+class AsOfReplayTests(unittest.TestCase):
+    def test_checkpoint_excludes_later_observations(self):
+        from scripts.analytics.build_products import build_as_of_checkpoint
+        a=snap('x','2026-09-05T20:00:00+08:00','2026-09-05T11:00:00+08:00')
+        b=deepcopy(a); b['collectedAt']='2026-09-05T13:00:00+08:00'; b['seat']['used']=9
+        cp=build_as_of_checkpoint('2026-09-05',[a,b],as_of=datetime.fromisoformat('2026-09-05T12:00:00+08:00'),previous_sessions=None,previous_completeness=None,previous_date=None)
+        self.assertEqual(cp['sessions'][0]['seat']['used'],1)
+        self.assertTrue(cp['quality']['knowledgeCutoffApplied'])
+        self.assertFalse(cp['quality']['usesLaterObservations'])
+
+    def test_intraday_replay_forces_low_decision_confidence(self):
+        from scripts.analytics.build_products import build_as_of_checkpoint
+        a=snap('a','2026-09-05T20:00:00+08:00','2026-09-05T10:00:00+08:00')
+        b=deepcopy(a); b['collectedAt']='2026-09-05T11:00:00+08:00'; b['seat']['used']=5
+        cp=build_as_of_checkpoint('2026-09-05',[a,b],as_of=datetime.fromisoformat('2026-09-05T12:00:00+08:00'),previous_sessions=None,previous_completeness=None,previous_date=None)
+        self.assertEqual(cp['intelligence']['decisionSignals']['quality'],'provisional-live-observation')
+        self.assertTrue(all(r['confidence']=='low' for r in cp['intelligence']['decisionSignals']['cinemas']))
+
+    def test_current_day_only_exposes_passed_fixed_cutoffs(self):
+        from scripts.analytics.build_products import _knowledge_cutoffs
+        now=datetime.fromisoformat('2026-09-05T17:52:00+08:00')
+        self.assertEqual([x.strftime('%H%M') for x in _knowledge_cutoffs('2026-09-05',now)],['1200','1500'])

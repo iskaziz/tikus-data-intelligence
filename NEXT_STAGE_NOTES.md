@@ -1,38 +1,55 @@
-# TIKUS! Data Intelligence v10 — decision intelligence
+# TIKUS! Data Intelligence v11 — as-of replay
 
-v10 adds a conservative operational decision layer on top of v9. Collectors and acquisition semantics are unchanged.
+v11 introduces hindsight-safe knowledge replay on top of v10. No collector or source contract changes.
 
-## New product fields
+## Product model
 
-`intelligence.decisionSignals` contains:
+Each day product (`schemaVersion 1.6.0`) contains `asOfReplay`:
 
-- `status`
-- `quality`
-- `networkOccupancy`
-- `counts`
-- per-cinema signals with evidence and confidence
-- an explicit methodology definition/disclaimer
+- `timezone`: Asia/Kuala_Lumpur
+- `rule`: later observations are excluded
+- `checkpoints`: fixed 12:00, 15:00, 18:00 and 21:00 MYT cutoffs when available
 
-## Signal logic
+Each checkpoint contains:
 
-A cinema is only promoted to **Review opportunity** when at least two independent positive indicators align and no cautionary indicator conflicts. Multiple negative relative indicators become **Capacity watch**. Conflicting evidence becomes **Mixed signal**. Everything else remains **Monitor**.
+- cutoff identity and timestamp;
+- summary and cinema rankings;
+- latest session state knowable by that time;
+- session changes derived only from pre-cutoff history;
+- Seat-State Momentum;
+- Prime-Time Efficiency;
+- session velocity leaders;
+- observed allocation comparison;
+- Decision Signals;
+- explicit replay-quality metadata.
 
-Evidence can include Seat-State Performance Index, repeated-measurement seat-state momentum, prime-time occupancy delta and comparable observed allocation change.
+## Anti-hindsight rule
 
-Daily completeness is part of confidence. Partial acquisition always yields low confidence.
+The checkpoint history is first filtered to `collectedAt <= asOf`. Every derived analytical layer is then recomputed from that restricted history. A later observation cannot influence an earlier replay even if it exists in repository history when the page is opened.
+
+Intraday replay is methodologically partial, so Decision Signal confidence is capped at `low` and allocation comparison is marked limited.
 
 ## UI
 
-A new **Decision Signals** panel presents signal counts and an evidence table. It remains analytical and compact; no maps, alerts or decorative scoring gauges were added.
+Observation now supports:
+
+- Latest observed (day)
+- Live / upcoming
+- Final pre-show (finalized only)
+- As-of replay
+
+Selecting As-of replay reveals a cutoff selector. The cinema table, KPI cards, momentum, prime-time efficiency, allocation and Decision Signals all switch to the selected backend-generated replay payload.
 
 ## Validation
 
-- 31 unit tests pass.
-- semantic validator passes.
+- 34 unit tests pass.
+- Dedicated tests prove later observations are excluded from earlier checkpoints.
+- Dedicated tests prove intraday decision confidence stays low.
+- End-to-end synthetic build produced 12:00/15:00/18:00 replay values from only the observations known at each cutoff.
 - Python compilation passes.
 - browser JavaScript syntax checks pass.
-- browser-facing schema supports `1.5.0`.
+- semantic validator passes against retained repository data.
 
 ## Recommended next stage
 
-After at least one complete full theatrical day under v10, add an **as-of replay** so the producer can inspect what the decision panel would have shown at different collection times (for example 12:00, 15:00, 18:00 and final pre-show) without hindsight leakage.
+After v11 collects through the end of a full day, add **session trajectory views**: per-session observed seat-state curves with fixed relative-to-showtime windows (for example T-6h, T-3h, T-1h and final pre-show), plus cinema-level rollups. Keep all trajectory language explicitly observational rather than ticket-sales based.

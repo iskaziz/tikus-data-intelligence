@@ -54,7 +54,11 @@
           <option value="latest">Latest observed (day)</option>
           <option value="live">Live / upcoming</option>
           <option value="final">Final pre-show (finalized only)</option>
+          <option value="asof">As-of replay</option>
         </select>
+      </label>
+      <label id="replay-time-label" hidden>Replay cutoff
+        <select id="replay-time-filter" aria-label="As-of replay cutoff"></select>
       </label>
       <button class="reset-button" id="reset-filters" type="button">Reset scope</button>
     </section>

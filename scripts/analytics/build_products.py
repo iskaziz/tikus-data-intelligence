@@ -464,6 +464,77 @@ def latest_run_for_date(root: Path, show_date: str) -> dict | None:
     return max(matches, key=lambda x: x.get("collectedAt") or "") if matches else None
 
 
+
+
+def _knowledge_cutoffs(show_date: str, generated_at: datetime) -> list[datetime]:
+    """Fixed MYT replay checkpoints that could have been known by that time."""
+    day = datetime.fromisoformat(f"{show_date}T00:00:00+08:00")
+    cutoffs = [day.replace(hour=h) for h in (12, 15, 18, 21)]
+    # Past dates can expose all standard checkpoints. The current date only exposes
+    # cutoffs that have actually passed; future dates expose none.
+    if day.date() < generated_at.date():
+        return cutoffs
+    if day.date() > generated_at.date():
+        return []
+    return [x for x in cutoffs if x <= generated_at]
+
+
+def build_as_of_checkpoint(
+    show_date: str,
+    snapshots: list[dict],
+    *,
+    as_of: datetime,
+    previous_sessions: list[dict] | None,
+    previous_completeness: str | None,
+    previous_date: str | None,
+) -> dict:
+    """Reconstruct the analytical state using only information collected by ``as_of``.
+
+    No observation later than the knowledge cutoff can influence the replay. This
+    prevents hindsight leakage into rankings, momentum, prime-time efficiency or
+    decision signals. Intraday decision confidence is intentionally provisional.
+    """
+    history = [x for x in snapshots if x.get("showDate") == show_date and datetime.fromisoformat(x["collectedAt"]) <= as_of]
+    latest = latest_by_session(history, as_of=as_of)
+    summary = aggregate(latest)
+    momentum = cinema_momentum(history)
+    prime = prime_time_efficiency(latest)
+    velocity = velocity_leaders(history)
+    allocation = allocation_comparison(
+        latest,
+        previous_sessions,
+        current_complete="partial",
+        previous_complete=previous_completeness,
+        previous_date=previous_date,
+    )
+    decisions = decision_intelligence(
+        latest, momentum, prime, allocation, daily_completeness="partial"
+    )
+    return {
+        "id": as_of.strftime("%H%M"),
+        "label": as_of.strftime("%H:%M"),
+        "asOf": as_of.isoformat(timespec="seconds"),
+        "status": "ok" if latest else "no-observations",
+        "summary": summary,
+        "cinemas": cinema_rankings(latest),
+        "sessions": sorted(latest, key=lambda x: (x["startAt"], x["cinemaId"])),
+        "sessionChanges": session_changes(history),
+        "intelligence": {
+            "cinemaMomentum": momentum,
+            "primeTimeEfficiency": prime,
+            "sessionVelocityLeaders": velocity,
+            "allocationComparison": allocation,
+            "decisionSignals": decisions,
+        },
+        "quality": {
+            "knowledgeCutoffApplied": True,
+            "usesLaterObservations": False,
+            "decisionConfidenceCeiling": "low",
+            "definition": "Historical replay using only observations collected at or before the stated Asia/Kuala_Lumpur cutoff.",
+        },
+    }
+
+
 def build_day_product(root: Path, show_date: str, snapshots: list[dict], *, excluded: list[dict] | None = None, reconciliations: list[dict] | None = None) -> dict:
     day = [x for x in snapshots if x["showDate"] == show_date]
     generated_at = datetime.now(TZ)
@@ -481,7 +552,7 @@ def build_day_product(root: Path, show_date: str, snapshots: list[dict], *, excl
     velocity = velocity_leaders(day)
     daily_completeness = "partial" if flagged or not day else "observed"
     return {
-        "schemaVersion": "1.5.0",
+        "schemaVersion": "1.6.0",
         "generatedAt": generated_at.isoformat(timespec="seconds"),
         "filmId": "tikus",
         "showDate": show_date,
@@ -517,6 +588,12 @@ def build_day_product(root: Path, show_date: str, snapshots: list[dict], *, excl
                 "allocationComparison": "Observed schedule-count change versus the previous available day; limited when either day is partial.",
                 "decisionSignals": "Cautious operational review signals derived from relative observed seat-state performance, repeated-measurement momentum and prime-time utilisation; not forecasts or sales recommendations."
             }
+        },
+        "asOfReplay": {
+            "status": "pending-build",
+            "timezone": "Asia/Kuala_Lumpur",
+            "rule": "Each replay uses only observations collected at or before its cutoff; later observations are excluded from all replay metrics and signals.",
+            "checkpoints": [],
         },
         "observationWindow": {
             "firstCollectedAt": collected_times[0] if collected_times else None,
@@ -574,6 +651,22 @@ def build_all_products(root: Path) -> None:
             product.get("intelligence", {}).get("allocationComparison", {}),
             daily_completeness=product.get("collection", {}).get("dailyCompleteness") or "partial",
         )
+        generated_at = datetime.fromisoformat(product["generatedAt"])
+        checkpoints = [
+            build_as_of_checkpoint(
+                show_date, snapshots, as_of=cutoff,
+                previous_sessions=previous_product.get("sessions", []) if previous_product else None,
+                previous_completeness=previous_product.get("collection", {}).get("dailyCompleteness") if previous_product else None,
+                previous_date=previous_date,
+            )
+            for cutoff in _knowledge_cutoffs(show_date, generated_at)
+        ]
+        product["asOfReplay"] = {
+            "status": "ok" if checkpoints else "unavailable",
+            "timezone": "Asia/Kuala_Lumpur",
+            "rule": "Each replay uses only observations collected at or before its cutoff; later observations are excluded from all replay metrics and signals.",
+            "checkpoints": checkpoints,
+        }
         products[show_date] = product
         _write(root / "data/days" / f"{show_date}.json", product)
 
@@ -582,7 +675,7 @@ def build_all_products(root: Path) -> None:
         current = {**products[latest_date], "mode": "current"}
     else:
         current = {
-            "schemaVersion": "1.5.0",
+            "schemaVersion": "1.6.0",
             "generatedAt": datetime.now(TZ).isoformat(timespec="seconds"),
             "filmId": "tikus",
             "showDate": None,
@@ -595,6 +688,7 @@ def build_all_products(root: Path) -> None:
             "cinemas": [], "sessions": [], "liveSessions": [], "finalPreShowSessions": [], "sessionChanges": {}, "series": {},
             "exhibitors": [], "states": [],
             "intelligence": {"cinemaMomentum":[],"primeTimeEfficiency":[],"sessionVelocityLeaders":[],"allocationComparison":{"status":"unavailable","previousDate":None,"quality":"no-previous-day","cinemas":[]},"decisionSignals":{"status":"unavailable","quality":"no-observations","counts":{},"cinemas":[],"definition":""},"definitions":{}},
+            "asOfReplay": {"status":"unavailable","timezone":"Asia/Kuala_Lumpur","rule":"No observations available for replay.","checkpoints":[]},
             "observationWindow": {"firstCollectedAt": None, "lastCollectedAt": None, "observations": 0},
             "collection": {"latestRun": None, "firstSeenAfterShowSessionIds": [], "firstSeenAfterShowCount": 0, "dailyCompleteness": "no-observations", "note": None},
             "quality": {"seatCoverage": None, "methodology": "docs/METHODOLOGY.md", "observedSeatStateIsNotSales": True, "excludedObservationCount": 0, "correctionsApplied": [], "sessionIdentityReconciliations": 0, "reconciledSessions": []},
