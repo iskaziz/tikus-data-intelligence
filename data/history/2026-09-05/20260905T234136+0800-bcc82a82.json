@@ -1,0 +1,172 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "20260905T234136+0800-bcc82a82",
+  "showDate": "2026-09-05",
+  "collectedAt": "2026-09-05T23:41:36+08:00",
+  "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
+  "sourceStatuses": {
+    "gsc": {
+      "status": "ok",
+      "snapshots": 0,
+      "seatMeasured": 0,
+      "cinemaIds": [],
+      "expectedCinemas": 8
+    },
+    "tgv": {
+      "status": "ok",
+      "snapshots": 1,
+      "seatMeasured": 1,
+      "cinemaIds": [
+        "tgv-gurney"
+      ],
+      "expectedCinemas": 5
+    },
+    "paragon": {
+      "status": "ok-schedule-only",
+      "snapshots": 1,
+      "seatMeasured": 0,
+      "cinemaIds": [
+        "paragon-batu-pahat"
+      ],
+      "expectedCinemas": 2,
+      "diagnostics": {
+        "paragon-batu-pahat": {
+          "movieTitleAnchors": 21,
+          "tikusTitleAnchors": 1,
+          "ticketAnchorsInTikusSegments": 17,
+          "matchedDateTicketAnchors": 1,
+          "rejectedTicketAnchors": 16,
+          "rejectionReasons": {
+            "ticket-anchor-outside-target-date": 16
+          },
+          "targetDate": "Saturday, 05 September 2026",
+          "cinemaId": "paragon-batu-pahat",
+          "sourceCinemaId": "0000000002",
+          "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
+          "payloadHash": "4446abf0af3cef14e157237cb92a93594878775f13cb569c9aa8cc4be7761eba",
+          "parsedSessions": 1
+        },
+        "paragon-ktcc": {
+          "movieTitleAnchors": 23,
+          "tikusTitleAnchors": 1,
+          "ticketAnchorsInTikusSegments": 20,
+          "matchedDateTicketAnchors": 0,
+          "rejectedTicketAnchors": 20,
+          "rejectionReasons": {
+            "ticket-anchor-outside-target-date": 20,
+            "no-target-date-ticketing-anchors": 1
+          },
+          "targetDate": "Saturday, 05 September 2026",
+          "cinemaId": "paragon-ktcc",
+          "sourceCinemaId": "0000000004",
+          "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
+          "payloadHash": "c8cd5d67b7d47aac8099a2ffebf0a3e0a7f3753f67a892435caa767a0c7ec9b2",
+          "parsedSessions": 0
+        }
+      }
+    },
+    "mega": {
+      "status": "ok-schedule-only",
+      "snapshots": 0,
+      "seatMeasured": 0,
+      "cinemaIds": [],
+      "expectedCinemas": 1
+    }
+  },
+  "snapshots": [
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260905T234136+0800-bcc82a82",
+      "filmId": "tikus",
+      "cinemaId": "tgv-gurney",
+      "exhibitorId": "tgv",
+      "sessionId": "tgv-gurney:source:220354",
+      "sourceSessionId": "220354",
+      "source": {
+        "provider": "tgv",
+        "sourceType": "official-api",
+        "sourceCinemaId": "GUR",
+        "sourceCinemaName": "GURNEY PARAGON",
+        "sourceUrl": "https://api.tgv.com.my/api/boxoffice/v1/moviesession_getseatstatus",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "f62fd0d943ac06e5176ab05655cb69331b63018eaecfe7e8b421c65aca0cee68"
+      },
+      "collectedAt": "2026-09-05T23:41:36+08:00",
+      "showDate": "2026-09-05",
+      "startAt": "2026-09-05T00:35:00+08:00",
+      "minutesToShow": -1387,
+      "session": {
+        "auditorium": "Cinema 2",
+        "format": "2D",
+        "language": null,
+        "experience": "deluxe"
+      },
+      "seat": {
+        "capacity": 202,
+        "used": 0,
+        "available": 202,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "tgv-seatsused",
+        "available": "derived-capacity-minus-used",
+        "capacity": "tgv-seatstotal"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "TGV seatsused may include held or otherwise unavailable inventory."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260905T234136+0800-bcc82a82",
+      "filmId": "tikus",
+      "cinemaId": "paragon-batu-pahat",
+      "exhibitorId": "paragon",
+      "sessionId": "paragon-batu-pahat:source:122655",
+      "sourceSessionId": "122655",
+      "source": {
+        "provider": "paragon",
+        "sourceType": "official-public-page",
+        "sourceCinemaId": "0000000002",
+        "sourceCinemaName": "Paragon Batu Pahat",
+        "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
+        "collectorVersion": "paragon-schedule/1.3.0",
+        "rawPayloadHash": "4446abf0af3cef14e157237cb92a93594878775f13cb569c9aa8cc4be7761eba"
+      },
+      "collectedAt": "2026-09-05T23:41:36+08:00",
+      "showDate": "2026-09-05",
+      "startAt": "2026-09-05T00:30:00+08:00",
+      "minutesToShow": -1392,
+      "session": {
+        "auditorium": null,
+        "format": "2D",
+        "language": "Malay",
+        "experience": null
+      },
+      "seat": {
+        "capacity": null,
+        "used": null,
+        "available": null,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "unavailable",
+        "available": "unavailable",
+        "capacity": "unavailable"
+      },
+      "quality": {
+        "measurementStatus": "schedule-only",
+        "seatMeasured": false,
+        "warnings": [
+          "No public seat count is used or inferred."
+        ]
+      }
+    }
+  ]
+}

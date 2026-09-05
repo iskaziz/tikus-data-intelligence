@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "20260905T234136+0800-bcc82a82",
+  "showDate": "2026-09-05",
+  "collectedAt": "2026-09-05T23:41:36+08:00",
+  "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
+  "sourceStatuses": {
+    "gsc": {
+      "status": "ok",
+      "snapshots": 0,
+      "seatMeasured": 0,
+      "cinemaIds": [],
+      "expectedCinemas": 8
+    },
+    "tgv": {
+      "status": "ok",
+      "snapshots": 1,
+      "seatMeasured": 1,
+      "cinemaIds": [
+        "tgv-gurney"
+      ],
+      "expectedCinemas": 5
+    },
+    "paragon": {
+      "status": "ok-schedule-only",
+      "snapshots": 1,
+      "seatMeasured": 0,
+      "cinemaIds": [
+        "paragon-batu-pahat"
+      ],
+      "expectedCinemas": 2,
+      "diagnostics": {
+        "paragon-batu-pahat": {
+          "movieTitleAnchors": 21,
+          "tikusTitleAnchors": 1,
+          "ticketAnchorsInTikusSegments": 17,
+          "matchedDateTicketAnchors": 1,
+          "rejectedTicketAnchors": 16,
+          "rejectionReasons": {
+            "ticket-anchor-outside-target-date": 16
+          },
+          "targetDate": "Saturday, 05 September 2026",
+          "cinemaId": "paragon-batu-pahat",
+          "sourceCinemaId": "0000000002",
+          "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
+          "payloadHash": "4446abf0af3cef14e157237cb92a93594878775f13cb569c9aa8cc4be7761eba",
+          "parsedSessions": 1
+        },
+        "paragon-ktcc": {
+          "movieTitleAnchors": 23,
+          "tikusTitleAnchors": 1,
+          "ticketAnchorsInTikusSegments": 20,
+          "matchedDateTicketAnchors": 0,
+          "rejectedTicketAnchors": 20,
+          "rejectionReasons": {
+            "ticket-anchor-outside-target-date": 20,
+            "no-target-date-ticketing-anchors": 1
+          },
+          "targetDate": "Saturday, 05 September 2026",
+          "cinemaId": "paragon-ktcc",
+          "sourceCinemaId": "0000000004",
+          "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
+          "payloadHash": "c8cd5d67b7d47aac8099a2ffebf0a3e0a7f3753f67a892435caa767a0c7ec9b2",
+          "parsedSessions": 0
+        }
+      }
+    },
+    "mega": {
+      "status": "ok-schedule-only",
+      "snapshots": 0,
+      "seatMeasured": 0,
+      "cinemaIds": [],
+      "expectedCinemas": 1
+    }
+  },
+  "snapshotCount": 2
+}
