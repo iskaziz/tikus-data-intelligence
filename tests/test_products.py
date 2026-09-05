@@ -151,3 +151,35 @@ class AsOfReplayTests(unittest.TestCase):
         from scripts.analytics.build_products import _knowledge_cutoffs
         now=datetime.fromisoformat('2026-09-05T17:52:00+08:00')
         self.assertEqual([x.strftime('%H%M') for x in _knowledge_cutoffs('2026-09-05',now)],['1200','1500'])
+
+class SessionTrajectoryTests(unittest.TestCase):
+    def test_checkpoint_uses_latest_observation_at_or_before_cutoff(self):
+        from scripts.analytics.build_products import session_trajectories
+        base=snap('traj','2026-09-05T20:00:00+08:00','2026-09-05T13:00:00+08:00')
+        base['seat']={'capacity':100,'used':1,'available':99,'otherUnavailable':0}
+        a=deepcopy(base); a['collectedAt']='2026-09-05T13:30:00+08:00'; a['seat']['used']=2
+        b=deepcopy(base); b['collectedAt']='2026-09-05T14:15:00+08:00'; b['seat']['used']=9
+        data=session_trajectories([base,a,b],as_of=datetime.fromisoformat('2026-09-05T15:00:00+08:00'))
+        row=data['sessions'][0]
+        # T-6h cutoff is 14:00, so the 14:15 observation must not leak backward.
+        self.assertEqual(row['points']['tMinus6h']['used'],2)
+        self.assertIsNone(row['points']['finalPreShow'])
+
+    def test_final_pre_show_only_appears_after_start(self):
+        from scripts.analytics.build_products import session_trajectories
+        a=snap('traj','2026-09-05T20:00:00+08:00','2026-09-05T19:40:00+08:00')
+        a['seat']={'capacity':100,'used':7,'available':93,'otherUnavailable':0}
+        before=session_trajectories([a],as_of=datetime.fromisoformat('2026-09-05T19:50:00+08:00'))
+        after=session_trajectories([a],as_of=datetime.fromisoformat('2026-09-05T20:01:00+08:00'))
+        self.assertIsNone(before['sessions'][0]['points']['finalPreShow'])
+        self.assertEqual(after['sessions'][0]['points']['finalPreShow']['used'],7)
+
+    def test_cinema_rollup_is_capacity_weighted(self):
+        from scripts.analytics.build_products import session_trajectories
+        a=snap('a','2026-09-05T20:00:00+08:00','2026-09-05T14:00:00+08:00')
+        a['seat']={'capacity':100,'used':10,'available':90,'otherUnavailable':0}
+        b=snap('b','2026-09-05T21:00:00+08:00','2026-09-05T15:00:00+08:00')
+        b['seat']={'capacity':300,'used':0,'available':300,'otherUnavailable':0}
+        data=session_trajectories([a,b],as_of=datetime.fromisoformat('2026-09-05T22:00:00+08:00'))
+        row=data['cinemas'][0]
+        self.assertAlmostEqual(row['checkpoints']['tMinus6h']['occupancy'],0.025)

@@ -288,3 +288,9 @@ If either day's acquisition is partial, the comparison quality is `limited-parti
 As-of replay is a knowledge-time reconstruction. For a checkpoint at time **T**, only observations whose `collectedAt <= T` are eligible. All session state and derived analytics are recomputed after that restriction; later observations are never back-propagated into an earlier checkpoint.
 
 Standard replay checkpoints are 12:00, 15:00, 18:00 and 21:00 Asia/Kuala_Lumpur when available. Intraday replay is always treated as partial-day evidence. Decision-signal confidence is capped at low and allocation deltas remain limited. Final pre-show is a separate session-relative measure and must not be conflated with a wall-clock replay.
+
+## Session trajectory checkpoints
+
+Trajectory analytics compare seat-measured screenings at fixed relative windows: T−6h, T−3h, T−1h and final pre-show. For each target cutoff, the selected point is the latest valid observation collected at or before that cutoff. Observations after a cutoff are never used retrospectively. Missing points remain null.
+
+Cinema-level trajectory occupancy is capacity weighted across sessions with a valid point at that checkpoint. Any T−6h→final change is an observed seat-state utilisation change, not a ticket-sales velocity or admissions estimate.

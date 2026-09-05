@@ -283,6 +283,99 @@ def velocity_leaders(snapshots: list[dict], limit: int = 10) -> list[dict]:
 
 
 
+
+TRAJECTORY_WINDOWS = [
+    ("tMinus6h", 6),
+    ("tMinus3h", 3),
+    ("tMinus1h", 1),
+]
+
+def _trajectory_point(items: list[dict], cutoff: datetime) -> dict | None:
+    measured = [x for x in items if x.get("quality", {}).get("seatMeasured") and x.get("seat", {}).get("capacity") and x.get("seat", {}).get("used") is not None]
+    eligible = [x for x in measured if datetime.fromisoformat(x["collectedAt"]) <= cutoff]
+    if not eligible:
+        return None
+    chosen = max(eligible, key=lambda x: x["collectedAt"])
+    cap = chosen["seat"].get("capacity")
+    used = chosen["seat"].get("used")
+    return {
+        "collectedAt": chosen["collectedAt"],
+        "capacity": cap,
+        "used": used,
+        "occupancy": (used / cap) if cap else None,
+        "minutesBeforeShow": round((datetime.fromisoformat(chosen["startAt"]) - datetime.fromisoformat(chosen["collectedAt"])).total_seconds()/60),
+    }
+
+def session_trajectories(snapshots: list[dict], *, as_of: datetime) -> dict:
+    """Comparable pre-show seat-state checkpoints for measured sessions.
+
+    Each checkpoint uses the latest valid observation at or before the target
+    cutoff. Final pre-show is only available after the session has started,
+    preserving the same hindsight guard as final_pre_show_sessions().
+    """
+    grouped: dict[str, list[dict]] = defaultdict(list)
+    for item in snapshots:
+        if datetime.fromisoformat(item["collectedAt"]) <= as_of:
+            grouped[item["sessionId"]].append(item)
+    rows=[]
+    for sid, items in grouped.items():
+        measured=[x for x in items if x.get("quality",{}).get("seatMeasured")]
+        if not measured:
+            continue
+        latest=max(items,key=lambda x:x["collectedAt"])
+        start=datetime.fromisoformat(latest["startAt"])
+        points={}
+        for key,hours in TRAJECTORY_WINDOWS:
+            from datetime import timedelta
+            points[key]=_trajectory_point(items,start-timedelta(hours=hours))
+        points["finalPreShow"]=_trajectory_point(items,start) if start <= as_of else None
+        known=sum(1 for v in points.values() if v)
+        rows.append({
+            "sessionId":sid,
+            "cinemaId":latest["cinemaId"],
+            "startAt":latest["startAt"],
+            "points":points,
+            "knownCheckpoints":known,
+            "completeTrajectory":known==4,
+        })
+    rows.sort(key=lambda x:(x["startAt"],x["cinemaId"]))
+
+    by_cinema: dict[str, list[dict]] = defaultdict(list)
+    for row in rows:
+        by_cinema[row["cinemaId"]].append(row)
+    cinema_rows=[]
+    for cinema_id, items in by_cinema.items():
+        checkpoints={}
+        for key,_ in TRAJECTORY_WINDOWS + [("finalPreShow",0)]:
+            pts=[r["points"].get(key) for r in items if r["points"].get(key)]
+            cap=sum(p["capacity"] for p in pts) if pts else 0
+            used=sum(p["used"] for p in pts) if pts else 0
+            checkpoints[key]={
+                "sessions":len(pts),
+                "capacity":cap or None,
+                "used":used if pts else None,
+                "occupancy":(used/cap) if cap else None,
+            }
+        first=checkpoints["tMinus6h"].get("occupancy")
+        final=checkpoints["finalPreShow"].get("occupancy")
+        cinema_rows.append({
+            "cinemaId":cinema_id,
+            "measuredSessions":len(items),
+            "completeTrajectories":sum(1 for r in items if r["completeTrajectory"]),
+            "checkpoints":checkpoints,
+            "occupancyLift6hToFinal": (final-first) if first is not None and final is not None else None,
+        })
+    cinema_rows.sort(key=lambda x:((x["occupancyLift6hToFinal"] if x["occupancyLift6hToFinal"] is not None else -999), x["completeTrajectories"]),reverse=True)
+    return {
+        "status":"ok" if rows else "unavailable",
+        "asOf":as_of.isoformat(timespec="seconds"),
+        "windows":[{"id":"tMinus6h","label":"T−6h","hoursBeforeShow":6},{"id":"tMinus3h","label":"T−3h","hoursBeforeShow":3},{"id":"tMinus1h","label":"T−1h","hoursBeforeShow":1},{"id":"finalPreShow","label":"Final pre-show","hoursBeforeShow":0}],
+        "sessions":rows,
+        "cinemas":cinema_rows,
+        "definition":"Observed seat-state trajectory at comparable pre-show checkpoints. Each point is the latest valid measurement at or before its cutoff; values are not paid ticket sales.",
+    }
+
+
 def decision_intelligence(latest: list[dict], momentum: list[dict], prime_efficiency: list[dict], allocation_cmp: dict, *, daily_completeness: str) -> dict:
     """Derive cautious operational review signals from observed seat-state evidence.
 
@@ -507,6 +600,7 @@ def build_as_of_checkpoint(
         previous_complete=previous_completeness,
         previous_date=previous_date,
     )
+    trajectory = session_trajectories(history, as_of=as_of)
     decisions = decision_intelligence(
         latest, momentum, prime, allocation, daily_completeness="partial"
     )
@@ -525,6 +619,7 @@ def build_as_of_checkpoint(
             "sessionVelocityLeaders": velocity,
             "allocationComparison": allocation,
             "decisionSignals": decisions,
+            "sessionTrajectories": trajectory,
         },
         "quality": {
             "knowledgeCutoffApplied": True,
@@ -550,9 +645,10 @@ def build_day_product(root: Path, show_date: str, snapshots: list[dict], *, excl
     momentum = cinema_momentum(day)
     prime_efficiency = prime_time_efficiency(latest)
     velocity = velocity_leaders(day)
+    trajectories = session_trajectories(day, as_of=generated_at)
     daily_completeness = "partial" if flagged or not day else "observed"
     return {
-        "schemaVersion": "1.6.0",
+        "schemaVersion": "1.7.0",
         "generatedAt": generated_at.isoformat(timespec="seconds"),
         "filmId": "tikus",
         "showDate": show_date,
@@ -582,11 +678,13 @@ def build_day_product(root: Path, show_date: str, snapshots: list[dict], *, excl
             "sessionVelocityLeaders": velocity,
             "allocationComparison": {"status":"pending-build","previousDate":None,"quality":"not-evaluated","cinemas":[]},
             "decisionSignals": {"status":"pending-build","quality":"not-evaluated","counts":{},"cinemas":[],"definition":""},
+            "sessionTrajectories": trajectories,
             "definitions": {
                 "momentum": "Latest observed seat-state change across sessions with at least two valid measurements. Not paid ticket sales.",
                 "primeTimeEfficiency": "Capacity-weighted observed utilisation for sessions starting 18:00 inclusive to 21:00 exclusive, compared with all-day utilisation.",
                 "allocationComparison": "Observed schedule-count change versus the previous available day; limited when either day is partial.",
-                "decisionSignals": "Cautious operational review signals derived from relative observed seat-state performance, repeated-measurement momentum and prime-time utilisation; not forecasts or sales recommendations."
+                "decisionSignals": "Cautious operational review signals derived from relative observed seat-state performance, repeated-measurement momentum and prime-time utilisation; not forecasts or sales recommendations.",
+                "sessionTrajectories": "Comparable T−6h, T−3h, T−1h and final pre-show observed seat-state checkpoints using the latest valid measurement at or before each cutoff."
             }
         },
         "asOfReplay": {
@@ -675,7 +773,7 @@ def build_all_products(root: Path) -> None:
         current = {**products[latest_date], "mode": "current"}
     else:
         current = {
-            "schemaVersion": "1.6.0",
+            "schemaVersion": "1.7.0",
             "generatedAt": datetime.now(TZ).isoformat(timespec="seconds"),
             "filmId": "tikus",
             "showDate": None,
@@ -687,7 +785,7 @@ def build_all_products(root: Path) -> None:
             "finalPreShowState": {"status":"no-observations","startedSessions":0,"futureSessions":0,"finalizedSessions":0,"missingFinalPreShowSessionIds":[]},
             "cinemas": [], "sessions": [], "liveSessions": [], "finalPreShowSessions": [], "sessionChanges": {}, "series": {},
             "exhibitors": [], "states": [],
-            "intelligence": {"cinemaMomentum":[],"primeTimeEfficiency":[],"sessionVelocityLeaders":[],"allocationComparison":{"status":"unavailable","previousDate":None,"quality":"no-previous-day","cinemas":[]},"decisionSignals":{"status":"unavailable","quality":"no-observations","counts":{},"cinemas":[],"definition":""},"definitions":{}},
+            "intelligence": {"cinemaMomentum":[],"primeTimeEfficiency":[],"sessionVelocityLeaders":[],"allocationComparison":{"status":"unavailable","previousDate":None,"quality":"no-previous-day","cinemas":[]},"decisionSignals":{"status":"unavailable","quality":"no-observations","counts":{},"cinemas":[],"definition":""},"sessionTrajectories":{"status":"unavailable","asOf":None,"windows":[],"sessions":[],"cinemas":[],"definition":""},"definitions":{}},
             "asOfReplay": {"status":"unavailable","timezone":"Asia/Kuala_Lumpur","rule":"No observations available for replay.","checkpoints":[]},
             "observationWindow": {"firstCollectedAt": None, "lastCollectedAt": None, "observations": 0},
             "collection": {"latestRun": None, "firstSeenAfterShowSessionIds": [], "firstSeenAfterShowCount": 0, "dailyCompleteness": "no-observations", "note": None},

@@ -1,55 +1,47 @@
-# TIKUS! Data Intelligence v11 — as-of replay
+# TIKUS! Data Intelligence v12 — session trajectory intelligence
 
-v11 introduces hindsight-safe knowledge replay on top of v10. No collector or source contract changes.
+v12 adds comparable relative-to-showtime trajectory analytics without changing any source collector.
 
 ## Product model
 
-Each day product (`schemaVersion 1.6.0`) contains `asOfReplay`:
+Day product schema is `1.7.0`. `intelligence.sessionTrajectories` contains:
 
-- `timezone`: Asia/Kuala_Lumpur
-- `rule`: later observations are excluded
-- `checkpoints`: fixed 12:00, 15:00, 18:00 and 21:00 MYT cutoffs when available
+- standard windows: T−6h, T−3h, T−1h and Final pre-show;
+- per-session trajectory records;
+- per-cinema capacity-weighted rollups;
+- explicit checkpoint/complete-trajectory counts;
+- `occupancyLift6hToFinal` when both endpoints exist.
 
-Each checkpoint contains:
+## Checkpoint rule
 
-- cutoff identity and timestamp;
-- summary and cinema rankings;
-- latest session state knowable by that time;
-- session changes derived only from pre-cutoff history;
-- Seat-State Momentum;
-- Prime-Time Efficiency;
-- session velocity leaders;
-- observed allocation comparison;
-- Decision Signals;
-- explicit replay-quality metadata.
+For a target checkpoint C, the system selects the latest valid seat-measured observation whose `collectedAt <= C`. It never chooses the nearest observation after the cutoff. Final pre-show remains unavailable until the screening has actually started.
 
-## Anti-hindsight rule
+This preserves the same anti-hindsight principle used by v11 as-of replay.
 
-The checkpoint history is first filtered to `collectedAt <= asOf`. Every derived analytical layer is then recomputed from that restricted history. A later observation cannot influence an earlier replay even if it exists in repository history when the page is opened.
+## Cinema rollup
 
-Intraday replay is methodologically partial, so Decision Signal confidence is capped at `low` and allocation comparison is marked limited.
+Cinema checkpoint occupancy is:
+
+`sum(observed used) / sum(observed capacity)`
+
+across sessions with a known point at that checkpoint. It is not an arithmetic average of session occupancies.
 
 ## UI
 
-Observation now supports:
+The dashboard adds **Session Trajectories** with cinema-level T−6h / T−3h / T−1h / Final occupancy, T−6h→Final percentage-point lift and complete-curve coverage.
 
-- Latest observed (day)
-- Live / upcoming
-- Final pre-show (finalized only)
-- As-of replay
-
-Selecting As-of replay reveals a cutoff selector. The cinema table, KPI cards, momentum, prime-time efficiency, allocation and Decision Signals all switch to the selected backend-generated replay payload.
+As-of replay switches the trajectory panel to the replay-specific backend product rather than current-day trajectory data.
 
 ## Validation
 
-- 34 unit tests pass.
-- Dedicated tests prove later observations are excluded from earlier checkpoints.
-- Dedicated tests prove intraday decision confidence stays low.
-- End-to-end synthetic build produced 12:00/15:00/18:00 replay values from only the observations known at each cutoff.
+- 37/37 automated tests pass.
+- T−6h anti-hindsight regression passes.
+- Final pre-show availability regression passes.
+- Capacity-weighted cinema rollup regression passes.
 - Python compilation passes.
-- browser JavaScript syntax checks pass.
-- semantic validator passes against retained repository data.
+- Browser JavaScript syntax check passes.
+- Semantic repository validator passes.
 
 ## Recommended next stage
 
-After v11 collects through the end of a full day, add **session trajectory views**: per-session observed seat-state curves with fixed relative-to-showtime windows (for example T-6h, T-3h, T-1h and final pre-show), plus cinema-level rollups. Keep all trajectory language explicitly observational rather than ticket-sales based.
+Add a compact **individual screening trajectory explorer** inside cinema detail: select a show and inspect observed used/capacity plus collection timestamp at each relative checkpoint, followed by cross-day trajectory archetypes once multiple complete theatrical days exist.

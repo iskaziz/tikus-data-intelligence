@@ -175,3 +175,9 @@ v11 adds hindsight-safe historical replay without changing acquisition. Each gen
 A replay checkpoint is rebuilt from corrected/reconciled observations whose `collectedAt` is **at or before** the cutoff. Later observations are excluded from session state, rankings, momentum, prime-time efficiency, velocity and decision signals. Intraday replay decision confidence is capped at low and allocation comparison remains limited because the current-day side is necessarily partial.
 
 The dashboard adds **As-of replay** to the Observation selector and reveals a Replay cutoff selector. Final pre-show remains a separate observation mode because it answers a different question: the last valid pre-start observation after a session has actually begun.
+
+## v12 session trajectory intelligence
+
+v12 adds `intelligence.sessionTrajectories`, a comparable relative-to-showtime view for seat-measured screenings. Each screening can expose T−6h, T−3h, T−1h and finalized pre-show checkpoints. A checkpoint always uses the latest valid seat-state observation collected at or before that cutoff; later observations never backfill an earlier checkpoint.
+
+Cinema trajectory rollups are capacity-weighted and report checkpoint coverage explicitly. `occupancyLift6hToFinal` is an observed utilisation change in percentage points, not a ticket-sales or admissions estimate. As-of replay rebuilds trajectories from its restricted knowledge history, so replayed curves remain hindsight-safe.

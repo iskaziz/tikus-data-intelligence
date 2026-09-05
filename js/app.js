@@ -133,7 +133,7 @@ function render() {
   const sessions = currentSessions();
   const scoped = scopedCinemas(state.bootstrap.cinemas.cinemas, state.scope);
   const metrics = aggregate(sessions, state.bootstrap.methodology);
-  renderFreshness(); renderScope(metrics, scoped); renderKpis(metrics, scoped.length); renderTable(); renderExhibitors(sessions); renderDistribution(sessions); renderMomentum(); renderPrimeEfficiency(); renderAllocation(); renderDecisionSignals(); renderTrend(); renderGeography(sessions); renderQuality();
+  renderFreshness(); renderScope(metrics, scoped); renderKpis(metrics, scoped.length); renderTable(); renderExhibitors(sessions); renderDistribution(sessions); renderMomentum(); renderPrimeEfficiency(); renderTrajectories(); renderAllocation(); renderDecisionSignals(); renderTrend(); renderGeography(sessions); renderQuality();
 }
 
 function renderFreshness() {
@@ -247,6 +247,27 @@ function renderPrimeEfficiency() {
   const rows=(currentIntelligence()?.primeTimeEfficiency||[]).filter(r=>intelligenceCinemaAllowed(r.cinemaId)&&r.primeShows>0).slice(0,12);
   rows.forEach(r=>{ const pp=r.occupancyDelta==null?'—':`${fmt.signed(r.occupancyDelta*100,2)} pp`; const tr=el('tr'); [cinemaName(r.cinemaId),fmt.int(r.primeShows),`${r.primeMeasuredSessions}/${r.primeShows}`,fmt.pct(r.primeOccupancy),fmt.pct(r.allDayOccupancy),pp].forEach(v=>tr.append(el('td',v==='—'?'na':'',v))); body.append(tr); });
   if(!rows.length){ const tr=el('tr'); const td=el('td','na','No prime-time sessions in this cinema/geography scope.'); td.colSpan=6; tr.append(td); body.append(tr); }
+  table.append(body);
+}
+
+
+function renderTrajectories() {
+  const table=$('#trajectory-table'); if(!table) return;
+  const data=currentIntelligence()?.sessionTrajectories||{};
+  const quality=$('#trajectory-quality');
+  const rows=(data.cinemas||[]).filter(r=>intelligenceCinemaAllowed(r.cinemaId));
+  const complete=rows.reduce((n,r)=>n+(r.completeTrajectories||0),0);
+  const measured=rows.reduce((n,r)=>n+(r.measuredSessions||0),0);
+  quality.textContent=measured?`${complete}/${measured} complete curves`:'No trajectory data';
+  table.innerHTML='<thead><tr><th>Cinema</th><th>T−6h</th><th>T−3h</th><th>T−1h</th><th>Final</th><th>Δ 6h→Final</th><th>Complete</th></tr></thead>';
+  const body=el('tbody');
+  rows.forEach(r=>{
+    const cp=r.checkpoints||{};
+    const occ=k=>cp[k]?.occupancy==null?'—':fmt.pct(cp[k].occupancy);
+    const lift=r.occupancyLift6hToFinal==null?'—':`${fmt.signed(r.occupancyLift6hToFinal*100,2)} pp`;
+    const tr=el('tr'); [cinemaName(r.cinemaId),occ('tMinus6h'),occ('tMinus3h'),occ('tMinus1h'),occ('finalPreShow'),lift,`${r.completeTrajectories||0}/${r.measuredSessions||0}`].forEach(v=>tr.append(el('td',v==='—'?'na':'',v))); body.append(tr);
+  });
+  if(!rows.length){ const tr=el('tr'); const td=el('td','na','Trajectory checkpoints appear as comparable pre-show observations accumulate.'); td.colSpan=7; tr.append(td); body.append(tr); }
   table.append(body);
 }
 
