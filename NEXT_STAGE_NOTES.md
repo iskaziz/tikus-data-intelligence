@@ -1,35 +1,59 @@
-# TIKUS! Data Intelligence v16 — Shareable URL State
+# TIKUS! Data Intelligence v17 — Condensed Briefing Mode
 
-v16 adds a client-side shareable URL/hash state for internal comparison workflows. No collector, correction, reconciliation, analytics, schema, or immutable history behavior changed.
+v17 adds a presentation-only condensed internal briefing mode on top of the v16 shareable URL state. No collector, correction, reconciliation, analytics, schema, or immutable history behavior changed.
 
-## URL state
+## Briefing state
 
-The hash can preserve:
-- `date` — selected show date
-- `time` — all / matinee / prime / late
-- `exhibitor` — exhibitor filter
-- `state` — geography filter
-- `obs` — latest / live / final / asof
-- `replay` — as-of replay checkpoint when applicable
-- `compare` — 2–4 comma-separated cinema IDs
+The hash now optionally preserves:
+- `brief=1` — open directly in condensed briefing mode.
 
-Example shape:
-`#v=1&date=2026-09-05&time=prime&exhibitor=tgv&obs=asof&replay=1800&compare=tgv-wangsa-walk,tgv-bukit-tinggi`
+All existing v16 state remains supported:
+- date
+- time band
+- exhibitor
+- geography
+- observation mode
+- replay cutoff
+- 2–4 comparison cinemas
 
-Invalid/stale values are ignored safely. If a shared date differs from the bootstrap date, that day product is loaded before the remaining state is applied.
+A briefing link therefore restores the same analytical scope before rendering the condensed view.
 
-## UI
+## Briefing contents
 
-The Cinema Comparison Workspace now includes **Copy share link**. The current browser URL is continuously synchronized with the analytical scope and comparison selection using `history.replaceState`, so copying the address bar also works.
+The condensed view deliberately limits itself to the selected comparison cinemas and shows:
+- selected cinema count
+- observed show count
+- seat-measured session count
+- aggregate observed occupancy
+- per-cinema shows, occupancy, Seat-State Performance Index, momentum, prime-time delta and Decision Signal/confidence
+- T−6h / T−3h / T−1h / final-pre-show trajectory comparison
+- Decision Signal evidence
+- the repository seat-state caveat
+
+The view uses the same already-generated comparison/intelligence objects as the full dashboard. It does not recalculate metrics with different semantics.
+
+## Mobile / sharing
+
+- `Briefing mode` enters the condensed view.
+- `Copy briefing link` preserves the active scope plus `brief=1`.
+- `Exit briefing` returns to the full dashboard without losing the selected scope.
+- Responsive layout collapses comparison cards and controls for narrow screens.
+
+## Methodological guardrails
+
+- Observed used/booked states remain explicitly not confirmed paid ticket sales.
+- As-of replay remains hindsight-safe because briefing mode consumes the active replay intelligence rather than current-day data.
+- Schedule-only cinemas remain visibly non-seat-measured.
+- No forecasting or automated allocation recommendation language is introduced.
 
 ## QA
 
-- 38/38 tests pass
+- full unit suite passes, including dedicated briefing surface/hash regression
 - semantic validator passes
 - Python compilation passes
 - JavaScript syntax checks pass
-- dedicated share-state surface regression test passes
+- direct briefing DOM/hash integrity check passes
 
 ## Next candidate
 
-A lightweight internal briefing mode could consume the same URL state and open directly into a condensed comparison-only screen for mobile sharing or executive review.
+A compact executive trend summary could compare the selected cinemas across multiple completed theatrical days, while explicitly separating final-pre-show results from partial-day observations.

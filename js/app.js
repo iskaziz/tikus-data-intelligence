@@ -11,6 +11,7 @@ const state = {
   visibleColumns: new Set(['rank','cinema','shows','showShare','capacity','used','occupancy','avgUsed','primeShows','primeOccupancy','performanceIndex','usedDelta']),
   comparisonCinemaIds: [],
   restoringUrlState: false,
+  briefingMode: false,
 };
 
 const columns = [
@@ -104,6 +105,9 @@ function setupControls() {
   const exportCsv=$('#comparison-export-csv'); if(exportCsv) exportCsv.addEventListener('click', exportCinemaComparisonCsv);
   const printComparison=$('#comparison-print'); if(printComparison) printComparison.addEventListener('click', printCinemaComparison);
   const copyShare=$('#comparison-copy-link'); if(copyShare) copyShare.addEventListener('click', copyShareLink);
+  const briefing=$('#comparison-briefing'); if(briefing) briefing.addEventListener('click',()=>{ state.briefingMode=true; render(); });
+  const briefingExit=$('#briefing-exit'); if(briefingExit) briefingExit.addEventListener('click',()=>{ state.briefingMode=false; render(); });
+  const briefingCopy=$('#briefing-copy-link'); if(briefingCopy) briefingCopy.addEventListener('click', copyShareLink);
   window.addEventListener('hashchange', restoreFromHashChange);
 }
 
@@ -122,6 +126,7 @@ function parseUrlState() {
     observation: params.get('obs') || null,
     replay: params.get('replay') || null,
     compare,
+    briefing: params.get('brief') === '1',
   };
 }
 
@@ -137,6 +142,7 @@ function applyParsedUrlState(parsed) {
   if(parsed.observation && validObs.has(parsed.observation)) state.scope.observation=parsed.observation;
   if(parsed.replay) state.scope.replay=parsed.replay;
   if(parsed.compare?.length) state.comparisonCinemaIds=[...new Set(parsed.compare.filter(id=>cinemaIds.has(id)))].slice(0,4);
+  state.briefingMode=Boolean(parsed.briefing);
 }
 
 function encodedUrlState() {
@@ -149,6 +155,7 @@ function encodedUrlState() {
   if(state.scope.observation!=='latest') params.set('obs',state.scope.observation);
   if(state.scope.observation==='asof' && state.scope.replay) params.set('replay',state.scope.replay);
   if(state.comparisonCinemaIds.length) params.set('compare',state.comparisonCinemaIds.slice(0,4).join(','));
+  if(state.briefingMode) params.set('brief','1');
   return params.toString();
 }
 
@@ -169,7 +176,7 @@ async function restoreFromHashChange() {
       state.product=await loadDateProduct(targetDate,state.bootstrap.index,state.bootstrap.current);
       state.scope.date=targetDate;
     }
-    state.scope.time='all'; state.scope.exhibitor='all'; state.scope.state='all'; state.scope.observation='latest'; state.scope.replay=null; state.comparisonCinemaIds=[];
+    state.scope.time='all'; state.scope.exhibitor='all'; state.scope.state='all'; state.scope.observation='latest'; state.scope.replay=null; state.comparisonCinemaIds=[]; state.briefingMode=false;
     applyParsedUrlState(parsed);
     $('#date-filter').value=state.scope.date||'';
     $('#time-filter').value=state.scope.time;
@@ -239,7 +246,7 @@ function render() {
   const sessions = currentSessions();
   const scoped = scopedCinemas(state.bootstrap.cinemas.cinemas, state.scope);
   const metrics = aggregate(sessions, state.bootstrap.methodology);
-  renderFreshness(); renderScope(metrics, scoped); renderKpis(metrics, scoped.length); renderTable(); renderExhibitors(sessions); renderDistribution(sessions); renderMomentum(); renderPrimeEfficiency(); renderTrajectories(); renderCinemaComparison(); renderAllocation(); renderDecisionSignals(); renderTrend(); renderGeography(sessions); renderQuality();
+  renderFreshness(); renderScope(metrics, scoped); renderKpis(metrics, scoped.length); renderTable(); renderExhibitors(sessions); renderDistribution(sessions); renderMomentum(); renderPrimeEfficiency(); renderTrajectories(); renderCinemaComparison(); renderAllocation(); renderDecisionSignals(); renderTrend(); renderGeography(sessions); renderQuality(); renderBriefing();
   syncUrlState();
 }
 
@@ -548,6 +555,32 @@ function renderCinemaComparison() {
   ];
   metrics.forEach(([label,get])=>{ const tr=el('tr'); tr.append(el('th',null,label)); records.forEach(rec=>{ const value=get(rec); tr.append(el('td',value==='—'?'na':'',value)); }); body.append(tr); });
   table.append(body);
+}
+
+function renderBriefing() {
+  const view=$('#briefing-view'); if(!view) return;
+  document.body.classList.toggle('briefing-mode', state.briefingMode);
+  view.hidden=!state.briefingMode;
+  if(!state.briefingMode) return;
+  const records=selectedComparisonRecords();
+  $('#briefing-scope').textContent=`${comparisonScopeLabel()} · ${records.length} selected cinema${records.length===1?'':'s'}`;
+  const kpis=$('#briefing-kpis'); kpis.innerHTML='';
+  const totals={shows:0,capacity:0,used:0,measured:0};
+  records.forEach(rec=>{ totals.shows+=rec.row.totalShows||0; totals.capacity+=rec.row.observedCapacity||0; totals.used+=rec.row.observedUsed||0; totals.measured+=rec.row.seatMeasuredSessions||0; });
+  const occ=totals.capacity?totals.used/totals.capacity:null;
+  [['Selected cinemas',records.length],['Observed shows',totals.shows],['Seat-measured',totals.measured],['Observed occupancy',fmt.pct(occ)]].forEach(([label,value])=>{ const n=el('div','briefing-kpi'); n.innerHTML=`<span>${escapeHtml(String(label))}</span><strong>${escapeHtml(String(value))}</strong>`; kpis.append(n); });
+  const cards=$('#briefing-cinemas'); cards.innerHTML='';
+  records.forEach(rec=>{
+    const card=el('article','briefing-card');
+    const signal=rec.decision?.label||'Monitor';
+    card.innerHTML=`<div class="briefing-card__head"><div><p class="eyebrow">${escapeHtml(rec.row.exhibitorId.toUpperCase())}</p><h3>${escapeHtml(rec.row.name)}</h3><span>${escapeHtml(rec.row.city)} · ${escapeHtml(rec.row.state)}</span></div><span class="briefing-signal" data-signal="${escapeHtml(rec.decision?.signal||'monitor')}">${escapeHtml(signal)}</span></div><div class="briefing-card__metrics"><div><span>Shows</span><strong>${fmt.int(rec.row.totalShows)}</strong></div><div><span>Occupancy</span><strong>${fmt.pct(rec.row.occupancy)}</strong></div><div><span>Perf. Index</span><strong>${comparisonValue(rec.row.performanceIndex,'ratio')}</strong></div><div><span>Momentum</span><strong>${comparisonValue(rec.momentum?.averageSeatsPerHour,'velocity')}</strong></div><div><span>Prime Δ</span><strong>${comparisonValue(rec.prime?.occupancyDelta,'pp')}</strong></div><div><span>Confidence</span><strong>${escapeHtml(rec.decision?.confidence||'—')}</strong></div></div>`;
+    cards.append(card);
+  });
+  const table=$('#briefing-trajectory-table'); table.innerHTML='';
+  const head=el('thead'); const hr=el('tr'); hr.append(el('th',null,'Checkpoint')); records.forEach(r=>hr.append(el('th',null,r.row.name))); head.append(hr); table.append(head);
+  const body=el('tbody'); [['T−6h','tMinus6h'],['T−3h','tMinus3h'],['T−1h','tMinus1h'],['Final pre-show','finalPreShow']].forEach(([label,key])=>{ const tr=el('tr'); tr.append(el('th',null,label)); records.forEach(r=>tr.append(el('td',null,fmt.pct(r.trajectory?.checkpoints?.[key]?.occupancy)))); body.append(tr); }); table.append(body);
+  const decisions=$('#briefing-decisions'); decisions.innerHTML='';
+  records.forEach(rec=>{ const d=el('div','briefing-decision'); d.innerHTML=`<div><strong>${escapeHtml(rec.row.name)}</strong><span>${escapeHtml(rec.decision?.label||'Monitor')} · ${escapeHtml(rec.decision?.confidence||'low')} confidence</span></div><p>${escapeHtml((rec.decision?.evidence||[]).join(' · ')||'No escalated evidence.')}</p>`; decisions.append(d); });
 }
 
 function renderAllocation() {

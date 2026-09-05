@@ -202,3 +202,7 @@ The Cinema Comparison Workspace can export the current 2–4 cinema selection as
 The dashboard synchronizes its internal comparison view to the URL hash. An internal recipient can open a shared link and recover the selected show date, time/exhibitor/geography filters, observation mode, as-of replay checkpoint, and 2–4 selected cinema IDs. The hash is client-side only and does not create server state or trigger collection.
 
 The Cinema Comparison Workspace includes **Copy share link**. Invalid or obsolete hash values are ignored safely.
+
+## v17 — Condensed briefing mode
+
+v17 adds a presentation-only briefing state for internal mobile/executive review. The same 2–4 selected cinemas can be shown in a reduced view containing headline KPIs, per-cinema comparison cards, trajectory checkpoints and Decision Signals. The URL hash adds optional `brief=1`, so shared links can open directly into the briefing while preserving date, filters, observation/replay state and cinema selections. Briefing mode reuses the same backend-generated intelligence as the full dashboard and does not alter collectors, analytics, schemas or immutable history.

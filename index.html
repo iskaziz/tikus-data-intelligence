@@ -148,6 +148,7 @@
           <button type="button" class="comparison-export" id="comparison-export-csv">Export CSV</button>
           <button type="button" class="comparison-export" id="comparison-print">Print report</button>
           <button type="button" class="comparison-export" id="comparison-copy-link">Copy share link</button>
+          <button type="button" class="comparison-export" id="comparison-briefing">Briefing mode</button>
         </div>
       </div>
       <p class="panel-note">Select 2–4 cinemas to compare observed allocation, utilisation, trajectory shape, momentum, prime-time efficiency and Decision Signals. All values inherit the active date, geography, exhibitor and observation scope.</p>
@@ -155,6 +156,32 @@
       <div class="comparison-selectors" id="comparison-selectors" aria-label="Cinema comparison selection"></div>
       <p class="comparison-note" id="comparison-note" aria-live="polite">Select at least two cinemas to compare.</p>
       <div class="compact-table-wrap comparison-table-wrap"><table class="compact-table comparison-table" id="cinema-comparison-table"></table></div>
+    </section>
+
+
+    <section class="briefing-view" id="briefing-view" hidden aria-labelledby="briefing-title">
+      <div class="briefing-head">
+        <div>
+          <p class="eyebrow">CONDENSED INTERNAL REVIEW</p>
+          <h2 id="briefing-title">TIKUS! Cinema Briefing</h2>
+          <p id="briefing-scope" class="briefing-scope">—</p>
+        </div>
+        <div class="briefing-head__actions">
+          <button type="button" class="comparison-export" id="briefing-copy-link">Copy briefing link</button>
+          <button type="button" class="comparison-export" id="briefing-exit">Exit briefing</button>
+        </div>
+      </div>
+      <p class="briefing-caveat">Observed seat-state intelligence only. Used/booked states are not confirmed paid ticket sales. Schedule-only cinemas do not expose seat measurements.</p>
+      <div class="briefing-kpis" id="briefing-kpis"></div>
+      <div class="briefing-grid" id="briefing-cinemas"></div>
+      <section class="briefing-panel">
+        <div class="panel__header"><div><p class="eyebrow">TRAJECTORY COMPARISON</p><h3>Pre-show trajectory</h3></div></div>
+        <div class="compact-table-wrap"><table class="compact-table comparison-table" id="briefing-trajectory-table"></table></div>
+      </section>
+      <section class="briefing-panel">
+        <div class="panel__header"><div><p class="eyebrow">OPERATIONAL TRIAGE</p><h3>Decision Signals</h3></div></div>
+        <div class="briefing-decisions" id="briefing-decisions"></div>
+      </section>
     </section>
 
     <section class="panel" id="allocation-panel">
