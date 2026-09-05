@@ -98,3 +98,33 @@ class DistributionIntelligenceTests(unittest.TestCase):
         cmp=allocation_comparison([a],[b],current_complete='observed',previous_complete='partial',previous_date='2026-09-04')
         self.assertEqual(cmp['quality'],'limited-partial-day')
         self.assertEqual(cmp['cinemas'][0]['showDelta'],0)
+
+class DecisionIntelligenceTests(unittest.TestCase):
+    def test_multiple_positive_indicators_create_review_signal(self):
+        from scripts.analytics.build_products import decision_intelligence
+        a=snap('a','2026-09-05T18:30:00+08:00','2026-09-05T17:00:00+08:00')
+        a['seat']={'capacity':100,'used':20,'available':80,'otherUnavailable':0}
+        latest=[a]
+        momentum=[{'cinemaId':'tgv-tebrau-city','qualifyingSessions':2,'netUsedDelta':3,'averageSeatsPerHour':1.5,'maxSeatsPerHour':2.0,'minSeatsPerHour':1.0}]
+        prime=[{'cinemaId':'tgv-tebrau-city','primeShows':1,'primeMeasuredSessions':1,'primeOccupancy':0.20,'allDayOccupancy':0.20,'occupancyDelta':0.01}]
+        # Force relative overperformance with a second measured cinema in network denominator.
+        b=snap('b','2026-09-05T15:00:00+08:00','2026-09-05T14:00:00+08:00',cinema='gsc-mid-valley')
+        b['seat']={'capacity':900,'used':1,'available':899,'otherUnavailable':0}
+        data=decision_intelligence(latest+[b],momentum,prime,{'status':'unavailable','quality':'no-previous-day','cinemas':[]},daily_completeness='observed')
+        row=next(r for r in data['cinemas'] if r['cinemaId']=='tgv-tebrau-city')
+        self.assertEqual(row['signal'],'review-opportunity')
+        self.assertEqual(row['confidence'],'medium')
+
+    def test_partial_day_forces_low_confidence(self):
+        from scripts.analytics.build_products import decision_intelligence
+        a=snap('a','2026-09-05T18:30:00+08:00','2026-09-05T17:00:00+08:00')
+        a['seat']={'capacity':100,'used':10,'available':90,'otherUnavailable':0}
+        data=decision_intelligence([a],[],[],{'status':'unavailable','quality':'no-previous-day','cinemas':[]},daily_completeness='partial')
+        self.assertEqual(data['quality'],'provisional-live-observation')
+        self.assertEqual(data['cinemas'][0]['confidence'],'low')
+
+    def test_signal_definition_disclaims_forecasts_and_sales(self):
+        from scripts.analytics.build_products import decision_intelligence
+        data=decision_intelligence([],[],[],{'status':'unavailable','quality':'no-previous-day','cinemas':[]},daily_completeness='observed')
+        self.assertIn('not forecasts',data['definition'])
+        self.assertIn('ticket-sales',data['definition'])

@@ -173,3 +173,16 @@ footer a { margin-left: auto; }
 .panel-note { margin: -.2rem 1.25rem 1rem; color: var(--muted); font-size: .82rem; line-height: 1.45; max-width: 74ch; }
 .intelligence-grid .compact-table td:nth-child(n+2), .intelligence-grid .compact-table th:nth-child(n+2), #allocation-table td:nth-child(n+2), #allocation-table th:nth-child(n+2) { text-align: right; }
 #momentum-table td:first-child, #prime-efficiency-table td:first-child, #allocation-table td:first-child { text-align: left; }
+
+
+/* v10 decision-intelligence */
+.decision-summary { display:grid; grid-template-columns:repeat(4,minmax(110px,1fr)); gap:1px; background:var(--line); border-bottom:1px solid var(--line); }
+.decision-stat { background:#151517; padding:.7rem .85rem; min-height:64px; display:flex; align-items:baseline; gap:.55rem; }
+.decision-stat strong { font-size:1.25rem; font-variant-numeric:tabular-nums; }
+.decision-stat span { color:var(--muted); font-size:.65rem; text-transform:uppercase; letter-spacing:.05em; }
+#decision-table td:nth-child(4) { white-space:normal; min-width:340px; text-align:left; color:var(--muted); line-height:1.35; }
+#decision-table th:nth-child(4) { text-align:left; }
+#decision-table tr[data-signal="review-opportunity"] .decision-signal { color:var(--positive); font-weight:800; }
+#decision-table tr[data-signal="capacity-watch"] .decision-signal { color:var(--warning); font-weight:800; }
+#decision-table tr[data-signal="mixed"] .decision-signal { color:var(--offwhite); font-weight:800; }
+@media (max-width:700px){ .decision-summary{grid-template-columns:repeat(2,1fr);} }

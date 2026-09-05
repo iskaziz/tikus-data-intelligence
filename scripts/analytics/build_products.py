@@ -282,6 +282,118 @@ def velocity_leaders(snapshots: list[dict], limit: int = 10) -> list[dict]:
     return sorted(rows,key=lambda x:x["seatsPerHour"],reverse=True)[:limit]
 
 
+
+def decision_intelligence(latest: list[dict], momentum: list[dict], prime_efficiency: list[dict], allocation_cmp: dict, *, daily_completeness: str) -> dict:
+    """Derive cautious operational review signals from observed seat-state evidence.
+
+    These are triage signals, not forecasts or sales recommendations. They only use
+    corrected/reconciled analytical observations and preserve the repository's
+    distinction between observed seat state and paid admissions.
+    """
+    rankings = {r["cinemaId"]: r for r in cinema_rankings(latest)}
+    momentum_by = {r["cinemaId"]: r for r in momentum}
+    prime_by = {r["cinemaId"]: r for r in prime_efficiency}
+    alloc_by = {r["cinemaId"]: r for r in (allocation_cmp.get("cinemas") or [])}
+    network = aggregate(latest)
+    network_occ = network.get("occupancy")
+    rows = []
+
+    for cinema_id, rank in rankings.items():
+        if not rank.get("seatMeasuredSessions"):
+            continue
+        m = momentum_by.get(cinema_id, {})
+        p = prime_by.get(cinema_id, {})
+        a = alloc_by.get(cinema_id, {})
+        evidence = []
+        positive = 0
+        caution = 0
+
+        pi = rank.get("performanceIndex")
+        occ = rank.get("occupancy")
+        avg_vel = m.get("averageSeatsPerHour")
+        q_sessions = m.get("qualifyingSessions") or 0
+        prime_delta = p.get("occupancyDelta")
+        prime_measured = p.get("primeMeasuredSessions") or 0
+
+        if pi is not None and pi >= 1.25 and (rank.get("observedUsed") or 0) >= 2:
+            positive += 1
+            evidence.append(f"Seat-State Performance Index {pi:.2f}×")
+        elif pi is not None and pi <= 0.75 and rank.get("observedCapacity"):
+            caution += 1
+            evidence.append(f"Seat-State Performance Index {pi:.2f}×")
+
+        if avg_vel is not None and q_sessions:
+            if avg_vel > 0.25:
+                positive += 1
+                evidence.append(f"recent momentum +{avg_vel:.1f} observed seats/hr")
+            elif avg_vel < -0.25:
+                caution += 1
+                evidence.append(f"recent momentum {avg_vel:.1f} observed seats/hr")
+
+        if prime_delta is not None and prime_measured:
+            if prime_delta >= 0.005:
+                positive += 1
+                evidence.append(f"prime utilisation +{prime_delta*100:.2f} pp vs all-day")
+            elif prime_delta <= -0.005:
+                caution += 1
+                evidence.append(f"prime utilisation {prime_delta*100:.2f} pp vs all-day")
+
+        if allocation_cmp.get("quality") == "comparable" and a:
+            delta = a.get("showDelta") or 0
+            if delta < 0 and positive >= 1:
+                evidence.append(f"observed allocation down {abs(delta)} show(s) vs prior day")
+            elif delta > 0 and caution >= 1:
+                evidence.append(f"observed allocation up {delta} show(s) vs prior day")
+
+        signal = "monitor"
+        label = "Monitor"
+        rationale = "No strong allocation-fit signal from the current observed evidence."
+        if positive >= 2 and caution == 0:
+            signal = "review-opportunity"
+            label = "Review opportunity"
+            rationale = "Multiple observed indicators are outperforming relative to the measured network; review whether current allocation remains proportionate."
+        elif caution >= 2 and positive == 0:
+            signal = "capacity-watch"
+            label = "Capacity watch"
+            rationale = "Multiple observed indicators are underperforming relative to the measured network; review utilisation before expanding allocation."
+        elif positive >= 1 and caution >= 1:
+            signal = "mixed"
+            label = "Mixed signal"
+            rationale = "Observed indicators disagree; avoid making an allocation inference from a single metric."
+
+        confidence = "low"
+        if q_sessions >= 2 and rank.get("seatCoverage") == 1.0:
+            confidence = "medium"
+        if daily_completeness != "observed":
+            confidence = "low"
+
+        rows.append({
+            "cinemaId": cinema_id,
+            "signal": signal,
+            "label": label,
+            "confidence": confidence,
+            "rationale": rationale,
+            "evidence": evidence[:4],
+            "performanceIndex": pi,
+            "occupancy": occ,
+            "networkOccupancy": network_occ,
+            "averageSeatsPerHour": avg_vel,
+            "primeOccupancyDelta": prime_delta,
+            "showDelta": a.get("showDelta") if a else None,
+        })
+
+    priority = {"review-opportunity": 0, "mixed": 1, "capacity-watch": 2, "monitor": 3}
+    rows.sort(key=lambda r: (priority.get(r["signal"], 9), -(r.get("performanceIndex") or 0), r["cinemaId"]))
+    counts = {k: sum(1 for r in rows if r["signal"] == k) for k in ("review-opportunity", "mixed", "capacity-watch", "monitor")}
+    return {
+        "status": "ok" if rows else "unavailable",
+        "quality": "provisional-live-observation" if daily_completeness != "observed" else "observed-day",
+        "networkOccupancy": network_occ,
+        "counts": counts,
+        "cinemas": rows,
+        "definition": "Operational review signals derived from observed seat-state performance, repeated-measurement momentum and prime-time utilisation. They are not forecasts, ticket-sales estimates or automated allocation recommendations.",
+    }
+
 def _state_summaries(root: Path, latest: list[dict]) -> list[dict]:
     registry = json.loads((root / "data/meta/cinemas.json").read_text(encoding="utf-8"))
     state_by_cinema = {c["id"]: c["state"] for c in registry["cinemas"]}
@@ -367,8 +479,9 @@ def build_day_product(root: Path, show_date: str, snapshots: list[dict], *, excl
     momentum = cinema_momentum(day)
     prime_efficiency = prime_time_efficiency(latest)
     velocity = velocity_leaders(day)
+    daily_completeness = "partial" if flagged or not day else "observed"
     return {
-        "schemaVersion": "1.4.0",
+        "schemaVersion": "1.5.0",
         "generatedAt": generated_at.isoformat(timespec="seconds"),
         "filmId": "tikus",
         "showDate": show_date,
@@ -397,10 +510,12 @@ def build_day_product(root: Path, show_date: str, snapshots: list[dict], *, excl
             "primeTimeEfficiency": prime_efficiency,
             "sessionVelocityLeaders": velocity,
             "allocationComparison": {"status":"pending-build","previousDate":None,"quality":"not-evaluated","cinemas":[]},
+            "decisionSignals": {"status":"pending-build","quality":"not-evaluated","counts":{},"cinemas":[],"definition":""},
             "definitions": {
                 "momentum": "Latest observed seat-state change across sessions with at least two valid measurements. Not paid ticket sales.",
                 "primeTimeEfficiency": "Capacity-weighted observed utilisation for sessions starting 18:00 inclusive to 21:00 exclusive, compared with all-day utilisation.",
-                "allocationComparison": "Observed schedule-count change versus the previous available day; limited when either day is partial."
+                "allocationComparison": "Observed schedule-count change versus the previous available day; limited when either day is partial.",
+                "decisionSignals": "Cautious operational review signals derived from relative observed seat-state performance, repeated-measurement momentum and prime-time utilisation; not forecasts or sales recommendations."
             }
         },
         "observationWindow": {
@@ -412,7 +527,7 @@ def build_day_product(root: Path, show_date: str, snapshots: list[dict], *, excl
             "latestRun": latest_run,
             "firstSeenAfterShowSessionIds": flagged,
             "firstSeenAfterShowCount": len(flagged),
-            "dailyCompleteness": "partial" if flagged or not day else "observed",
+            "dailyCompleteness": daily_completeness,
             "note": "Daily totals reflect sessions actually observed by this repository. A collector started late in the theatrical day cannot reconstruct earlier sessions from sources that return upcoming inventory only.",
         },
         "quality": {
@@ -452,6 +567,13 @@ def build_all_products(root: Path) -> None:
             previous_complete=previous_product.get("collection", {}).get("dailyCompleteness") if previous_product else None,
             previous_date=previous_date,
         )
+        product["intelligence"]["decisionSignals"] = decision_intelligence(
+            product.get("sessions", []),
+            product.get("intelligence", {}).get("cinemaMomentum", []),
+            product.get("intelligence", {}).get("primeTimeEfficiency", []),
+            product.get("intelligence", {}).get("allocationComparison", {}),
+            daily_completeness=product.get("collection", {}).get("dailyCompleteness") or "partial",
+        )
         products[show_date] = product
         _write(root / "data/days" / f"{show_date}.json", product)
 
@@ -460,7 +582,7 @@ def build_all_products(root: Path) -> None:
         current = {**products[latest_date], "mode": "current"}
     else:
         current = {
-            "schemaVersion": "1.4.0",
+            "schemaVersion": "1.5.0",
             "generatedAt": datetime.now(TZ).isoformat(timespec="seconds"),
             "filmId": "tikus",
             "showDate": None,
@@ -472,7 +594,7 @@ def build_all_products(root: Path) -> None:
             "finalPreShowState": {"status":"no-observations","startedSessions":0,"futureSessions":0,"finalizedSessions":0,"missingFinalPreShowSessionIds":[]},
             "cinemas": [], "sessions": [], "liveSessions": [], "finalPreShowSessions": [], "sessionChanges": {}, "series": {},
             "exhibitors": [], "states": [],
-            "intelligence": {"cinemaMomentum":[],"primeTimeEfficiency":[],"sessionVelocityLeaders":[],"allocationComparison":{"status":"unavailable","previousDate":None,"quality":"no-previous-day","cinemas":[]},"definitions":{}},
+            "intelligence": {"cinemaMomentum":[],"primeTimeEfficiency":[],"sessionVelocityLeaders":[],"allocationComparison":{"status":"unavailable","previousDate":None,"quality":"no-previous-day","cinemas":[]},"decisionSignals":{"status":"unavailable","quality":"no-observations","counts":{},"cinemas":[],"definition":""},"definitions":{}},
             "observationWindow": {"firstCollectedAt": None, "lastCollectedAt": None, "observations": 0},
             "collection": {"latestRun": None, "firstSeenAfterShowSessionIds": [], "firstSeenAfterShowCount": 0, "dailyCompleteness": "no-observations", "note": None},
             "quality": {"seatCoverage": None, "methodology": "docs/METHODOLOGY.md", "observedSeatStateIsNotSales": True, "excludedObservationCount": 0, "correctionsApplied": [], "sessionIdentityReconciliations": 0, "reconciledSessions": []},

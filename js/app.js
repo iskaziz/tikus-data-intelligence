@@ -104,7 +104,7 @@ function render() {
   const sessions = currentSessions();
   const scoped = scopedCinemas(state.bootstrap.cinemas.cinemas, state.scope);
   const metrics = aggregate(sessions, state.bootstrap.methodology);
-  renderFreshness(); renderScope(metrics, scoped); renderKpis(metrics, scoped.length); renderTable(); renderExhibitors(sessions); renderDistribution(sessions); renderMomentum(); renderPrimeEfficiency(); renderAllocation(); renderTrend(); renderGeography(sessions); renderQuality();
+  renderFreshness(); renderScope(metrics, scoped); renderKpis(metrics, scoped.length); renderTable(); renderExhibitors(sessions); renderDistribution(sessions); renderMomentum(); renderPrimeEfficiency(); renderAllocation(); renderDecisionSignals(); renderTrend(); renderGeography(sessions); renderQuality();
 }
 
 function renderFreshness() {
@@ -235,6 +235,28 @@ function renderAllocation() {
   const note=$('#allocation-note');
   if(cmp.status==='ok') note.textContent=`Observed schedule-count comparison: ${cmp.previousDate} → ${state.product.showDate}. ${cmp.quality==='comparable'?'Both days pass the repository completeness rule.':'At least one day is partial; treat deltas as observed differences, not definitive exhibitor programming changes.'}`;
 }
+
+function renderDecisionSignals() {
+  const table=$('#decision-table'); if(!table) return;
+  const data=state.product.intelligence?.decisionSignals||{};
+  const quality=$('#decision-quality');
+  quality.textContent=data.quality==='observed-day'?'Observed-day evidence':'Provisional · live observation';
+  const summary=$('#decision-summary'); summary.innerHTML='';
+  const counts=data.counts||{};
+  [['Review opportunity',counts['review-opportunity']||0],['Mixed signal',counts.mixed||0],['Capacity watch',counts['capacity-watch']||0],['Monitor',counts.monitor||0]].forEach(([label,value])=>{ const card=el('div','decision-stat'); card.innerHTML=`<strong>${fmt.int(value)}</strong><span>${escapeHtml(label)}</span>`; summary.append(card); });
+  table.innerHTML='<thead><tr><th>Cinema</th><th>Signal</th><th>Confidence</th><th>Evidence</th><th>PI</th><th>Momentum</th><th>Prime Δ</th></tr></thead>';
+  const body=el('tbody');
+  const rows=(data.cinemas||[]).filter(r=>intelligenceCinemaAllowed(r.cinemaId));
+  rows.forEach(r=>{
+    const tr=el('tr'); tr.dataset.signal=r.signal||'monitor';
+    const evidence=(r.evidence||[]).join(' · ') || r.rationale || '—';
+    const vals=[cinemaName(r.cinemaId),r.label||r.signal||'Monitor',r.confidence||'low',evidence,fmt.ratio(r.performanceIndex),r.averageSeatsPerHour==null?'—':`${fmt.signed(r.averageSeatsPerHour,1)}/hr`,r.primeOccupancyDelta==null?'—':`${fmt.signed(r.primeOccupancyDelta*100,2)} pp`];
+    vals.forEach((v,i)=>tr.append(el('td',v==='—'?'na':(i===1?'decision-signal':''),v))); body.append(tr);
+  });
+  if(!rows.length){ const tr=el('tr'); const td=el('td','na','Decision signals require seat-measured cinema observations.'); td.colSpan=7; tr.append(td); body.append(tr); }
+  table.append(body);
+}
+
 
 function renderTrend() {
   const table=$('#day-trend'); table.innerHTML='<thead><tr><th>Day</th><th>Shows</th><th>Locations</th><th>Capacity</th><th>Used</th><th>Occ.</th><th>Prime Occ.</th><th>Coverage</th></tr></thead>';

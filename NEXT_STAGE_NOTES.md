@@ -1,45 +1,38 @@
-# v9 — Distribution Intelligence
+# TIKUS! Data Intelligence v10 — decision intelligence
 
-## Scope
+v10 adds a conservative operational decision layer on top of v9. Collectors and acquisition semantics are unchanged.
 
-v9 leaves collectors and normalization unchanged and adds a derived analytics/presentation layer.
+## New product fields
 
-## Added analytical products
+`intelligence.decisionSignals` contains:
 
-`intelligence.cinemaMomentum`
-- qualifying repeated-measurement session count
-- net latest used/booked-state delta
-- average latest seats/hour
-- max/min latest seats/hour
+- `status`
+- `quality`
+- `networkOccupancy`
+- `counts`
+- per-cinema signals with evidence and confidence
+- an explicit methodology definition/disclaimer
 
-`intelligence.primeTimeEfficiency`
-- prime show count
-- measured prime sessions
-- prime capacity / observed used
-- prime occupancy
-- all-day occupancy
-- percentage-point occupancy delta
+## Signal logic
 
-`intelligence.sessionVelocityLeaders`
-- fastest positive latest observed seat-state velocities with session/cinema/timestamp context
+A cinema is only promoted to **Review opportunity** when at least two independent positive indicators align and no cautionary indicator conflicts. Multiple negative relative indicators become **Capacity watch**. Conflicting evidence becomes **Mixed signal**. Everything else remains **Monitor**.
 
-`intelligence.allocationComparison`
-- current vs previous observed show count by cinema
-- current vs previous prime-time show count
-- explicit `comparable` or `limited-partial-day` quality
+Evidence can include Seat-State Performance Index, repeated-measurement seat-state momentum, prime-time occupancy delta and comparable observed allocation change.
 
-## Dashboard
+Daily completeness is part of confidence. Partial acquisition always yields low confidence.
 
-New panels:
-- Seat-State Momentum
-- Prime-Time Efficiency
-- Observed Allocation Change
+## UI
 
-All language remains source-semantic and avoids implying ticket sales, admissions or box office.
+A new **Decision Signals** panel presents signal counts and an evidence table. It remains analytical and compact; no maps, alerts or decorative scoring gauges were added.
 
-## QA
+## Validation
 
-- 28/28 unit tests passing
-- semantic validator passing
-- Python compileall passing
-- JavaScript syntax checks passing
+- 31 unit tests pass.
+- semantic validator passes.
+- Python compilation passes.
+- browser JavaScript syntax checks pass.
+- browser-facing schema supports `1.5.0`.
+
+## Recommended next stage
+
+After at least one complete full theatrical day under v10, add an **as-of replay** so the producer can inspect what the decision panel would have shown at different collection times (for example 12:00, 15:00, 18:00 and final pre-show) without hindsight leakage.

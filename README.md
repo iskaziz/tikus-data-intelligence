@@ -163,3 +163,7 @@ v9 adds a derived analytical layer without changing acquisition behaviour:
 - explicit comparison-quality gating when either theatrical day is partial.
 
 All momentum/velocity language refers to observed source-defined seat states, never confirmed paid tickets or admissions. See `docs/METHODOLOGY.md`.
+
+## v10 decision intelligence
+
+v10 adds `intelligence.decisionSignals`, a cautious operational-triage layer derived from corrected observed seat-state performance, repeated-measurement momentum and prime-time utilisation. Signals are labelled **Review opportunity**, **Mixed signal**, **Capacity watch** or **Monitor**. They are not forecasts, sales estimates or automated programming recommendations. Partial-day acquisition automatically reduces confidence to low.
