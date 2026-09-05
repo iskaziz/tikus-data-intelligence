@@ -1,18 +1,14 @@
-# v13 — Individual Screening Trajectory Explorer
+# v14 — Cinema Comparison Workspace
 
-## Goal
-Expose the v12 backend trajectory checkpoints at the individual screening level inside each cinema detail.
+Implemented:
+- Select 2–4 cinemas for direct side-by-side review.
+- Auto-seed two current measured leaders while allowing manual replacement.
+- Compare allocation, prime allocation, capacity, observed used/booked state, occupancy and Seat-State Performance Index.
+- Compare Seat-State Momentum and prime-time efficiency.
+- Compare T−6h / T−3h / T−1h / final pre-show cinema trajectories and completeness.
+- Compare observed allocation delta and Decision Signal/confidence.
+- Inherit every active dashboard scope, including hindsight-safe As-of replay.
+- No collector or backend metric changes.
 
-## Implementation
-- Screening selector lists only measured sessions available in the current scope.
-- Four checkpoint cards: T−6h, T−3h, T−1h, Final pre-show.
-- Each observed checkpoint displays used/capacity, observed occupancy, exact `collectedAt`, and `minutesBeforeShow`.
-- Missing checkpoints explicitly remain unavailable; final pre-show stays unavailable before session start.
-- Clicking or keyboard-activating a measured session row selects that trajectory.
-- As-of replay uses its own backend `sessionTrajectories`, preventing hindsight leakage.
-
-## Non-goals
-- No sales inference.
-- No interpolation between observations.
-- No collector changes.
-- No modification of immutable history.
+Recommended next stage:
+- Add a compact comparison export/share view (CSV/print-friendly HTML) so selected cinema comparisons can be circulated internally without exposing the full operational dashboard.

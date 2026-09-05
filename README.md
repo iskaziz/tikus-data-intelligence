@@ -189,3 +189,7 @@ Cinema trajectory rollups are capacity-weighted and report checkpoint coverage e
 - Session-table rows can select the trajectory with mouse or keyboard.
 - Uses the active backend trajectory object, including hindsight-safe as-of replay trajectories.
 - Does not alter collectors, raw history, corrections, reconciliation, or metric semantics.
+
+## v14 cinema comparison workspace
+
+v14 adds a side-by-side workspace for selecting 2–4 cinemas and comparing observed allocation, capacity/utilisation, Seat-State Performance Index, momentum, prime-time efficiency, trajectory checkpoints, allocation change and Decision Signals. The workspace inherits the active date/geography/exhibitor/observation scope, including hindsight-safe as-of replay. No acquisition or metric semantics changed in this release.

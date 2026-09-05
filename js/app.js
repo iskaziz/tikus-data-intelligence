@@ -9,6 +9,7 @@ const state = {
   search: '',
   sort: { key: 'observedUsed', direction: 'desc' },
   visibleColumns: new Set(['rank','cinema','shows','showShare','capacity','used','occupancy','avgUsed','primeShows','primeOccupancy','performanceIndex','usedDelta']),
+  comparisonCinemaIds: [],
 };
 
 const columns = [
@@ -88,7 +89,9 @@ function setupControls() {
   $('#session-dialog .dialog-close').addEventListener('click', () => $('#session-dialog').close());
   $('#session-dialog').addEventListener('click', e => { if (e.target === $('#session-dialog')) $('#session-dialog').close(); });
   $('#trajectory-session-filter').addEventListener('change', e => renderScreeningTrajectory(e.target.value));
+  const autoCompare=$('#comparison-auto'); if(autoCompare) autoCompare.addEventListener('click',()=>{ seedComparison(true); renderCinemaComparison(); });
 }
+
 
 function populateReplayControl() {
   const select=$('#replay-time-filter'); if(!select) return;
@@ -134,7 +137,7 @@ function render() {
   const sessions = currentSessions();
   const scoped = scopedCinemas(state.bootstrap.cinemas.cinemas, state.scope);
   const metrics = aggregate(sessions, state.bootstrap.methodology);
-  renderFreshness(); renderScope(metrics, scoped); renderKpis(metrics, scoped.length); renderTable(); renderExhibitors(sessions); renderDistribution(sessions); renderMomentum(); renderPrimeEfficiency(); renderTrajectories(); renderAllocation(); renderDecisionSignals(); renderTrend(); renderGeography(sessions); renderQuality();
+  renderFreshness(); renderScope(metrics, scoped); renderKpis(metrics, scoped.length); renderTable(); renderExhibitors(sessions); renderDistribution(sessions); renderMomentum(); renderPrimeEfficiency(); renderTrajectories(); renderCinemaComparison(); renderAllocation(); renderDecisionSignals(); renderTrend(); renderGeography(sessions); renderQuality();
 }
 
 function renderFreshness() {
@@ -269,6 +272,96 @@ function renderTrajectories() {
     const tr=el('tr'); [cinemaName(r.cinemaId),occ('tMinus6h'),occ('tMinus3h'),occ('tMinus1h'),occ('finalPreShow'),lift,`${r.completeTrajectories||0}/${r.measuredSessions||0}`].forEach(v=>tr.append(el('td',v==='—'?'na':'',v))); body.append(tr);
   });
   if(!rows.length){ const tr=el('tr'); const td=el('td','na','Trajectory checkpoints appear as comparable pre-show observations accumulate.'); td.colSpan=7; tr.append(td); body.append(tr); }
+  table.append(body);
+}
+
+
+function comparisonRows() {
+  const sessions=currentSessions();
+  return cinemaRows(sessions, state.bootstrap.cinemas.cinemas, state.scope, state.bootstrap.methodology, currentSessionChanges())
+    .filter(r=>intelligenceCinemaAllowed(r.id));
+}
+
+function seedComparison(force=false) {
+  const rows=comparisonRows().filter(r=>r.seatMeasuredSessions>0);
+  const valid=new Set(rows.map(r=>r.id));
+  state.comparisonCinemaIds=state.comparisonCinemaIds.filter(id=>valid.has(id));
+  if(force || state.comparisonCinemaIds.length<2){
+    const ranked=[...rows].sort((a,b)=>(b.observedUsed??-1)-(a.observedUsed??-1)||(b.occupancy??-1)-(a.occupancy??-1));
+    state.comparisonCinemaIds=ranked.slice(0,Math.min(2,ranked.length)).map(r=>r.id);
+  }
+}
+
+function metricByCinema(list, cinemaId) { return (list||[]).find(r=>r.cinemaId===cinemaId) || null; }
+
+function comparisonRecord(row) {
+  const intel=currentIntelligence()||{};
+  const momentum=metricByCinema(intel.cinemaMomentum,row.id);
+  const prime=metricByCinema(intel.primeTimeEfficiency,row.id);
+  const trajectory=metricByCinema(intel.sessionTrajectories?.cinemas,row.id);
+  const decision=metricByCinema(intel.decisionSignals?.cinemas,row.id);
+  const allocation=metricByCinema(intel.allocationComparison?.cinemas,row.id);
+  return {row,momentum,prime,trajectory,decision,allocation};
+}
+
+function renderComparisonSelectors(rows) {
+  const root=$('#comparison-selectors'); if(!root) return; root.innerHTML='';
+  const selected=new Set(state.comparisonCinemaIds);
+  for(let slot=0;slot<4;slot++){
+    const label=el('label','comparison-selector'); label.append(document.createTextNode(`Cinema ${slot+1}`));
+    const select=document.createElement('select'); select.dataset.slot=String(slot); select.setAttribute('aria-label',`Comparison cinema ${slot+1}`);
+    select.append(new Option(slot<2?'Select cinema':'Optional',''));
+    rows.forEach(r=>{ const opt=new Option(`${r.name} · ${r.city}`,r.id); if(selected.has(r.id)&&state.comparisonCinemaIds[slot]!==r.id) opt.disabled=true; select.append(opt); });
+    select.value=state.comparisonCinemaIds[slot]||'';
+    select.addEventListener('change',()=>{
+      const next=[...state.comparisonCinemaIds];
+      if(select.value) next[slot]=select.value; else next.splice(slot,1);
+      state.comparisonCinemaIds=[...new Set(next.filter(Boolean))].slice(0,4);
+      renderCinemaComparison();
+    });
+    label.append(select); root.append(label);
+  }
+}
+
+function comparisonValue(value, kind) {
+  if(kind==='int') return fmt.int(value);
+  if(kind==='pct') return fmt.pct(value);
+  if(kind==='ratio') return fmt.ratio(value);
+  if(kind==='velocity') return value==null?'—':`${fmt.signed(value,1)}/hr`;
+  if(kind==='pp') return value==null?'—':`${fmt.signed(value*100,2)} pp`;
+  return value==null?'—':String(value);
+}
+
+function renderCinemaComparison() {
+  const table=$('#cinema-comparison-table'); if(!table) return;
+  const rows=comparisonRows(); seedComparison(false); renderComparisonSelectors(rows);
+  const selected=state.comparisonCinemaIds.map(id=>rows.find(r=>r.id===id)).filter(Boolean).slice(0,4);
+  const note=$('#comparison-note');
+  if(selected.length<2){ table.innerHTML=''; note.textContent='Select at least two seat-measured cinemas to compare.'; return; }
+  note.textContent=`${selected.length} cinemas · current analytical scope · ${activeReplay()?'hindsight-safe replay':'latest eligible observations'}.`;
+  const records=selected.map(comparisonRecord);
+  table.innerHTML='';
+  const head=el('thead'); const hr=el('tr'); hr.append(el('th',null,'Metric')); selected.forEach(r=>{ const th=el('th'); th.innerHTML=`${escapeHtml(r.name)}<span class="comparison-sub">${escapeHtml(r.city)} · ${escapeHtml(r.exhibitorId.toUpperCase())}</span>`; hr.append(th); }); head.append(hr); table.append(head);
+  const body=el('tbody');
+  const metrics=[
+    ['Shows',rec=>comparisonValue(rec.row.totalShows,'int')],
+    ['Prime shows',rec=>comparisonValue(rec.row.primeTimeShows,'int')],
+    ['Observed capacity',rec=>comparisonValue(rec.row.observedCapacity,'int')],
+    ['Observed used / booked',rec=>comparisonValue(rec.row.observedUsed,'int')],
+    ['All-day occupancy',rec=>comparisonValue(rec.row.occupancy,'pct')],
+    ['Seat-State Performance Index',rec=>comparisonValue(rec.row.performanceIndex,'ratio')],
+    ['Momentum',rec=>comparisonValue(rec.momentum?.averageSeatsPerHour,'velocity')],
+    ['Prime efficiency Δ',rec=>comparisonValue(rec.prime?.occupancyDelta,'pp')],
+    ['T−6h trajectory',rec=>comparisonValue(rec.trajectory?.checkpoints?.tMinus6h?.occupancy,'pct')],
+    ['T−3h trajectory',rec=>comparisonValue(rec.trajectory?.checkpoints?.tMinus3h?.occupancy,'pct')],
+    ['T−1h trajectory',rec=>comparisonValue(rec.trajectory?.checkpoints?.tMinus1h?.occupancy,'pct')],
+    ['Final pre-show occupancy',rec=>comparisonValue(rec.trajectory?.checkpoints?.finalPreShow?.occupancy,'pct')],
+    ['Complete trajectories',rec=>rec.trajectory?`${rec.trajectory.completeTrajectories||0}/${rec.trajectory.measuredSessions||0}`:'—'],
+    ['Allocation Δ shows',rec=>comparisonValue(rec.allocation?.showDelta,'int')],
+    ['Decision signal',rec=>rec.decision?.label||rec.decision?.signal||'Monitor'],
+    ['Signal confidence',rec=>rec.decision?.confidence||'low'],
+  ];
+  metrics.forEach(([label,get])=>{ const tr=el('tr'); tr.append(el('th',null,label)); records.forEach(rec=>{ const value=get(rec); tr.append(el('td',value==='—'?'na':'',value)); }); body.append(tr); });
   table.append(body);
 }
 
