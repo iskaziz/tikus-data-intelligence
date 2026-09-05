@@ -61,6 +61,22 @@ class ScheduleOnlyCollectorParserTests(unittest.TestCase):
         html = (FIX / "paragon_tikus.html").read_text(encoding="utf-8")
         self.assertEqual(parse_tikus_times(html, "2026-09-05"), ["10:30 AM", "04:30 PM"])
 
+
+    def test_paragon_uses_movie_and_ticket_anchor_semantics(self):
+        from scripts.collectors.paragon import parse_tikus_schedule
+        html = (FIX / "paragon_tikus.html").read_text(encoding="utf-8")
+        rows, diagnostics = parse_tikus_schedule(html, "2026-09-04")
+        self.assertEqual([r["sessionId"] for r in rows], ["163017", "183017", "203017"])
+        self.assertEqual(diagnostics["tikusTitleAnchors"], 1)
+        self.assertEqual(diagnostics["matchedDateTicketAnchors"], 3)
+
+    def test_paragon_ignores_plain_text_tikus_without_movie_href(self):
+        from scripts.collectors.paragon import parse_tikus_schedule
+        html = '<span>Tikus!</span><h4>Saturday, 05 September 2026</h4><a href="/Ticketing/visSelectTickets.aspx?txtSessionId=003000">12:30 AM</a>'
+        rows, diagnostics = parse_tikus_schedule(html, "2026-09-05")
+        self.assertEqual(rows, [])
+        self.assertEqual(diagnostics["rejectionReasons"].get("no-exact-tikus-movie-anchor"), 1)
+
     def test_mega_riverfront_times(self):
         from scripts.collectors.mega import parse_riverfront_times
         html = (FIX / "mega_tikus.html").read_text(encoding="utf-8")

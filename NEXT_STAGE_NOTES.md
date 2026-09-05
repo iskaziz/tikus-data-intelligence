@@ -1,17 +1,31 @@
-# TIKUS! Data Intelligence — v6 correctness pass
+# v7 — Paragon link-semantic recovery
 
-## Implemented
+This release changes only the Paragon acquisition path and collector diagnostics.
 
-- Paragon schedule parser v1.2.0 uses HTML-tree/card containment instead of unbounded text neighbourhoods.
-- Added `data/meta/corrections.json`; proven collector defects are excluded from analytics while immutable history remains untouched.
-- Quarantines Batu Pahat observations from Paragon parser v1.0/v1.1 on 2026-09-04 and 2026-09-05.
-- Final-pre-show observations are finalized only after session start time has passed.
-- Added `finalPreShowState` (`provisional`, `complete`, `no-observations`) with started/future/finalized counts.
-- Dashboard final-pre-show mode explicitly says “finalized only”.
-- Dashboard quality note surfaces corrected-observation exclusions.
-- Day trend uses final-pre-show figures only when the day product marks them complete.
-- Added third live-run audit and product-correctness tests.
+## Changes
 
-## Next operational check
+- `paragon-schedule/1.3.0`
+- Exact TIKUS! movie-title anchor required.
+- Movie-title href must use `/Browsing/Movies/Details/`.
+- Showtime href must use `/Ticketing/visSelectTickets.aspx`.
+- Parsing stops at the next movie-title anchor.
+- Explicit date headings scope ticketing anchors to the requested day.
+- Native `txtSessionId` is preserved as `sourceSessionId` and drives stable session identity.
+- Per-cinema Paragon parser diagnostics are embedded in the collection run status.
+- Existing correction ledger is unchanged.
+- GSC, TGV, Mega, analytics and presentation logic are intentionally unchanged.
 
-Run the collector after committing v6. A healthy September 5 result should no longer contain Batu Pahat observations created by `paragon-schedule/1.1.0` in analytical arrays, and new Paragon observations should report `paragon-schedule/1.2.0`.
+## Validation
+
+- 22 automated tests passing.
+- Semantic repository validator passing.
+- Python compilation passing.
+- Browser JavaScript syntax check passing.
+
+## Next validation
+
+Commit v7 and manually run the collector. The decisive fields are under:
+
+`collection.latestRun.sourceStatuses.paragon`
+
+If Paragon still returns zero sessions, the new diagnostics should identify whether GitHub Actions saw no exact movie anchor, no ticket anchors inside the TIKUS! segment, or no ticket anchors under the requested date.

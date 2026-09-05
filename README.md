@@ -141,3 +141,9 @@ A **final pre-show** observation is only finalized after the session start time 
 ## v6 correctness controls
 
 v6 adds an auditable correction/exclusion layer and strict finalized-pre-show semantics. `data/meta/corrections.json` never deletes raw history; it only controls eligibility for generated analytics. Paragon schedule collection now uses HTML-tree containment and reports collector version `paragon-schedule/1.2.0`.
+
+
+## v7 Paragon collector
+
+Paragon schedule acquisition now uses the exhibitor's link semantics rather than DOM ancestor guessing. `paragon-schedule/1.3.0` identifies the exact TIKUS! movie-title anchor, reads only ticketing anchors before the next movie-title anchor, scopes them by explicit show-date heading, and preserves Paragon `txtSessionId` as the native session identity. Per-cinema parser diagnostics are exposed in each collection run for source-health auditing.
+

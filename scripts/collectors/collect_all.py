@@ -118,10 +118,11 @@ def main() -> int:
 
     if "paragon" in requested:
         try:
-            facts = ParagonCollector().collect(show_date)
+            paragon_collector = ParagonCollector()
+            facts = paragon_collector.collect(show_date)
             normalized = [normalize_schedule_only(provider="paragon", exhibitor_id="paragon", run_id=run_id, cinema_id=f["cinemaId"], source_cinema_id=f.get("sourceCinemaId"), source_cinema_name=f.get("sourceCinemaName"), show_date=f["showDate"], collected_at=collected_at, session=f["session"], collector_version=PARAGON_VERSION, source_url=f.get("scheduleUrl"), raw_payload_hash=f.get("schedulePayloadHash"), acquisition_warnings=f.get("errors") or []) for f in facts]
             snapshots.extend(normalized)
-            statuses["paragon"] = {"status": "ok-schedule-only", "snapshots": len(normalized), "seatMeasured": 0, "cinemaIds": sorted({s["cinemaId"] for s in normalized}), "expectedCinemas": expected_cinemas.get("paragon")}
+            statuses["paragon"] = {"status": "ok-schedule-only", "snapshots": len(normalized), "seatMeasured": 0, "cinemaIds": sorted({s["cinemaId"] for s in normalized}), "expectedCinemas": expected_cinemas.get("paragon"), "diagnostics": paragon_collector.diagnostics}
         except Exception as exc:
             statuses["paragon"] = {"status": "error", "snapshots": 0, "error": f"{type(exc).__name__}: {exc}"}
 

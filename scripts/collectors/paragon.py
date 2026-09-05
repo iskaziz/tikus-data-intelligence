@@ -1,118 +1,227 @@
 """Read-only Paragon schedule collector.
 
-Paragon/Vista cinema pages contain many movie cards and may repeat a film title
-outside its schedule card.  v1.2 parses the HTML tree and selects the *smallest
-ancestor element* that contains both the exact TIKUS! title and Vista's
-"Future Dates" schedule marker.  Date/time extraction is then limited to that
-single subtree, preventing neighbouring movie times from leaking in.
+v1.3 uses Paragon/Vista link semantics as the structural contract:
+- movie titles are anchors under /Browsing/Movies/Details/
+- showtimes are anchors under /Ticketing/visSelectTickets.aspx
+
+The parser starts at the exact TIKUS! movie-title anchor and stops at the next
+movie-title anchor. Only ticketing anchors inside that segment are considered.
+This avoids both prior failure modes: stray TIKUS! text leaking neighbouring
+showtimes (v1.1) and over-strict ancestor matching returning no sessions (v1.2).
 """
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime
 from html.parser import HTMLParser
+from urllib.parse import parse_qs, urlparse
 
 from scripts.collectors.base import Collector
 from scripts.lib.http import get
 from scripts.lib.registry import by_exhibitor
 
-COLLECTOR_VERSION = "paragon-schedule/1.2.0"
+COLLECTOR_VERSION = "paragon-schedule/1.3.0"
 BASE = "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/{code}"
 DATE_RE = re.compile(r"^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),\s+(\d{2})\s+([A-Za-z]+)\s+(\d{4})$")
 TIME_RE = re.compile(r"^(\d{1,2}):(\d{2})\s*(AM|PM)$", re.I)
+MOVIE_PATH = "/browsing/movies/details/"
+TICKET_PATH = "/ticketing/visselecttickets.aspx"
+
 
 @dataclass
-class Node:
-    tag: str
-    parent: "Node | None" = None
-    children: list["Node | str"] = field(default_factory=list)
+class Event:
+    kind: str
+    text: str = ""
+    href: str | None = None
+    tag: str | None = None
 
-class TreeParser(HTMLParser):
-    VOID = {"area","base","br","col","embed","hr","img","input","link","meta","param","source","track","wbr"}
+
+class EventParser(HTMLParser):
+    """Flatten HTML to ordered text/anchor events while preserving hrefs."""
+
     def __init__(self):
         super().__init__()
-        self.root = Node("document")
-        self.stack = [self.root]
+        self.events: list[Event] = []
+        self._anchor_href: str | None = None
+        self._anchor_text: list[str] = []
+
     def handle_starttag(self, tag, attrs):
-        node = Node(tag, self.stack[-1])
-        self.stack[-1].children.append(node)
-        if tag not in self.VOID:
-            self.stack.append(node)
-    def handle_startendtag(self, tag, attrs):
-        self.stack[-1].children.append(Node(tag, self.stack[-1]))
+        if tag.lower() == "a":
+            self._anchor_href = dict(attrs).get("href")
+            self._anchor_text = []
+
     def handle_endtag(self, tag):
-        for i in range(len(self.stack)-1, 0, -1):
-            if self.stack[i].tag == tag:
-                del self.stack[i:]
-                return
+        if tag.lower() == "a" and self._anchor_href is not None:
+            text = " ".join(self._anchor_text).strip()
+            self.events.append(Event("anchor", text=text, href=self._anchor_href, tag="a"))
+            self._anchor_href = None
+            self._anchor_text = []
+
     def handle_data(self, data):
-        text = " ".join(data.split())
-        if text:
-            self.stack[-1].children.append(text)
+        text = " ".join(data.split()).strip()
+        if not text:
+            return
+        if self._anchor_href is not None:
+            self._anchor_text.append(text)
+        else:
+            self.events.append(Event("text", text=text))
 
-def _texts(node: Node) -> list[str]:
-    out=[]
-    def walk(n):
-        for child in n.children:
-            if isinstance(child, str): out.append(child)
-            else: walk(child)
-    walk(node)
-    return out
 
-def _nodes(node: Node):
-    yield node
-    for child in node.children:
-        if isinstance(child, Node):
-            yield from _nodes(child)
+def _path(href: str | None) -> str:
+    if not href:
+        return ""
+    try:
+        return urlparse(href).path.casefold()
+    except Exception:
+        return ""
 
-def _is_tikus_card(node: Node) -> bool:
-    texts=_texts(node)
-    exact_title=any(t.strip().casefold()=="tikus!" for t in texts)
-    schedule_marker=any("future dates" in t.casefold() for t in texts)
-    return exact_title and schedule_marker
 
-def _card_for_tikus(html: str) -> Node | None:
-    parser=TreeParser(); parser.feed(html)
-    candidates=[n for n in _nodes(parser.root) if n.tag not in {"document","html","body"} and _is_tikus_card(n)]
-    if not candidates:
+def _is_movie_anchor(event: Event) -> bool:
+    return event.kind == "anchor" and MOVIE_PATH in _path(event.href)
+
+
+def _is_tikus_anchor(event: Event) -> bool:
+    return _is_movie_anchor(event) and event.text.strip().casefold() == "tikus!"
+
+
+def _is_ticket_anchor(event: Event) -> bool:
+    return event.kind == "anchor" and TICKET_PATH in _path(event.href)
+
+
+def _session_id(href: str | None) -> str | None:
+    if not href:
         return None
-    # Smallest text-bearing subtree is the nearest shared ancestor of title + schedule.
-    return min(candidates, key=lambda n: len(_texts(n)))
+    try:
+        values = parse_qs(urlparse(href).query)
+        ids = values.get("txtSessionId") or values.get("txtsessionid")
+        return ids[0] if ids else None
+    except Exception:
+        return None
+
+
+def parse_tikus_schedule(html: str, show_date: str) -> tuple[list[dict], dict]:
+    parser = EventParser()
+    parser.feed(html)
+    events = parser.events
+
+    title_indexes = [i for i, event in enumerate(events) if _is_movie_anchor(event)]
+    tikus_indexes = [i for i in title_indexes if _is_tikus_anchor(events[i])]
+    target = datetime.strptime(show_date, "%Y-%m-%d").strftime("%A, %d %B %Y")
+
+    diagnostics = {
+        "movieTitleAnchors": len(title_indexes),
+        "tikusTitleAnchors": len(tikus_indexes),
+        "ticketAnchorsInTikusSegments": 0,
+        "matchedDateTicketAnchors": 0,
+        "rejectedTicketAnchors": 0,
+        "rejectionReasons": {},
+        "targetDate": target,
+    }
+
+    def reject(reason: str):
+        diagnostics["rejectedTicketAnchors"] += 1
+        diagnostics["rejectionReasons"][reason] = diagnostics["rejectionReasons"].get(reason, 0) + 1
+
+    rows: list[dict] = []
+    seen: set[tuple[str, str | None]] = set()
+
+    for start in tikus_indexes:
+        end = len(events)
+        for idx in title_indexes:
+            if idx > start:
+                end = idx
+                break
+
+        current_date: str | None = None
+        for event in events[start + 1:end]:
+            if DATE_RE.match(event.text):
+                current_date = event.text
+                continue
+            if not _is_ticket_anchor(event):
+                continue
+
+            diagnostics["ticketAnchorsInTikusSegments"] += 1
+            if current_date != target:
+                reject("ticket-anchor-outside-target-date")
+                continue
+            if not TIME_RE.match(event.text):
+                reject("ticket-anchor-text-not-time")
+                continue
+
+            session_id = _session_id(event.href)
+            key = (event.text.upper(), session_id)
+            if key in seen:
+                reject("duplicate-ticket-anchor")
+                continue
+            seen.add(key)
+            diagnostics["matchedDateTicketAnchors"] += 1
+            rows.append({
+                "timeText": event.text.upper(),
+                "sessionId": session_id,
+                "ticketUrl": event.href,
+            })
+
+    if not tikus_indexes:
+        diagnostics["rejectionReasons"]["no-exact-tikus-movie-anchor"] = 1
+    elif diagnostics["ticketAnchorsInTikusSegments"] == 0:
+        diagnostics["rejectionReasons"]["no-ticketing-anchors-in-tikus-segment"] = 1
+    elif not rows:
+        diagnostics["rejectionReasons"]["no-target-date-ticketing-anchors"] = 1
+
+    return rows, diagnostics
+
 
 def parse_tikus_times(html: str, show_date: str) -> list[str]:
-    card=_card_for_tikus(html)
-    if card is None:
-        return []
-    target=datetime.strptime(show_date, "%Y-%m-%d").strftime("%A, %d %B %Y")
-    in_target=False; saw_target=False; times=[]
-    for token in _texts(card):
-        if DATE_RE.match(token):
-            if in_target:
-                break
-            in_target = token == target
-            saw_target = saw_target or in_target
-            continue
-        if in_target and TIME_RE.match(token):
-            times.append(token.upper())
-    return list(dict.fromkeys(times)) if saw_target else []
+    rows, _ = parse_tikus_schedule(html, show_date)
+    return [row["timeText"] for row in rows]
+
 
 def to_24h(value: str) -> str:
     return datetime.strptime(value, "%I:%M %p").strftime("%H:%M")
 
+
 class ParagonCollector(Collector):
     exhibitor_id = "paragon"
+
+    def __init__(self):
+        self.diagnostics: dict[str, dict] = {}
+
     def collect(self, show_date: str):
-        facts=[]
+        facts = []
+        self.diagnostics = {}
         for cinema in by_exhibitor("paragon"):
-            code=cinema.get("source",{}).get("officialCinemaId")
-            if not code: continue
-            url=BASE.format(code=code); response=get(url)
-            for time_text in parse_tikus_times(response.text, show_date):
+            code = cinema.get("source", {}).get("officialCinemaId")
+            if not code:
+                continue
+            url = BASE.format(code=code)
+            response = get(url)
+            rows, diagnostics = parse_tikus_schedule(response.text, show_date)
+            diagnostics.update({
+                "cinemaId": cinema["id"],
+                "sourceCinemaId": code,
+                "sourceUrl": url,
+                "payloadHash": response.sha256,
+                "parsedSessions": len(rows),
+            })
+            self.diagnostics[cinema["id"]] = diagnostics
+
+            for row in rows:
                 facts.append({
-                    "cinemaId": cinema["id"], "sourceCinemaId": code,
-                    "sourceCinemaName": cinema.get("name"), "showDate": show_date,
-                    "session": {"time": to_24h(time_text), "format":"2D", "language":"Malay"},
-                    "scheduleUrl": url, "schedulePayloadHash": response.sha256, "errors": [],
+                    "cinemaId": cinema["id"],
+                    "sourceCinemaId": code,
+                    "sourceCinemaName": cinema.get("name"),
+                    "showDate": show_date,
+                    "sourceSessionId": row.get("sessionId"),
+                    "session": {
+                        "time": to_24h(row["timeText"]),
+                        "format": "2D",
+                        "language": "Malay",
+                        "sessionId": row.get("sessionId"),
+                    },
+                    "scheduleUrl": url,
+                    "ticketUrl": row.get("ticketUrl"),
+                    "schedulePayloadHash": response.sha256,
+                    "errors": [],
                 })
         return facts
