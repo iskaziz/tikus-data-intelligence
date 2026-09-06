@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.7.0",
-  "generatedAt": "2026-09-06T22:09:17+08:00",
+  "generatedAt": "2026-09-07T01:01:19+08:00",
   "filmId": "tikus",
   "showDate": "2026-09-06",
   "status": "ok",
@@ -8,8 +8,8 @@
     "cinemaCount": 16,
     "seatMeasuredSessions": 32,
     "totalSessions": 45,
-    "liveUpcomingSessions": 3,
-    "finalizedPreShowSessions": 42
+    "liveUpcomingSessions": 0,
+    "finalizedPreShowSessions": 45
   },
   "summary": {
     "totalShows": 45,
@@ -27,40 +27,40 @@
     "seatCoverage": 0.7111111111111111
   },
   "liveSummary": {
-    "totalShows": 3,
-    "locationsWithConfirmedShows": 3,
-    "seatMeasuredSessions": 2,
-    "observedCapacity": 178,
-    "observedUsed": 2,
-    "available": 176,
-    "otherUnavailable": 0,
-    "occupancy": 0.011235955056179775,
-    "averageUsedPerMeasuredSession": 1.0,
-    "averageCapacityPerMeasuredSession": 89.0,
+    "totalShows": 0,
+    "locationsWithConfirmedShows": 0,
+    "seatMeasuredSessions": 0,
+    "observedCapacity": null,
+    "observedUsed": null,
+    "available": null,
+    "otherUnavailable": null,
+    "occupancy": null,
+    "averageUsedPerMeasuredSession": null,
+    "averageCapacityPerMeasuredSession": null,
     "primeTimeShows": 0,
     "primeTimeOccupancy": null,
-    "seatCoverage": 0.6666666666666666
+    "seatCoverage": null
   },
   "finalPreShowSummary": {
-    "totalShows": 42,
+    "totalShows": 45,
     "locationsWithConfirmedShows": 16,
-    "seatMeasuredSessions": 30,
-    "observedCapacity": 3969,
-    "observedUsed": 34,
-    "available": 3903,
+    "seatMeasuredSessions": 32,
+    "observedCapacity": 4147,
+    "observedUsed": 36,
+    "available": 4079,
     "otherUnavailable": 32,
-    "occupancy": 0.008566389518770472,
-    "averageUsedPerMeasuredSession": 1.1333333333333333,
-    "averageCapacityPerMeasuredSession": 132.3,
+    "occupancy": 0.008680974198215577,
+    "averageUsedPerMeasuredSession": 1.125,
+    "averageCapacityPerMeasuredSession": 129.59375,
     "primeTimeShows": 10,
     "primeTimeOccupancy": 0.007954545454545454,
-    "seatCoverage": 0.7142857142857143
+    "seatCoverage": 0.7111111111111111
   },
   "finalPreShowState": {
-    "status": "provisional",
-    "startedSessions": 42,
-    "futureSessions": 3,
-    "finalizedSessions": 42,
+    "status": "complete",
+    "startedSessions": 45,
+    "futureSessions": 0,
+    "finalizedSessions": 45,
     "missingFinalPreShowSessionIds": []
   },
   "cinemas": [
@@ -2560,152 +2560,7 @@
       }
     }
   ],
-  "liveSessions": [
-    {
-      "schemaVersion": "1.0.0",
-      "runId": "20260906T220903+0800-4038ff56",
-      "filmId": "tikus",
-      "cinemaId": "gsc-imago",
-      "exhibitorId": "gsc",
-      "sessionId": "gsc-imago:source:77498",
-      "sourceSessionId": "77498",
-      "source": {
-        "provider": "gsc",
-        "sourceType": "official-api",
-        "sourceCinemaId": "531",
-        "sourceCinemaName": "GSC IMAGO Shopping Mall",
-        "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=531&hallid=3&showdate=2026-09-06&showtime=2215",
-        "collectorVersion": "1.0.0",
-        "rawPayloadHash": "676afbc4066a59b9893af9b0ac59c0c11c3e5debbb908419ceca1b165ebcd78c"
-      },
-      "collectedAt": "2026-09-06T22:09:03+08:00",
-      "showDate": "2026-09-06",
-      "startAt": "2026-09-06T22:15:00+08:00",
-      "minutesToShow": 6,
-      "session": {
-        "auditorium": "3",
-        "format": "2D - Digital 2D",
-        "language": null,
-        "experience": null
-      },
-      "seat": {
-        "capacity": 102,
-        "used": 2,
-        "available": 100,
-        "otherUnavailable": 0,
-        "statusCounts": {
-          "A": 100,
-          "B": 2
-        }
-      },
-      "semantics": {
-        "used": "gsc-booked-state-B",
-        "available": "gsc-available-state-A",
-        "capacity": "gsc-observed-seat-map"
-      },
-      "quality": {
-        "measurementStatus": "complete",
-        "seatMeasured": true,
-        "warnings": [
-          "Booked-state seats are not confirmed paid ticket sales."
-        ]
-      }
-    },
-    {
-      "schemaVersion": "1.0.0",
-      "runId": "20260906T220903+0800-4038ff56",
-      "filmId": "tikus",
-      "cinemaId": "mega-riverfront-mall",
-      "exhibitorId": "mega",
-      "sessionId": "mega-riverfront-mall:fingerprint:2026-09-06:22:40:unknown",
-      "sourceSessionId": null,
-      "source": {
-        "provider": "mega",
-        "sourceType": "public-listing",
-        "sourceCinemaId": "riverfront-sungai-petani",
-        "sourceCinemaName": "Riverfront, Sungai Petani",
-        "sourceUrl": "https://www.megacineplex.com.my/Movies/Details?id=3788",
-        "collectorVersion": "mega-schedule/1.0.0",
-        "rawPayloadHash": "9c3be7b8175792b85be08cac5abdbd6c0fa99f57210a20305fb28237af08b671"
-      },
-      "collectedAt": "2026-09-06T22:09:03+08:00",
-      "showDate": "2026-09-06",
-      "startAt": "2026-09-06T22:40:00+08:00",
-      "minutesToShow": 31,
-      "session": {
-        "auditorium": null,
-        "format": null,
-        "language": "Malay",
-        "experience": null
-      },
-      "seat": {
-        "capacity": null,
-        "used": null,
-        "available": null,
-        "otherUnavailable": null,
-        "statusCounts": null
-      },
-      "semantics": {
-        "used": "unavailable",
-        "available": "unavailable",
-        "capacity": "unavailable"
-      },
-      "quality": {
-        "measurementStatus": "schedule-only",
-        "seatMeasured": false,
-        "warnings": [
-          "No public seat count is used or inferred."
-        ]
-      }
-    },
-    {
-      "schemaVersion": "1.0.0",
-      "runId": "20260906T220903+0800-4038ff56",
-      "filmId": "tikus",
-      "cinemaId": "tgv-tebrau-city",
-      "exhibitorId": "tgv",
-      "sessionId": "tgv-tebrau-city:source:430542",
-      "sourceSessionId": "430542",
-      "source": {
-        "provider": "tgv",
-        "sourceType": "official-api",
-        "sourceCinemaId": "TBR",
-        "sourceCinemaName": "TEBRAU CITY",
-        "sourceUrl": "https://api.tgv.com.my/api/boxoffice/v1/moviesession_getseatstatus",
-        "collectorVersion": "1.0.0",
-        "rawPayloadHash": "07cb437e50bda31221b54c68dfdb7ae9ae508f299a2e76fbe3e73f7c803dbff2"
-      },
-      "collectedAt": "2026-09-06T22:09:03+08:00",
-      "showDate": "2026-09-06",
-      "startAt": "2026-09-06T23:15:00+08:00",
-      "minutesToShow": 66,
-      "session": {
-        "auditorium": "Junior",
-        "format": "2D",
-        "language": null,
-        "experience": "deluxe"
-      },
-      "seat": {
-        "capacity": 76,
-        "used": 0,
-        "available": 76,
-        "otherUnavailable": null,
-        "statusCounts": null
-      },
-      "semantics": {
-        "used": "tgv-seatsused",
-        "available": "derived-capacity-minus-used",
-        "capacity": "tgv-seatstotal"
-      },
-      "quality": {
-        "measurementStatus": "complete",
-        "seatMeasured": true,
-        "warnings": [
-          "TGV seatsused may include held or otherwise unavailable inventory."
-        ]
-      }
-    }
-  ],
+  "liveSessions": [],
   "finalPreShowSessions": [
     {
       "schemaVersion": "1.0.0",
@@ -4733,6 +4588,150 @@
         "seatMeasured": false,
         "warnings": [
           "No public seat count is used or inferred."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T220903+0800-4038ff56",
+      "filmId": "tikus",
+      "cinemaId": "gsc-imago",
+      "exhibitorId": "gsc",
+      "sessionId": "gsc-imago:source:77498",
+      "sourceSessionId": "77498",
+      "source": {
+        "provider": "gsc",
+        "sourceType": "official-api",
+        "sourceCinemaId": "531",
+        "sourceCinemaName": "GSC IMAGO Shopping Mall",
+        "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=531&hallid=3&showdate=2026-09-06&showtime=2215",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "676afbc4066a59b9893af9b0ac59c0c11c3e5debbb908419ceca1b165ebcd78c"
+      },
+      "collectedAt": "2026-09-06T22:09:03+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T22:15:00+08:00",
+      "minutesToShow": 6,
+      "session": {
+        "auditorium": "3",
+        "format": "2D - Digital 2D",
+        "language": null,
+        "experience": null
+      },
+      "seat": {
+        "capacity": 102,
+        "used": 2,
+        "available": 100,
+        "otherUnavailable": 0,
+        "statusCounts": {
+          "A": 100,
+          "B": 2
+        }
+      },
+      "semantics": {
+        "used": "gsc-booked-state-B",
+        "available": "gsc-available-state-A",
+        "capacity": "gsc-observed-seat-map"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "Booked-state seats are not confirmed paid ticket sales."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T220903+0800-4038ff56",
+      "filmId": "tikus",
+      "cinemaId": "mega-riverfront-mall",
+      "exhibitorId": "mega",
+      "sessionId": "mega-riverfront-mall:fingerprint:2026-09-06:22:40:unknown",
+      "sourceSessionId": null,
+      "source": {
+        "provider": "mega",
+        "sourceType": "public-listing",
+        "sourceCinemaId": "riverfront-sungai-petani",
+        "sourceCinemaName": "Riverfront, Sungai Petani",
+        "sourceUrl": "https://www.megacineplex.com.my/Movies/Details?id=3788",
+        "collectorVersion": "mega-schedule/1.0.0",
+        "rawPayloadHash": "9c3be7b8175792b85be08cac5abdbd6c0fa99f57210a20305fb28237af08b671"
+      },
+      "collectedAt": "2026-09-06T22:09:03+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T22:40:00+08:00",
+      "minutesToShow": 31,
+      "session": {
+        "auditorium": null,
+        "format": null,
+        "language": "Malay",
+        "experience": null
+      },
+      "seat": {
+        "capacity": null,
+        "used": null,
+        "available": null,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "unavailable",
+        "available": "unavailable",
+        "capacity": "unavailable"
+      },
+      "quality": {
+        "measurementStatus": "schedule-only",
+        "seatMeasured": false,
+        "warnings": [
+          "No public seat count is used or inferred."
+        ]
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "runId": "20260906T220903+0800-4038ff56",
+      "filmId": "tikus",
+      "cinemaId": "tgv-tebrau-city",
+      "exhibitorId": "tgv",
+      "sessionId": "tgv-tebrau-city:source:430542",
+      "sourceSessionId": "430542",
+      "source": {
+        "provider": "tgv",
+        "sourceType": "official-api",
+        "sourceCinemaId": "TBR",
+        "sourceCinemaName": "TEBRAU CITY",
+        "sourceUrl": "https://api.tgv.com.my/api/boxoffice/v1/moviesession_getseatstatus",
+        "collectorVersion": "1.0.0",
+        "rawPayloadHash": "07cb437e50bda31221b54c68dfdb7ae9ae508f299a2e76fbe3e73f7c803dbff2"
+      },
+      "collectedAt": "2026-09-06T22:09:03+08:00",
+      "showDate": "2026-09-06",
+      "startAt": "2026-09-06T23:15:00+08:00",
+      "minutesToShow": 66,
+      "session": {
+        "auditorium": "Junior",
+        "format": "2D",
+        "language": null,
+        "experience": "deluxe"
+      },
+      "seat": {
+        "capacity": 76,
+        "used": 0,
+        "available": 76,
+        "otherUnavailable": null,
+        "statusCounts": null
+      },
+      "semantics": {
+        "used": "tgv-seatsused",
+        "available": "derived-capacity-minus-used",
+        "capacity": "tgv-seatstotal"
+      },
+      "quality": {
+        "measurementStatus": "complete",
+        "seatMeasured": true,
+        "warnings": [
+          "TGV seatsused may include held or otherwise unavailable inventory."
         ]
       }
     }
@@ -8153,7 +8152,7 @@
     },
     "sessionTrajectories": {
       "status": "ok",
-      "asOf": "2026-09-06T22:09:17+08:00",
+      "asOf": "2026-09-07T01:01:19+08:00",
       "windows": [
         {
           "id": "tMinus6h",
@@ -9313,10 +9312,16 @@
               "occupancy": 0.0196078431372549,
               "minutesBeforeShow": 202
             },
-            "finalPreShow": null
+            "finalPreShow": {
+              "collectedAt": "2026-09-06T22:09:03+08:00",
+              "capacity": 102,
+              "used": 2,
+              "occupancy": 0.0196078431372549,
+              "minutesBeforeShow": 6
+            }
           },
-          "knownCheckpoints": 3,
-          "completeTrajectory": false
+          "knownCheckpoints": 4,
+          "completeTrajectory": true
         },
         {
           "sessionId": "tgv-tebrau-city:source:430542",
@@ -9344,10 +9349,16 @@
               "occupancy": 0.0,
               "minutesBeforeShow": 66
             },
-            "finalPreShow": null
+            "finalPreShow": {
+              "collectedAt": "2026-09-06T22:09:03+08:00",
+              "capacity": 76,
+              "used": 0,
+              "occupancy": 0.0,
+              "minutesBeforeShow": 66
+            }
           },
-          "knownCheckpoints": 3,
-          "completeTrajectory": false
+          "knownCheckpoints": 4,
+          "completeTrajectory": true
         }
       ],
       "cinemas": [
@@ -9384,6 +9395,38 @@
           "occupancyLift6hToFinal": 0.011235955056179775
         },
         {
+          "cinemaId": "gsc-imago",
+          "measuredSessions": 2,
+          "completeTrajectories": 2,
+          "checkpoints": {
+            "tMinus6h": {
+              "sessions": 2,
+              "capacity": 209,
+              "used": 0,
+              "occupancy": 0.0
+            },
+            "tMinus3h": {
+              "sessions": 2,
+              "capacity": 209,
+              "used": 2,
+              "occupancy": 0.009569377990430622
+            },
+            "tMinus1h": {
+              "sessions": 2,
+              "capacity": 209,
+              "used": 2,
+              "occupancy": 0.009569377990430622
+            },
+            "finalPreShow": {
+              "sessions": 2,
+              "capacity": 209,
+              "used": 2,
+              "occupancy": 0.009569377990430622
+            }
+          },
+          "occupancyLift6hToFinal": 0.009569377990430622
+        },
+        {
           "cinemaId": "gsc-mid-valley",
           "measuredSessions": 2,
           "completeTrajectories": 2,
@@ -9414,38 +9457,6 @@
             }
           },
           "occupancyLift6hToFinal": 0.008403361344537816
-        },
-        {
-          "cinemaId": "tgv-tebrau-city",
-          "measuredSessions": 2,
-          "completeTrajectories": 1,
-          "checkpoints": {
-            "tMinus6h": {
-              "sessions": 2,
-              "capacity": 152,
-              "used": 1,
-              "occupancy": 0.006578947368421052
-            },
-            "tMinus3h": {
-              "sessions": 2,
-              "capacity": 152,
-              "used": 1,
-              "occupancy": 0.006578947368421052
-            },
-            "tMinus1h": {
-              "sessions": 2,
-              "capacity": 152,
-              "used": 1,
-              "occupancy": 0.006578947368421052
-            },
-            "finalPreShow": {
-              "sessions": 1,
-              "capacity": 76,
-              "used": 1,
-              "occupancy": 0.013157894736842105
-            }
-          },
-          "occupancyLift6hToFinal": 0.006578947368421052
         },
         {
           "cinemaId": "tgv-wangsa-walk",
@@ -9640,6 +9651,38 @@
           "occupancyLift6hToFinal": 0.0
         },
         {
+          "cinemaId": "tgv-tebrau-city",
+          "measuredSessions": 2,
+          "completeTrajectories": 2,
+          "checkpoints": {
+            "tMinus6h": {
+              "sessions": 2,
+              "capacity": 152,
+              "used": 1,
+              "occupancy": 0.006578947368421052
+            },
+            "tMinus3h": {
+              "sessions": 2,
+              "capacity": 152,
+              "used": 1,
+              "occupancy": 0.006578947368421052
+            },
+            "tMinus1h": {
+              "sessions": 2,
+              "capacity": 152,
+              "used": 1,
+              "occupancy": 0.006578947368421052
+            },
+            "finalPreShow": {
+              "sessions": 2,
+              "capacity": 152,
+              "used": 1,
+              "occupancy": 0.006578947368421052
+            }
+          },
+          "occupancyLift6hToFinal": 0.0
+        },
+        {
           "cinemaId": "tgv-gurney",
           "measuredSessions": 2,
           "completeTrajectories": 2,
@@ -9697,38 +9740,6 @@
             "finalPreShow": {
               "sessions": 2,
               "capacity": 198,
-              "used": 0,
-              "occupancy": 0.0
-            }
-          },
-          "occupancyLift6hToFinal": 0.0
-        },
-        {
-          "cinemaId": "gsc-imago",
-          "measuredSessions": 2,
-          "completeTrajectories": 1,
-          "checkpoints": {
-            "tMinus6h": {
-              "sessions": 2,
-              "capacity": 209,
-              "used": 0,
-              "occupancy": 0.0
-            },
-            "tMinus3h": {
-              "sessions": 2,
-              "capacity": 209,
-              "used": 2,
-              "occupancy": 0.009569377990430622
-            },
-            "tMinus1h": {
-              "sessions": 2,
-              "capacity": 209,
-              "used": 2,
-              "occupancy": 0.009569377990430622
-            },
-            "finalPreShow": {
-              "sessions": 1,
-              "capacity": 107,
               "used": 0,
               "occupancy": 0.0
             }

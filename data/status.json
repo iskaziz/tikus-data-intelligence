@@ -1,77 +1,89 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-09-06T22:09:17+08:00",
+  "generatedAt": "2026-09-07T01:01:19+08:00",
   "latestRun": {
     "schemaVersion": "1.0.0",
-    "runId": "20260906T220903+0800-4038ff56",
-    "showDate": "2026-09-06",
-    "collectedAt": "2026-09-06T22:09:03+08:00",
+    "runId": "20260907T010057+0800-95c7c2a4",
+    "showDate": "2026-09-07",
+    "collectedAt": "2026-09-07T01:00:57+08:00",
     "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
     "sourceStatuses": {
       "gsc": {
         "status": "ok",
-        "snapshots": 1,
-        "seatMeasured": 1,
+        "snapshots": 16,
+        "seatMeasured": 16,
         "cinemaIds": [
-          "gsc-imago"
+          "gsc-aman-central",
+          "gsc-dataran-pahlawan",
+          "gsc-imago",
+          "gsc-ioi-city-mall",
+          "gsc-kuantan-city-mall",
+          "gsc-mid-valley",
+          "gsc-paradigm-jb",
+          "gsc-the-spring"
         ],
         "expectedCinemas": 8
       },
       "tgv": {
         "status": "ok",
-        "snapshots": 1,
-        "seatMeasured": 1,
+        "snapshots": 10,
+        "seatMeasured": 10,
         "cinemaIds": [
-          "tgv-tebrau-city"
+          "tgv-1utama",
+          "tgv-bukit-tinggi",
+          "tgv-gurney",
+          "tgv-tebrau-city",
+          "tgv-wangsa-walk"
         ],
         "expectedCinemas": 5
       },
       "paragon": {
         "status": "ok-schedule-only",
-        "snapshots": 0,
+        "snapshots": 9,
         "seatMeasured": 0,
-        "cinemaIds": [],
+        "cinemaIds": [
+          "paragon-batu-pahat",
+          "paragon-ktcc"
+        ],
         "expectedCinemas": 2,
         "diagnostics": {
           "paragon-batu-pahat": {
             "movieTitleAnchors": 21,
             "tikusTitleAnchors": 1,
             "ticketAnchorsInTikusSegments": 12,
-            "matchedDateTicketAnchors": 0,
-            "rejectedTicketAnchors": 12,
+            "matchedDateTicketAnchors": 4,
+            "rejectedTicketAnchors": 8,
             "rejectionReasons": {
-              "ticket-anchor-outside-target-date": 12,
-              "no-target-date-ticketing-anchors": 1
+              "ticket-anchor-outside-target-date": 8
             },
-            "targetDate": "Sunday, 06 September 2026",
+            "targetDate": "Monday, 07 September 2026",
             "cinemaId": "paragon-batu-pahat",
             "sourceCinemaId": "0000000002",
             "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
-            "payloadHash": "a3bc4061c85293a1eb3169fb65fa1ed2a716e2b832a6bdf6297f496954765cf3",
-            "parsedSessions": 0
+            "payloadHash": "81d33c1f69f5fcb3dd2309c684b7ebe6aa1f84f651a7fb9233fdc48c2b1cba7b",
+            "parsedSessions": 4
           },
           "paragon-ktcc": {
             "movieTitleAnchors": 23,
             "tikusTitleAnchors": 1,
             "ticketAnchorsInTikusSegments": 15,
-            "matchedDateTicketAnchors": 0,
-            "rejectedTicketAnchors": 15,
+            "matchedDateTicketAnchors": 5,
+            "rejectedTicketAnchors": 10,
             "rejectionReasons": {
-              "ticket-anchor-outside-target-date": 15,
-              "no-target-date-ticketing-anchors": 1
+              "ticket-anchor-outside-target-date": 10
             },
-            "targetDate": "Sunday, 06 September 2026",
+            "targetDate": "Monday, 07 September 2026",
             "cinemaId": "paragon-ktcc",
             "sourceCinemaId": "0000000004",
             "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
-            "payloadHash": "a2cab54068bec383b7beb15686586bf82a5eb1b90eb8b3f3328c5df6ee3289c5",
-            "parsedSessions": 0
+            "payloadHash": "44bd229e9536422681f9fa75313503735687b046349ba2083582e7cce89d9423",
+            "parsedSessions": 5
           }
         }
       },
       "mega": {
         "status": "ok-schedule-only",
-        "snapshots": 1,
+        "snapshots": 4,
         "seatMeasured": 0,
         "cinemaIds": [
           "mega-riverfront-mall"
@@ -79,12 +91,13 @@
         "expectedCinemas": 1
       }
     },
-    "snapshotCount": 3
+    "snapshotCount": 39
   },
-  "historyFiles": 23,
+  "historyFiles": 24,
   "availableDates": [
     "2026-09-04",
     "2026-09-05",
-    "2026-09-06"
+    "2026-09-06",
+    "2026-09-07"
   ]
 }
