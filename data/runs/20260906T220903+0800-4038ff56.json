@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "20260906T220903+0800-4038ff56",
+  "showDate": "2026-09-06",
+  "collectedAt": "2026-09-06T22:09:03+08:00",
+  "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
+  "sourceStatuses": {
+    "gsc": {
+      "status": "ok",
+      "snapshots": 1,
+      "seatMeasured": 1,
+      "cinemaIds": [
+        "gsc-imago"
+      ],
+      "expectedCinemas": 8
+    },
+    "tgv": {
+      "status": "ok",
+      "snapshots": 1,
+      "seatMeasured": 1,
+      "cinemaIds": [
+        "tgv-tebrau-city"
+      ],
+      "expectedCinemas": 5
+    },
+    "paragon": {
+      "status": "ok-schedule-only",
+      "snapshots": 0,
+      "seatMeasured": 0,
+      "cinemaIds": [],
+      "expectedCinemas": 2,
+      "diagnostics": {
+        "paragon-batu-pahat": {
+          "movieTitleAnchors": 21,
+          "tikusTitleAnchors": 1,
+          "ticketAnchorsInTikusSegments": 12,
+          "matchedDateTicketAnchors": 0,
+          "rejectedTicketAnchors": 12,
+          "rejectionReasons": {
+            "ticket-anchor-outside-target-date": 12,
+            "no-target-date-ticketing-anchors": 1
+          },
+          "targetDate": "Sunday, 06 September 2026",
+          "cinemaId": "paragon-batu-pahat",
+          "sourceCinemaId": "0000000002",
+          "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
+          "payloadHash": "a3bc4061c85293a1eb3169fb65fa1ed2a716e2b832a6bdf6297f496954765cf3",
+          "parsedSessions": 0
+        },
+        "paragon-ktcc": {
+          "movieTitleAnchors": 23,
+          "tikusTitleAnchors": 1,
+          "ticketAnchorsInTikusSegments": 15,
+          "matchedDateTicketAnchors": 0,
+          "rejectedTicketAnchors": 15,
+          "rejectionReasons": {
+            "ticket-anchor-outside-target-date": 15,
+            "no-target-date-ticketing-anchors": 1
+          },
+          "targetDate": "Sunday, 06 September 2026",
+          "cinemaId": "paragon-ktcc",
+          "sourceCinemaId": "0000000004",
+          "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
+          "payloadHash": "a2cab54068bec383b7beb15686586bf82a5eb1b90eb8b3f3328c5df6ee3289c5",
+          "parsedSessions": 0
+        }
+      }
+    },
+    "mega": {
+      "status": "ok-schedule-only",
+      "snapshots": 1,
+      "seatMeasured": 0,
+      "cinemaIds": [
+        "mega-riverfront-mall"
+      ],
+      "expectedCinemas": 1
+    }
+  },
+  "snapshotCount": 3
+}

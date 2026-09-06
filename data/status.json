@@ -1,86 +1,77 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-09-06T18:53:33+08:00",
+  "generatedAt": "2026-09-06T22:09:17+08:00",
   "latestRun": {
     "schemaVersion": "1.0.0",
-    "runId": "20260906T185318+0800-f6865fc0",
+    "runId": "20260906T220903+0800-4038ff56",
     "showDate": "2026-09-06",
-    "collectedAt": "2026-09-06T18:53:18+08:00",
+    "collectedAt": "2026-09-06T22:09:03+08:00",
     "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
     "sourceStatuses": {
       "gsc": {
         "status": "ok",
-        "snapshots": 9,
-        "seatMeasured": 9,
+        "snapshots": 1,
+        "seatMeasured": 1,
         "cinemaIds": [
-          "gsc-aman-central",
-          "gsc-dataran-pahlawan",
-          "gsc-imago",
-          "gsc-ioi-city-mall",
-          "gsc-kuantan-city-mall",
-          "gsc-mid-valley",
-          "gsc-paradigm-jb",
-          "gsc-the-spring"
+          "gsc-imago"
         ],
         "expectedCinemas": 8
       },
       "tgv": {
         "status": "ok",
-        "snapshots": 2,
-        "seatMeasured": 2,
+        "snapshots": 1,
+        "seatMeasured": 1,
         "cinemaIds": [
-          "tgv-tebrau-city",
-          "tgv-wangsa-walk"
+          "tgv-tebrau-city"
         ],
         "expectedCinemas": 5
       },
       "paragon": {
         "status": "ok-schedule-only",
-        "snapshots": 4,
+        "snapshots": 0,
         "seatMeasured": 0,
-        "cinemaIds": [
-          "paragon-batu-pahat",
-          "paragon-ktcc"
-        ],
+        "cinemaIds": [],
         "expectedCinemas": 2,
         "diagnostics": {
           "paragon-batu-pahat": {
             "movieTitleAnchors": 21,
             "tikusTitleAnchors": 1,
-            "ticketAnchorsInTikusSegments": 14,
-            "matchedDateTicketAnchors": 2,
+            "ticketAnchorsInTikusSegments": 12,
+            "matchedDateTicketAnchors": 0,
             "rejectedTicketAnchors": 12,
             "rejectionReasons": {
-              "ticket-anchor-outside-target-date": 12
+              "ticket-anchor-outside-target-date": 12,
+              "no-target-date-ticketing-anchors": 1
             },
             "targetDate": "Sunday, 06 September 2026",
             "cinemaId": "paragon-batu-pahat",
             "sourceCinemaId": "0000000002",
             "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
-            "payloadHash": "69c2d56af9218fc8f1e95931affbea02cbf1e73dbcf298eeae4ddd94c2425359",
-            "parsedSessions": 2
+            "payloadHash": "a3bc4061c85293a1eb3169fb65fa1ed2a716e2b832a6bdf6297f496954765cf3",
+            "parsedSessions": 0
           },
           "paragon-ktcc": {
             "movieTitleAnchors": 23,
             "tikusTitleAnchors": 1,
-            "ticketAnchorsInTikusSegments": 17,
-            "matchedDateTicketAnchors": 2,
+            "ticketAnchorsInTikusSegments": 15,
+            "matchedDateTicketAnchors": 0,
             "rejectedTicketAnchors": 15,
             "rejectionReasons": {
-              "ticket-anchor-outside-target-date": 15
+              "ticket-anchor-outside-target-date": 15,
+              "no-target-date-ticketing-anchors": 1
             },
             "targetDate": "Sunday, 06 September 2026",
             "cinemaId": "paragon-ktcc",
             "sourceCinemaId": "0000000004",
             "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
-            "payloadHash": "1c1b9d2b57885ef145b165357ddbd8b015aa88c7959b8aac310b666e19fb38f6",
-            "parsedSessions": 2
+            "payloadHash": "a2cab54068bec383b7beb15686586bf82a5eb1b90eb8b3f3328c5df6ee3289c5",
+            "parsedSessions": 0
           }
         }
       },
       "mega": {
         "status": "ok-schedule-only",
-        "snapshots": 2,
+        "snapshots": 1,
         "seatMeasured": 0,
         "cinemaIds": [
           "mega-riverfront-mall"
@@ -88,9 +79,9 @@
         "expectedCinemas": 1
       }
     },
-    "snapshotCount": 17
+    "snapshotCount": 3
   },
-  "historyFiles": 22,
+  "historyFiles": 23,
   "availableDates": [
     "2026-09-04",
     "2026-09-05",
