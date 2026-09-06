@@ -1,17 +1,17 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-09-06T08:55:15+08:00",
+  "generatedAt": "2026-09-06T13:56:20+08:00",
   "latestRun": {
     "schemaVersion": "1.0.0",
-    "runId": "20260906T085450+0800-7b8b3477",
+    "runId": "20260906T135557+0800-6f43a0eb",
     "showDate": "2026-09-06",
-    "collectedAt": "2026-09-06T08:54:50+08:00",
+    "collectedAt": "2026-09-06T13:55:57+08:00",
     "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
     "sourceStatuses": {
       "gsc": {
         "status": "ok",
-        "snapshots": 18,
-        "seatMeasured": 18,
+        "snapshots": 13,
+        "seatMeasured": 13,
         "cinemaIds": [
           "gsc-aman-central",
           "gsc-dataran-pahlawan",
@@ -26,8 +26,8 @@
       },
       "tgv": {
         "status": "ok",
-        "snapshots": 10,
-        "seatMeasured": 10,
+        "snapshots": 7,
+        "seatMeasured": 7,
         "cinemaIds": [
           "tgv-1utama",
           "tgv-bukit-tinggi",
@@ -39,7 +39,7 @@
       },
       "paragon": {
         "status": "ok-schedule-only",
-        "snapshots": 9,
+        "snapshots": 6,
         "seatMeasured": 0,
         "cinemaIds": [
           "paragon-batu-pahat",
@@ -50,8 +50,8 @@
           "paragon-batu-pahat": {
             "movieTitleAnchors": 21,
             "tikusTitleAnchors": 1,
-            "ticketAnchorsInTikusSegments": 16,
-            "matchedDateTicketAnchors": 4,
+            "ticketAnchorsInTikusSegments": 15,
+            "matchedDateTicketAnchors": 3,
             "rejectedTicketAnchors": 12,
             "rejectionReasons": {
               "ticket-anchor-outside-target-date": 12
@@ -60,14 +60,14 @@
             "cinemaId": "paragon-batu-pahat",
             "sourceCinemaId": "0000000002",
             "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
-            "payloadHash": "355333abb3236a4c92c3af270a6bb63dc73a069bddd6fc90381c1ab317725892",
-            "parsedSessions": 4
+            "payloadHash": "617eef06502c225ca429e75f871eeba9725c9fb0ab770aff4d91043f540ddebc",
+            "parsedSessions": 3
           },
           "paragon-ktcc": {
             "movieTitleAnchors": 23,
             "tikusTitleAnchors": 1,
-            "ticketAnchorsInTikusSegments": 20,
-            "matchedDateTicketAnchors": 5,
+            "ticketAnchorsInTikusSegments": 18,
+            "matchedDateTicketAnchors": 3,
             "rejectedTicketAnchors": 15,
             "rejectionReasons": {
               "ticket-anchor-outside-target-date": 15
@@ -76,14 +76,14 @@
             "cinemaId": "paragon-ktcc",
             "sourceCinemaId": "0000000004",
             "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
-            "payloadHash": "c8cd5d67b7d47aac8099a2ffebf0a3e0a7f3753f67a892435caa767a0c7ec9b2",
-            "parsedSessions": 5
+            "payloadHash": "15ea84190dfba0ebcd2cffdd43765b6eed2d83c4dab21c1a1d4662cf13fe7f08",
+            "parsedSessions": 3
           }
         }
       },
       "mega": {
         "status": "ok-schedule-only",
-        "snapshots": 4,
+        "snapshots": 2,
         "seatMeasured": 0,
         "cinemaIds": [
           "mega-riverfront-mall"
@@ -91,9 +91,9 @@
         "expectedCinemas": 1
       }
     },
-    "snapshotCount": 41
+    "snapshotCount": 28
   },
-  "historyFiles": 20,
+  "historyFiles": 21,
   "availableDates": [
     "2026-09-04",
     "2026-09-05",
