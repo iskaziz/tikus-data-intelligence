@@ -1,18 +1,27 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-09-09T02:38:34+08:00",
+  "generatedAt": "2026-09-09T05:50:26+08:00",
   "latestRun": {
     "schemaVersion": "1.0.0",
-    "runId": "20260909T023820+0800-f738a8a5",
+    "runId": "20260909T055003+0800-bc202157",
     "showDate": "2026-09-09",
-    "collectedAt": "2026-09-09T02:38:20+08:00",
+    "collectedAt": "2026-09-09T05:50:03+08:00",
     "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
     "sourceStatuses": {
       "gsc": {
         "status": "ok",
-        "snapshots": 0,
-        "seatMeasured": 0,
-        "cinemaIds": [],
+        "snapshots": 16,
+        "seatMeasured": 16,
+        "cinemaIds": [
+          "gsc-aman-central",
+          "gsc-dataran-pahlawan",
+          "gsc-imago",
+          "gsc-ioi-city-mall",
+          "gsc-kuantan-city-mall",
+          "gsc-mid-valley",
+          "gsc-paradigm-jb",
+          "gsc-the-spring"
+        ],
         "expectedCinemas": 8
       },
       "tgv": {
@@ -78,9 +87,9 @@
         "expectedCinemas": 1
       }
     },
-    "snapshotCount": 22
+    "snapshotCount": 38
   },
-  "historyFiles": 37,
+  "historyFiles": 38,
   "availableDates": [
     "2026-09-04",
     "2026-09-05",
