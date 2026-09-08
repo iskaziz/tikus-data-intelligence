@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "20260909T023820+0800-f738a8a5",
+  "showDate": "2026-09-09",
+  "collectedAt": "2026-09-09T02:38:20+08:00",
+  "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
+  "sourceStatuses": {
+    "gsc": {
+      "status": "ok",
+      "snapshots": 0,
+      "seatMeasured": 0,
+      "cinemaIds": [],
+      "expectedCinemas": 8
+    },
+    "tgv": {
+      "status": "ok",
+      "snapshots": 9,
+      "seatMeasured": 9,
+      "cinemaIds": [
+        "tgv-1utama",
+        "tgv-bukit-tinggi",
+        "tgv-gurney",
+        "tgv-tebrau-city",
+        "tgv-wangsa-walk"
+      ],
+      "expectedCinemas": 5
+    },
+    "paragon": {
+      "status": "ok-schedule-only",
+      "snapshots": 9,
+      "seatMeasured": 0,
+      "cinemaIds": [
+        "paragon-batu-pahat",
+        "paragon-ktcc"
+      ],
+      "expectedCinemas": 2,
+      "diagnostics": {
+        "paragon-batu-pahat": {
+          "movieTitleAnchors": 27,
+          "tikusTitleAnchors": 1,
+          "ticketAnchorsInTikusSegments": 4,
+          "matchedDateTicketAnchors": 4,
+          "rejectedTicketAnchors": 0,
+          "rejectionReasons": {},
+          "targetDate": "Wednesday, 09 September 2026",
+          "cinemaId": "paragon-batu-pahat",
+          "sourceCinemaId": "0000000002",
+          "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
+          "payloadHash": "6523c80662ca572b0bcb8dd447d516f0d0cb631907de7844e10534395ecb2fe0",
+          "parsedSessions": 4
+        },
+        "paragon-ktcc": {
+          "movieTitleAnchors": 30,
+          "tikusTitleAnchors": 1,
+          "ticketAnchorsInTikusSegments": 5,
+          "matchedDateTicketAnchors": 5,
+          "rejectedTicketAnchors": 0,
+          "rejectionReasons": {},
+          "targetDate": "Wednesday, 09 September 2026",
+          "cinemaId": "paragon-ktcc",
+          "sourceCinemaId": "0000000004",
+          "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
+          "payloadHash": "4f7beeb2394f66b7afb83d18dd3d0b4eadec0f5abc50100818d29ba830160fcd",
+          "parsedSessions": 5
+        }
+      }
+    },
+    "mega": {
+      "status": "ok-schedule-only",
+      "snapshots": 4,
+      "seatMeasured": 0,
+      "cinemaIds": [
+        "mega-riverfront-mall"
+      ],
+      "expectedCinemas": 1
+    }
+  },
+  "snapshotCount": 22
+}
