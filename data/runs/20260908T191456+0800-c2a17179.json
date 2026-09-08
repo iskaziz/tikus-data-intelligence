@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "20260908T191456+0800-c2a17179",
+  "showDate": "2026-09-08",
+  "collectedAt": "2026-09-08T19:14:56+08:00",
+  "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
+  "sourceStatuses": {
+    "gsc": {
+      "status": "ok",
+      "snapshots": 8,
+      "seatMeasured": 8,
+      "cinemaIds": [
+        "gsc-aman-central",
+        "gsc-dataran-pahlawan",
+        "gsc-imago",
+        "gsc-ioi-city-mall",
+        "gsc-kuantan-city-mall",
+        "gsc-mid-valley",
+        "gsc-paradigm-jb",
+        "gsc-the-spring"
+      ],
+      "expectedCinemas": 8
+    },
+    "tgv": {
+      "status": "ok",
+      "snapshots": 1,
+      "seatMeasured": 1,
+      "cinemaIds": [
+        "tgv-bukit-tinggi"
+      ],
+      "expectedCinemas": 5
+    },
+    "paragon": {
+      "status": "ok-schedule-only",
+      "snapshots": 3,
+      "seatMeasured": 0,
+      "cinemaIds": [
+        "paragon-batu-pahat",
+        "paragon-ktcc"
+      ],
+      "expectedCinemas": 2,
+      "diagnostics": {
+        "paragon-batu-pahat": {
+          "movieTitleAnchors": 27,
+          "tikusTitleAnchors": 1,
+          "ticketAnchorsInTikusSegments": 5,
+          "matchedDateTicketAnchors": 1,
+          "rejectedTicketAnchors": 4,
+          "rejectionReasons": {
+            "ticket-anchor-outside-target-date": 4
+          },
+          "targetDate": "Tuesday, 08 September 2026",
+          "cinemaId": "paragon-batu-pahat",
+          "sourceCinemaId": "0000000002",
+          "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
+          "payloadHash": "5c58897dfd5b895b26b7fd2d8f172006cc3185ac63154e3bb6abf80069139cf2",
+          "parsedSessions": 1
+        },
+        "paragon-ktcc": {
+          "movieTitleAnchors": 30,
+          "tikusTitleAnchors": 1,
+          "ticketAnchorsInTikusSegments": 7,
+          "matchedDateTicketAnchors": 2,
+          "rejectedTicketAnchors": 5,
+          "rejectionReasons": {
+            "ticket-anchor-outside-target-date": 5
+          },
+          "targetDate": "Tuesday, 08 September 2026",
+          "cinemaId": "paragon-ktcc",
+          "sourceCinemaId": "0000000004",
+          "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
+          "payloadHash": "9a9243b6229a41c3d774398bd5e469fb6f254fb38eaff7d7c2c69e0d3725c034",
+          "parsedSessions": 2
+        }
+      }
+    },
+    "mega": {
+      "status": "ok-schedule-only",
+      "snapshots": 2,
+      "seatMeasured": 0,
+      "cinemaIds": [
+        "mega-riverfront-mall"
+      ],
+      "expectedCinemas": 1
+    }
+  },
+  "snapshotCount": 14
+}
