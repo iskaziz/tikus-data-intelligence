@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.7.0",
-  "generatedAt": "2026-09-13T08:00:22+08:00",
+  "generatedAt": "2026-09-13T12:43:39+08:00",
   "filmId": "tikus",
   "showDate": "2026-09-13",
   "status": "ok",
@@ -16,14 +16,14 @@
     "locationsWithConfirmedShows": 2,
     "seatMeasuredSessions": 2,
     "observedCapacity": 166,
-    "observedUsed": 2,
-    "available": 164,
+    "observedUsed": 4,
+    "available": 162,
     "otherUnavailable": 0,
-    "occupancy": 0.012048192771084338,
-    "averageUsedPerMeasuredSession": 1.0,
+    "occupancy": 0.024096385542168676,
+    "averageUsedPerMeasuredSession": 2.0,
     "averageCapacityPerMeasuredSession": 83.0,
     "primeTimeShows": 2,
-    "primeTimeOccupancy": 0.012048192771084338,
+    "primeTimeOccupancy": 0.024096385542168676,
     "seatCoverage": 1.0
   },
   "liveSummary": {
@@ -31,14 +31,14 @@
     "locationsWithConfirmedShows": 2,
     "seatMeasuredSessions": 2,
     "observedCapacity": 166,
-    "observedUsed": 2,
-    "available": 164,
+    "observedUsed": 4,
+    "available": 162,
     "otherUnavailable": 0,
-    "occupancy": 0.012048192771084338,
-    "averageUsedPerMeasuredSession": 1.0,
+    "occupancy": 0.024096385542168676,
+    "averageUsedPerMeasuredSession": 2.0,
     "averageCapacityPerMeasuredSession": 83.0,
     "primeTimeShows": 2,
-    "primeTimeOccupancy": 0.012048192771084338,
+    "primeTimeOccupancy": 0.024096385542168676,
     "seatCoverage": 1.0
   },
   "finalPreShowSummary": {
@@ -70,14 +70,14 @@
       "locationsWithConfirmedShows": 1,
       "seatMeasuredSessions": 1,
       "observedCapacity": 89,
-      "observedUsed": 2,
-      "available": 87,
+      "observedUsed": 4,
+      "available": 85,
       "otherUnavailable": 0,
-      "occupancy": 0.02247191011235955,
-      "averageUsedPerMeasuredSession": 2.0,
+      "occupancy": 0.0449438202247191,
+      "averageUsedPerMeasuredSession": 4.0,
       "averageCapacityPerMeasuredSession": 89.0,
       "primeTimeShows": 1,
-      "primeTimeOccupancy": 0.02247191011235955,
+      "primeTimeOccupancy": 0.0449438202247191,
       "seatCoverage": 1.0,
       "showShare": 0.5,
       "seatShare": 0.536144578313253,
@@ -108,7 +108,7 @@
   "sessions": [
     {
       "schemaVersion": "1.0.0",
-      "runId": "20260913T080010+0800-19eee423",
+      "runId": "20260913T124327+0800-c87c929e",
       "filmId": "tikus",
       "cinemaId": "gsc-ioi-city-mall",
       "exhibitorId": "gsc",
@@ -121,12 +121,12 @@
         "sourceCinemaName": "GSC IOI City Mall (West) (Putrajaya)",
         "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=257&hallid=6&showdate=2026-09-13&showtime=2000",
         "collectorVersion": "1.0.0",
-        "rawPayloadHash": "f010efbae15709821cf8f5f9e8b16442dc64b2929c9212b2283f22e4f77fde8a"
+        "rawPayloadHash": "fff9a1d74d50626645a795350b792f1a4eb0153b6b876589c9178cc6ba19159c"
       },
-      "collectedAt": "2026-09-13T08:00:10+08:00",
+      "collectedAt": "2026-09-13T12:43:27+08:00",
       "showDate": "2026-09-13",
       "startAt": "2026-09-13T20:00:00+08:00",
-      "minutesToShow": 720,
+      "minutesToShow": 437,
       "session": {
         "auditorium": "6",
         "format": "2D - Digital 2D",
@@ -135,12 +135,12 @@
       },
       "seat": {
         "capacity": 89,
-        "used": 2,
-        "available": 87,
+        "used": 4,
+        "available": 85,
         "otherUnavailable": 0,
         "statusCounts": {
-          "A": 87,
-          "B": 2
+          "A": 85,
+          "B": 4
         }
       },
       "semantics": {
@@ -158,7 +158,7 @@
     },
     {
       "schemaVersion": "1.0.0",
-      "runId": "20260913T080010+0800-19eee423",
+      "runId": "20260913T124327+0800-c87c929e",
       "filmId": "tikus",
       "cinemaId": "gsc-paradigm-jb",
       "exhibitorId": "gsc",
@@ -173,10 +173,10 @@
         "collectorVersion": "1.0.0",
         "rawPayloadHash": "d9f84795125176e78c39b820627ae7776ce14ac733b4c1f1b9152a0c4ffa8be1"
       },
-      "collectedAt": "2026-09-13T08:00:10+08:00",
+      "collectedAt": "2026-09-13T12:43:27+08:00",
       "showDate": "2026-09-13",
       "startAt": "2026-09-13T20:00:00+08:00",
-      "minutesToShow": 720,
+      "minutesToShow": 437,
       "session": {
         "auditorium": "4",
         "format": "2D - Digital 2D",
@@ -209,7 +209,7 @@
   "liveSessions": [
     {
       "schemaVersion": "1.0.0",
-      "runId": "20260913T080010+0800-19eee423",
+      "runId": "20260913T124327+0800-c87c929e",
       "filmId": "tikus",
       "cinemaId": "gsc-ioi-city-mall",
       "exhibitorId": "gsc",
@@ -222,12 +222,12 @@
         "sourceCinemaName": "GSC IOI City Mall (West) (Putrajaya)",
         "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=257&hallid=6&showdate=2026-09-13&showtime=2000",
         "collectorVersion": "1.0.0",
-        "rawPayloadHash": "f010efbae15709821cf8f5f9e8b16442dc64b2929c9212b2283f22e4f77fde8a"
+        "rawPayloadHash": "fff9a1d74d50626645a795350b792f1a4eb0153b6b876589c9178cc6ba19159c"
       },
-      "collectedAt": "2026-09-13T08:00:10+08:00",
+      "collectedAt": "2026-09-13T12:43:27+08:00",
       "showDate": "2026-09-13",
       "startAt": "2026-09-13T20:00:00+08:00",
-      "minutesToShow": 720,
+      "minutesToShow": 437,
       "session": {
         "auditorium": "6",
         "format": "2D - Digital 2D",
@@ -236,12 +236,12 @@
       },
       "seat": {
         "capacity": 89,
-        "used": 2,
-        "available": 87,
+        "used": 4,
+        "available": 85,
         "otherUnavailable": 0,
         "statusCounts": {
-          "A": 87,
-          "B": 2
+          "A": 85,
+          "B": 4
         }
       },
       "semantics": {
@@ -259,7 +259,7 @@
     },
     {
       "schemaVersion": "1.0.0",
-      "runId": "20260913T080010+0800-19eee423",
+      "runId": "20260913T124327+0800-c87c929e",
       "filmId": "tikus",
       "cinemaId": "gsc-paradigm-jb",
       "exhibitorId": "gsc",
@@ -274,10 +274,10 @@
         "collectorVersion": "1.0.0",
         "rawPayloadHash": "d9f84795125176e78c39b820627ae7776ce14ac733b4c1f1b9152a0c4ffa8be1"
       },
-      "collectedAt": "2026-09-13T08:00:10+08:00",
+      "collectedAt": "2026-09-13T12:43:27+08:00",
       "showDate": "2026-09-13",
       "startAt": "2026-09-13T20:00:00+08:00",
-      "minutesToShow": 720,
+      "minutesToShow": 437,
       "session": {
         "auditorium": "4",
         "format": "2D - Digital 2D",
@@ -310,16 +310,16 @@
   "finalPreShowSessions": [],
   "sessionChanges": {
     "gsc-ioi-city-mall:source:340704": {
-      "usedDelta": 0,
-      "hours": 1.7469444444444444,
-      "seatsPerHour": 0.0,
-      "previousCollectedAt": "2026-09-13T06:15:21+08:00"
+      "usedDelta": 2,
+      "hours": 4.721388888888889,
+      "seatsPerHour": 0.4236041654409602,
+      "previousCollectedAt": "2026-09-13T08:00:10+08:00"
     },
     "gsc-paradigm-jb:source:290125": {
       "usedDelta": 0,
-      "hours": 1.7469444444444444,
+      "hours": 4.721388888888889,
       "seatsPerHour": 0.0,
-      "previousCollectedAt": "2026-09-13T06:15:21+08:00"
+      "previousCollectedAt": "2026-09-13T08:00:10+08:00"
     }
   },
   "series": {
@@ -353,6 +353,14 @@
         "capacity": 89,
         "used": 2,
         "available": 87,
+        "otherUnavailable": 0,
+        "seatMeasured": true
+      },
+      {
+        "collectedAt": "2026-09-13T12:43:27+08:00",
+        "capacity": 89,
+        "used": 4,
+        "available": 85,
         "otherUnavailable": 0,
         "seatMeasured": true
       }
@@ -389,6 +397,14 @@
         "available": 77,
         "otherUnavailable": 0,
         "seatMeasured": true
+      },
+      {
+        "collectedAt": "2026-09-13T12:43:27+08:00",
+        "capacity": 77,
+        "used": 0,
+        "available": 77,
+        "otherUnavailable": 0,
+        "seatMeasured": true
       }
     ]
   },
@@ -399,14 +415,14 @@
       "locationsWithConfirmedShows": 2,
       "seatMeasuredSessions": 2,
       "observedCapacity": 166,
-      "observedUsed": 2,
-      "available": 164,
+      "observedUsed": 4,
+      "available": 162,
       "otherUnavailable": 0,
-      "occupancy": 0.012048192771084338,
-      "averageUsedPerMeasuredSession": 1.0,
+      "occupancy": 0.024096385542168676,
+      "averageUsedPerMeasuredSession": 2.0,
       "averageCapacityPerMeasuredSession": 83.0,
       "primeTimeShows": 2,
-      "primeTimeOccupancy": 0.012048192771084338,
+      "primeTimeOccupancy": 0.024096385542168676,
       "seatCoverage": 1.0
     }
   ],
@@ -433,14 +449,14 @@
       "locationsWithConfirmedShows": 1,
       "seatMeasuredSessions": 1,
       "observedCapacity": 89,
-      "observedUsed": 2,
-      "available": 87,
+      "observedUsed": 4,
+      "available": 85,
       "otherUnavailable": 0,
-      "occupancy": 0.02247191011235955,
-      "averageUsedPerMeasuredSession": 2.0,
+      "occupancy": 0.0449438202247191,
+      "averageUsedPerMeasuredSession": 4.0,
       "averageCapacityPerMeasuredSession": 89.0,
       "primeTimeShows": 1,
-      "primeTimeOccupancy": 0.02247191011235955,
+      "primeTimeOccupancy": 0.0449438202247191,
       "seatCoverage": 1.0
     }
   ],
@@ -449,10 +465,10 @@
       {
         "cinemaId": "gsc-ioi-city-mall",
         "qualifyingSessions": 1,
-        "netUsedDelta": 0,
-        "averageSeatsPerHour": 0.0,
-        "maxSeatsPerHour": 0.0,
-        "minSeatsPerHour": 0.0
+        "netUsedDelta": 2,
+        "averageSeatsPerHour": 0.4236041654409602,
+        "maxSeatsPerHour": 0.4236041654409602,
+        "minSeatsPerHour": 0.4236041654409602
       },
       {
         "cinemaId": "gsc-paradigm-jb",
@@ -469,9 +485,9 @@
         "primeShows": 1,
         "primeMeasuredSessions": 1,
         "primeCapacity": 89,
-        "primeUsed": 2,
-        "primeOccupancy": 0.02247191011235955,
-        "allDayOccupancy": 0.02247191011235955,
+        "primeUsed": 4,
+        "primeOccupancy": 0.0449438202247191,
+        "allDayOccupancy": 0.0449438202247191,
         "occupancyDelta": 0.0,
         "seatCoverage": 1.0
       },
@@ -492,21 +508,21 @@
         "sessionId": "gsc-ioi-city-mall:source:340704",
         "cinemaId": "gsc-ioi-city-mall",
         "startAt": "2026-09-13T20:00:00+08:00",
-        "usedDelta": 0,
-        "hours": 1.7469444444444444,
-        "seatsPerHour": 0.0,
-        "previousCollectedAt": "2026-09-13T06:15:21+08:00",
-        "latestCollectedAt": "2026-09-13T08:00:10+08:00"
+        "usedDelta": 2,
+        "hours": 4.721388888888889,
+        "seatsPerHour": 0.4236041654409602,
+        "previousCollectedAt": "2026-09-13T08:00:10+08:00",
+        "latestCollectedAt": "2026-09-13T12:43:27+08:00"
       },
       {
         "sessionId": "gsc-paradigm-jb:source:290125",
         "cinemaId": "gsc-paradigm-jb",
         "startAt": "2026-09-13T20:00:00+08:00",
         "usedDelta": 0,
-        "hours": 1.7469444444444444,
+        "hours": 4.721388888888889,
         "seatsPerHour": 0.0,
-        "previousCollectedAt": "2026-09-13T06:15:21+08:00",
-        "latestCollectedAt": "2026-09-13T08:00:10+08:00"
+        "previousCollectedAt": "2026-09-13T08:00:10+08:00",
+        "latestCollectedAt": "2026-09-13T12:43:27+08:00"
       }
     ],
     "allocationComparison": {
@@ -537,27 +553,28 @@
     "decisionSignals": {
       "status": "ok",
       "quality": "observed-day",
-      "networkOccupancy": 0.012048192771084338,
+      "networkOccupancy": 0.024096385542168676,
       "counts": {
-        "review-opportunity": 0,
+        "review-opportunity": 1,
         "mixed": 0,
         "capacity-watch": 0,
-        "monitor": 2
+        "monitor": 1
       },
       "cinemas": [
         {
           "cinemaId": "gsc-ioi-city-mall",
-          "signal": "monitor",
-          "label": "Monitor",
+          "signal": "review-opportunity",
+          "label": "Review opportunity",
           "confidence": "low",
-          "rationale": "No strong allocation-fit signal from the current observed evidence.",
+          "rationale": "Multiple observed indicators are outperforming relative to the measured network; review whether current allocation remains proportionate.",
           "evidence": [
-            "Seat-State Performance Index 1.87×"
+            "Seat-State Performance Index 1.87×",
+            "recent momentum +0.4 observed seats/hr"
           ],
           "performanceIndex": 1.8651685393258426,
-          "occupancy": 0.02247191011235955,
-          "networkOccupancy": 0.012048192771084338,
-          "averageSeatsPerHour": 0.0,
+          "occupancy": 0.0449438202247191,
+          "networkOccupancy": 0.024096385542168676,
+          "averageSeatsPerHour": 0.4236041654409602,
           "primeOccupancyDelta": 0.0,
           "showDelta": 0
         },
@@ -572,7 +589,7 @@
           ],
           "performanceIndex": 0.0,
           "occupancy": 0.0,
-          "networkOccupancy": 0.012048192771084338,
+          "networkOccupancy": 0.024096385542168676,
           "averageSeatsPerHour": 0.0,
           "primeOccupancyDelta": 0.0,
           "showDelta": 0
@@ -582,7 +599,7 @@
     },
     "sessionTrajectories": {
       "status": "ok",
-      "asOf": "2026-09-13T08:00:22+08:00",
+      "asOf": "2026-09-13T12:43:39+08:00",
       "windows": [
         {
           "id": "tMinus6h",
@@ -612,25 +629,25 @@
           "startAt": "2026-09-13T20:00:00+08:00",
           "points": {
             "tMinus6h": {
-              "collectedAt": "2026-09-13T08:00:10+08:00",
+              "collectedAt": "2026-09-13T12:43:27+08:00",
               "capacity": 89,
-              "used": 2,
-              "occupancy": 0.02247191011235955,
-              "minutesBeforeShow": 720
+              "used": 4,
+              "occupancy": 0.0449438202247191,
+              "minutesBeforeShow": 437
             },
             "tMinus3h": {
-              "collectedAt": "2026-09-13T08:00:10+08:00",
+              "collectedAt": "2026-09-13T12:43:27+08:00",
               "capacity": 89,
-              "used": 2,
-              "occupancy": 0.02247191011235955,
-              "minutesBeforeShow": 720
+              "used": 4,
+              "occupancy": 0.0449438202247191,
+              "minutesBeforeShow": 437
             },
             "tMinus1h": {
-              "collectedAt": "2026-09-13T08:00:10+08:00",
+              "collectedAt": "2026-09-13T12:43:27+08:00",
               "capacity": 89,
-              "used": 2,
-              "occupancy": 0.02247191011235955,
-              "minutesBeforeShow": 720
+              "used": 4,
+              "occupancy": 0.0449438202247191,
+              "minutesBeforeShow": 437
             },
             "finalPreShow": null
           },
@@ -643,25 +660,25 @@
           "startAt": "2026-09-13T20:00:00+08:00",
           "points": {
             "tMinus6h": {
-              "collectedAt": "2026-09-13T08:00:10+08:00",
+              "collectedAt": "2026-09-13T12:43:27+08:00",
               "capacity": 77,
               "used": 0,
               "occupancy": 0.0,
-              "minutesBeforeShow": 720
+              "minutesBeforeShow": 437
             },
             "tMinus3h": {
-              "collectedAt": "2026-09-13T08:00:10+08:00",
+              "collectedAt": "2026-09-13T12:43:27+08:00",
               "capacity": 77,
               "used": 0,
               "occupancy": 0.0,
-              "minutesBeforeShow": 720
+              "minutesBeforeShow": 437
             },
             "tMinus1h": {
-              "collectedAt": "2026-09-13T08:00:10+08:00",
+              "collectedAt": "2026-09-13T12:43:27+08:00",
               "capacity": 77,
               "used": 0,
               "occupancy": 0.0,
-              "minutesBeforeShow": 720
+              "minutesBeforeShow": 437
             },
             "finalPreShow": null
           },
@@ -678,20 +695,20 @@
             "tMinus6h": {
               "sessions": 1,
               "capacity": 89,
-              "used": 2,
-              "occupancy": 0.02247191011235955
+              "used": 4,
+              "occupancy": 0.0449438202247191
             },
             "tMinus3h": {
               "sessions": 1,
               "capacity": 89,
-              "used": 2,
-              "occupancy": 0.02247191011235955
+              "used": 4,
+              "occupancy": 0.0449438202247191
             },
             "tMinus1h": {
               "sessions": 1,
               "capacity": 89,
-              "used": 2,
-              "occupancy": 0.02247191011235955
+              "used": 4,
+              "occupancy": 0.0449438202247191
             },
             "finalPreShow": {
               "sessions": 0,
@@ -746,22 +763,501 @@
     }
   },
   "asOfReplay": {
-    "status": "unavailable",
+    "status": "ok",
     "timezone": "Asia/Kuala_Lumpur",
     "rule": "Each replay uses only observations collected at or before its cutoff; later observations are excluded from all replay metrics and signals.",
-    "checkpoints": []
+    "checkpoints": [
+      {
+        "id": "1200",
+        "label": "12:00",
+        "asOf": "2026-09-13T12:00:00+08:00",
+        "status": "ok",
+        "summary": {
+          "totalShows": 2,
+          "locationsWithConfirmedShows": 2,
+          "seatMeasuredSessions": 2,
+          "observedCapacity": 166,
+          "observedUsed": 2,
+          "available": 164,
+          "otherUnavailable": 0,
+          "occupancy": 0.012048192771084338,
+          "averageUsedPerMeasuredSession": 1.0,
+          "averageCapacityPerMeasuredSession": 83.0,
+          "primeTimeShows": 2,
+          "primeTimeOccupancy": 0.012048192771084338,
+          "seatCoverage": 1.0
+        },
+        "cinemas": [
+          {
+            "cinemaId": "gsc-ioi-city-mall",
+            "totalShows": 1,
+            "locationsWithConfirmedShows": 1,
+            "seatMeasuredSessions": 1,
+            "observedCapacity": 89,
+            "observedUsed": 2,
+            "available": 87,
+            "otherUnavailable": 0,
+            "occupancy": 0.02247191011235955,
+            "averageUsedPerMeasuredSession": 2.0,
+            "averageCapacityPerMeasuredSession": 89.0,
+            "primeTimeShows": 1,
+            "primeTimeOccupancy": 0.02247191011235955,
+            "seatCoverage": 1.0,
+            "showShare": 0.5,
+            "seatShare": 0.536144578313253,
+            "usedShare": 1.0,
+            "performanceIndex": 1.8651685393258426
+          },
+          {
+            "cinemaId": "gsc-paradigm-jb",
+            "totalShows": 1,
+            "locationsWithConfirmedShows": 1,
+            "seatMeasuredSessions": 1,
+            "observedCapacity": 77,
+            "observedUsed": 0,
+            "available": 77,
+            "otherUnavailable": 0,
+            "occupancy": 0.0,
+            "averageUsedPerMeasuredSession": 0.0,
+            "averageCapacityPerMeasuredSession": 77.0,
+            "primeTimeShows": 1,
+            "primeTimeOccupancy": 0.0,
+            "seatCoverage": 1.0,
+            "showShare": 0.5,
+            "seatShare": 0.463855421686747,
+            "usedShare": 0.0,
+            "performanceIndex": 0.0
+          }
+        ],
+        "sessions": [
+          {
+            "schemaVersion": "1.0.0",
+            "runId": "20260913T080010+0800-19eee423",
+            "filmId": "tikus",
+            "cinemaId": "gsc-ioi-city-mall",
+            "exhibitorId": "gsc",
+            "sessionId": "gsc-ioi-city-mall:source:340704",
+            "sourceSessionId": "340704",
+            "source": {
+              "provider": "gsc",
+              "sourceType": "official-api",
+              "sourceCinemaId": "257",
+              "sourceCinemaName": "GSC IOI City Mall (West) (Putrajaya)",
+              "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=257&hallid=6&showdate=2026-09-13&showtime=2000",
+              "collectorVersion": "1.0.0",
+              "rawPayloadHash": "f010efbae15709821cf8f5f9e8b16442dc64b2929c9212b2283f22e4f77fde8a"
+            },
+            "collectedAt": "2026-09-13T08:00:10+08:00",
+            "showDate": "2026-09-13",
+            "startAt": "2026-09-13T20:00:00+08:00",
+            "minutesToShow": 720,
+            "session": {
+              "auditorium": "6",
+              "format": "2D - Digital 2D",
+              "language": null,
+              "experience": null
+            },
+            "seat": {
+              "capacity": 89,
+              "used": 2,
+              "available": 87,
+              "otherUnavailable": 0,
+              "statusCounts": {
+                "A": 87,
+                "B": 2
+              }
+            },
+            "semantics": {
+              "used": "gsc-booked-state-B",
+              "available": "gsc-available-state-A",
+              "capacity": "gsc-observed-seat-map"
+            },
+            "quality": {
+              "measurementStatus": "complete",
+              "seatMeasured": true,
+              "warnings": [
+                "Booked-state seats are not confirmed paid ticket sales."
+              ]
+            }
+          },
+          {
+            "schemaVersion": "1.0.0",
+            "runId": "20260913T080010+0800-19eee423",
+            "filmId": "tikus",
+            "cinemaId": "gsc-paradigm-jb",
+            "exhibitorId": "gsc",
+            "sessionId": "gsc-paradigm-jb:source:290125",
+            "sourceSessionId": "290125",
+            "source": {
+              "provider": "gsc",
+              "sourceType": "official-api",
+              "sourceCinemaId": "355",
+              "sourceCinemaName": "GSC Paradigm Mall (Johor Bahru)",
+              "sourceUrl": "https://epaymentapi.gsc.com.my/showtimews/service.asmx/getHallSeatStatus?locationid=355&hallid=4&showdate=2026-09-13&showtime=2000",
+              "collectorVersion": "1.0.0",
+              "rawPayloadHash": "d9f84795125176e78c39b820627ae7776ce14ac733b4c1f1b9152a0c4ffa8be1"
+            },
+            "collectedAt": "2026-09-13T08:00:10+08:00",
+            "showDate": "2026-09-13",
+            "startAt": "2026-09-13T20:00:00+08:00",
+            "minutesToShow": 720,
+            "session": {
+              "auditorium": "4",
+              "format": "2D - Digital 2D",
+              "language": null,
+              "experience": null
+            },
+            "seat": {
+              "capacity": 77,
+              "used": 0,
+              "available": 77,
+              "otherUnavailable": 0,
+              "statusCounts": {
+                "A": 77
+              }
+            },
+            "semantics": {
+              "used": "gsc-booked-state-B",
+              "available": "gsc-available-state-A",
+              "capacity": "gsc-observed-seat-map"
+            },
+            "quality": {
+              "measurementStatus": "complete",
+              "seatMeasured": true,
+              "warnings": [
+                "Booked-state seats are not confirmed paid ticket sales."
+              ]
+            }
+          }
+        ],
+        "sessionChanges": {
+          "gsc-ioi-city-mall:source:340704": {
+            "usedDelta": 0,
+            "hours": 1.7469444444444444,
+            "seatsPerHour": 0.0,
+            "previousCollectedAt": "2026-09-13T06:15:21+08:00"
+          },
+          "gsc-paradigm-jb:source:290125": {
+            "usedDelta": 0,
+            "hours": 1.7469444444444444,
+            "seatsPerHour": 0.0,
+            "previousCollectedAt": "2026-09-13T06:15:21+08:00"
+          }
+        },
+        "intelligence": {
+          "cinemaMomentum": [
+            {
+              "cinemaId": "gsc-ioi-city-mall",
+              "qualifyingSessions": 1,
+              "netUsedDelta": 0,
+              "averageSeatsPerHour": 0.0,
+              "maxSeatsPerHour": 0.0,
+              "minSeatsPerHour": 0.0
+            },
+            {
+              "cinemaId": "gsc-paradigm-jb",
+              "qualifyingSessions": 1,
+              "netUsedDelta": 0,
+              "averageSeatsPerHour": 0.0,
+              "maxSeatsPerHour": 0.0,
+              "minSeatsPerHour": 0.0
+            }
+          ],
+          "primeTimeEfficiency": [
+            {
+              "cinemaId": "gsc-ioi-city-mall",
+              "primeShows": 1,
+              "primeMeasuredSessions": 1,
+              "primeCapacity": 89,
+              "primeUsed": 2,
+              "primeOccupancy": 0.02247191011235955,
+              "allDayOccupancy": 0.02247191011235955,
+              "occupancyDelta": 0.0,
+              "seatCoverage": 1.0
+            },
+            {
+              "cinemaId": "gsc-paradigm-jb",
+              "primeShows": 1,
+              "primeMeasuredSessions": 1,
+              "primeCapacity": 77,
+              "primeUsed": 0,
+              "primeOccupancy": 0.0,
+              "allDayOccupancy": 0.0,
+              "occupancyDelta": 0.0,
+              "seatCoverage": 1.0
+            }
+          ],
+          "sessionVelocityLeaders": [
+            {
+              "sessionId": "gsc-ioi-city-mall:source:340704",
+              "cinemaId": "gsc-ioi-city-mall",
+              "startAt": "2026-09-13T20:00:00+08:00",
+              "usedDelta": 0,
+              "hours": 1.7469444444444444,
+              "seatsPerHour": 0.0,
+              "previousCollectedAt": "2026-09-13T06:15:21+08:00",
+              "latestCollectedAt": "2026-09-13T08:00:10+08:00"
+            },
+            {
+              "sessionId": "gsc-paradigm-jb:source:290125",
+              "cinemaId": "gsc-paradigm-jb",
+              "startAt": "2026-09-13T20:00:00+08:00",
+              "usedDelta": 0,
+              "hours": 1.7469444444444444,
+              "seatsPerHour": 0.0,
+              "previousCollectedAt": "2026-09-13T06:15:21+08:00",
+              "latestCollectedAt": "2026-09-13T08:00:10+08:00"
+            }
+          ],
+          "allocationComparison": {
+            "status": "ok",
+            "previousDate": "2026-09-12",
+            "quality": "limited-partial-day",
+            "cinemas": [
+              {
+                "cinemaId": "gsc-ioi-city-mall",
+                "shows": 1,
+                "previousShows": 1,
+                "showDelta": 0,
+                "primeShows": 1,
+                "previousPrimeShows": 1,
+                "primeShowDelta": 0
+              },
+              {
+                "cinemaId": "gsc-paradigm-jb",
+                "shows": 1,
+                "previousShows": 1,
+                "showDelta": 0,
+                "primeShows": 1,
+                "previousPrimeShows": 1,
+                "primeShowDelta": 0
+              }
+            ]
+          },
+          "decisionSignals": {
+            "status": "ok",
+            "quality": "provisional-live-observation",
+            "networkOccupancy": 0.012048192771084338,
+            "counts": {
+              "review-opportunity": 0,
+              "mixed": 0,
+              "capacity-watch": 0,
+              "monitor": 2
+            },
+            "cinemas": [
+              {
+                "cinemaId": "gsc-ioi-city-mall",
+                "signal": "monitor",
+                "label": "Monitor",
+                "confidence": "low",
+                "rationale": "No strong allocation-fit signal from the current observed evidence.",
+                "evidence": [
+                  "Seat-State Performance Index 1.87×"
+                ],
+                "performanceIndex": 1.8651685393258426,
+                "occupancy": 0.02247191011235955,
+                "networkOccupancy": 0.012048192771084338,
+                "averageSeatsPerHour": 0.0,
+                "primeOccupancyDelta": 0.0,
+                "showDelta": 0
+              },
+              {
+                "cinemaId": "gsc-paradigm-jb",
+                "signal": "monitor",
+                "label": "Monitor",
+                "confidence": "low",
+                "rationale": "No strong allocation-fit signal from the current observed evidence.",
+                "evidence": [
+                  "Seat-State Performance Index 0.00×"
+                ],
+                "performanceIndex": 0.0,
+                "occupancy": 0.0,
+                "networkOccupancy": 0.012048192771084338,
+                "averageSeatsPerHour": 0.0,
+                "primeOccupancyDelta": 0.0,
+                "showDelta": 0
+              }
+            ],
+            "definition": "Operational review signals derived from observed seat-state performance, repeated-measurement momentum and prime-time utilisation. They are not forecasts, ticket-sales estimates or automated allocation recommendations."
+          },
+          "sessionTrajectories": {
+            "status": "ok",
+            "asOf": "2026-09-13T12:00:00+08:00",
+            "windows": [
+              {
+                "id": "tMinus6h",
+                "label": "T−6h",
+                "hoursBeforeShow": 6
+              },
+              {
+                "id": "tMinus3h",
+                "label": "T−3h",
+                "hoursBeforeShow": 3
+              },
+              {
+                "id": "tMinus1h",
+                "label": "T−1h",
+                "hoursBeforeShow": 1
+              },
+              {
+                "id": "finalPreShow",
+                "label": "Final pre-show",
+                "hoursBeforeShow": 0
+              }
+            ],
+            "sessions": [
+              {
+                "sessionId": "gsc-ioi-city-mall:source:340704",
+                "cinemaId": "gsc-ioi-city-mall",
+                "startAt": "2026-09-13T20:00:00+08:00",
+                "points": {
+                  "tMinus6h": {
+                    "collectedAt": "2026-09-13T08:00:10+08:00",
+                    "capacity": 89,
+                    "used": 2,
+                    "occupancy": 0.02247191011235955,
+                    "minutesBeforeShow": 720
+                  },
+                  "tMinus3h": {
+                    "collectedAt": "2026-09-13T08:00:10+08:00",
+                    "capacity": 89,
+                    "used": 2,
+                    "occupancy": 0.02247191011235955,
+                    "minutesBeforeShow": 720
+                  },
+                  "tMinus1h": {
+                    "collectedAt": "2026-09-13T08:00:10+08:00",
+                    "capacity": 89,
+                    "used": 2,
+                    "occupancy": 0.02247191011235955,
+                    "minutesBeforeShow": 720
+                  },
+                  "finalPreShow": null
+                },
+                "knownCheckpoints": 3,
+                "completeTrajectory": false
+              },
+              {
+                "sessionId": "gsc-paradigm-jb:source:290125",
+                "cinemaId": "gsc-paradigm-jb",
+                "startAt": "2026-09-13T20:00:00+08:00",
+                "points": {
+                  "tMinus6h": {
+                    "collectedAt": "2026-09-13T08:00:10+08:00",
+                    "capacity": 77,
+                    "used": 0,
+                    "occupancy": 0.0,
+                    "minutesBeforeShow": 720
+                  },
+                  "tMinus3h": {
+                    "collectedAt": "2026-09-13T08:00:10+08:00",
+                    "capacity": 77,
+                    "used": 0,
+                    "occupancy": 0.0,
+                    "minutesBeforeShow": 720
+                  },
+                  "tMinus1h": {
+                    "collectedAt": "2026-09-13T08:00:10+08:00",
+                    "capacity": 77,
+                    "used": 0,
+                    "occupancy": 0.0,
+                    "minutesBeforeShow": 720
+                  },
+                  "finalPreShow": null
+                },
+                "knownCheckpoints": 3,
+                "completeTrajectory": false
+              }
+            ],
+            "cinemas": [
+              {
+                "cinemaId": "gsc-ioi-city-mall",
+                "measuredSessions": 1,
+                "completeTrajectories": 0,
+                "checkpoints": {
+                  "tMinus6h": {
+                    "sessions": 1,
+                    "capacity": 89,
+                    "used": 2,
+                    "occupancy": 0.02247191011235955
+                  },
+                  "tMinus3h": {
+                    "sessions": 1,
+                    "capacity": 89,
+                    "used": 2,
+                    "occupancy": 0.02247191011235955
+                  },
+                  "tMinus1h": {
+                    "sessions": 1,
+                    "capacity": 89,
+                    "used": 2,
+                    "occupancy": 0.02247191011235955
+                  },
+                  "finalPreShow": {
+                    "sessions": 0,
+                    "capacity": null,
+                    "used": null,
+                    "occupancy": null
+                  }
+                },
+                "occupancyLift6hToFinal": null
+              },
+              {
+                "cinemaId": "gsc-paradigm-jb",
+                "measuredSessions": 1,
+                "completeTrajectories": 0,
+                "checkpoints": {
+                  "tMinus6h": {
+                    "sessions": 1,
+                    "capacity": 77,
+                    "used": 0,
+                    "occupancy": 0.0
+                  },
+                  "tMinus3h": {
+                    "sessions": 1,
+                    "capacity": 77,
+                    "used": 0,
+                    "occupancy": 0.0
+                  },
+                  "tMinus1h": {
+                    "sessions": 1,
+                    "capacity": 77,
+                    "used": 0,
+                    "occupancy": 0.0
+                  },
+                  "finalPreShow": {
+                    "sessions": 0,
+                    "capacity": null,
+                    "used": null,
+                    "occupancy": null
+                  }
+                },
+                "occupancyLift6hToFinal": null
+              }
+            ],
+            "definition": "Observed seat-state trajectory at comparable pre-show checkpoints. Each point is the latest valid measurement at or before its cutoff; values are not paid ticket sales."
+          }
+        },
+        "quality": {
+          "knowledgeCutoffApplied": true,
+          "usesLaterObservations": false,
+          "decisionConfidenceCeiling": "low",
+          "definition": "Historical replay using only observations collected at or before the stated Asia/Kuala_Lumpur cutoff."
+        }
+      }
+    ]
   },
   "observationWindow": {
     "firstCollectedAt": "2026-09-13T01:07:38+08:00",
-    "lastCollectedAt": "2026-09-13T08:00:10+08:00",
-    "observations": 8
+    "lastCollectedAt": "2026-09-13T12:43:27+08:00",
+    "observations": 10
   },
   "collection": {
     "latestRun": {
       "schemaVersion": "1.0.0",
-      "runId": "20260913T080010+0800-19eee423",
+      "runId": "20260913T124327+0800-c87c929e",
       "showDate": "2026-09-13",
-      "collectedAt": "2026-09-13T08:00:10+08:00",
+      "collectedAt": "2026-09-13T12:43:27+08:00",
       "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
       "sourceStatuses": {
         "gsc": {
@@ -801,7 +1297,7 @@
               "cinemaId": "paragon-batu-pahat",
               "sourceCinemaId": "0000000002",
               "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
-              "payloadHash": "d4704e1f11828ded99c5ffbbc71d4b44866cbfa4c6886c0287769cc3a5f8140b",
+              "payloadHash": "8550c7b816a8bb90a1cd0abcefb5d980c0b62095204364d6d32f727a88173f09",
               "parsedSessions": 0
             },
             "paragon-ktcc": {
@@ -817,7 +1313,7 @@
               "cinemaId": "paragon-ktcc",
               "sourceCinemaId": "0000000004",
               "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
-              "payloadHash": "692634672c473eaa2156e0a7e0e76992e5f4edd3f6025f05eea5cc10432b5400",
+              "payloadHash": "21ae43d89491e55cf0a7d7ef67b63c42bc3e9131ac24de7498af9dd0d3b829d0",
               "parsedSessions": 0
             }
           }
