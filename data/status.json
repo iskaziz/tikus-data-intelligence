@@ -1,18 +1,21 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-09-13T22:23:49+08:00",
+  "generatedAt": "2026-09-14T02:10:56+08:00",
   "latestRun": {
     "schemaVersion": "1.0.0",
-    "runId": "20260913T222336+0800-de7a341c",
-    "showDate": "2026-09-13",
-    "collectedAt": "2026-09-13T22:23:36+08:00",
+    "runId": "20260914T021040+0800-badf6e8f",
+    "showDate": "2026-09-14",
+    "collectedAt": "2026-09-14T02:10:40+08:00",
     "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
     "sourceStatuses": {
       "gsc": {
         "status": "ok",
-        "snapshots": 0,
-        "seatMeasured": 0,
-        "cinemaIds": [],
+        "snapshots": 2,
+        "seatMeasured": 2,
+        "cinemaIds": [
+          "gsc-ioi-city-mall",
+          "gsc-paradigm-jb"
+        ],
         "expectedCinemas": 8
       },
       "tgv": {
@@ -38,11 +41,11 @@
             "rejectionReasons": {
               "no-exact-tikus-movie-anchor": 1
             },
-            "targetDate": "Sunday, 13 September 2026",
+            "targetDate": "Monday, 14 September 2026",
             "cinemaId": "paragon-batu-pahat",
             "sourceCinemaId": "0000000002",
             "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
-            "payloadHash": "5f81a2186bffc97414e4cdbce32a6df6753cbc784d66160271be4f53e4a7c75e",
+            "payloadHash": "1cd6204b63ced846f8c42d19ed3604f48a5e6798e435f6a1ec4aa0b0e1b22b6f",
             "parsedSessions": 0
           },
           "paragon-ktcc": {
@@ -54,11 +57,11 @@
             "rejectionReasons": {
               "no-exact-tikus-movie-anchor": 1
             },
-            "targetDate": "Sunday, 13 September 2026",
+            "targetDate": "Monday, 14 September 2026",
             "cinemaId": "paragon-ktcc",
             "sourceCinemaId": "0000000004",
             "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
-            "payloadHash": "2eef299edacd5873363ce8a2916bd5eabf6833487a98b035c723b33b2ca2108c",
+            "payloadHash": "79645570a0839d583934ac0f94e0b1c003e3c27514e3d9df28f7f6f319b81280",
             "parsedSessions": 0
           }
         }
@@ -71,9 +74,9 @@
         "expectedCinemas": 1
       }
     },
-    "snapshotCount": 0
+    "snapshotCount": 2
   },
-  "historyFiles": 67,
+  "historyFiles": 68,
   "availableDates": [
     "2026-09-04",
     "2026-09-05",
@@ -84,6 +87,7 @@
     "2026-09-10",
     "2026-09-11",
     "2026-09-12",
-    "2026-09-13"
+    "2026-09-13",
+    "2026-09-14"
   ]
 }
