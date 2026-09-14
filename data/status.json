@@ -1,18 +1,21 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-09-14T20:49:13+08:00",
+  "generatedAt": "2026-09-15T02:36:47+08:00",
   "latestRun": {
     "schemaVersion": "1.0.0",
-    "runId": "20260914T204859+0800-568693b4",
-    "showDate": "2026-09-14",
-    "collectedAt": "2026-09-14T20:48:59+08:00",
+    "runId": "20260915T023634+0800-09de840a",
+    "showDate": "2026-09-15",
+    "collectedAt": "2026-09-15T02:36:34+08:00",
     "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
     "sourceStatuses": {
       "gsc": {
         "status": "ok",
-        "snapshots": 0,
-        "seatMeasured": 0,
-        "cinemaIds": [],
+        "snapshots": 2,
+        "seatMeasured": 2,
+        "cinemaIds": [
+          "gsc-ioi-city-mall",
+          "gsc-paradigm-jb"
+        ],
         "expectedCinemas": 8
       },
       "tgv": {
@@ -30,7 +33,7 @@
         "expectedCinemas": 2,
         "diagnostics": {
           "paragon-batu-pahat": {
-            "movieTitleAnchors": 45,
+            "movieTitleAnchors": 44,
             "tikusTitleAnchors": 0,
             "ticketAnchorsInTikusSegments": 0,
             "matchedDateTicketAnchors": 0,
@@ -38,15 +41,15 @@
             "rejectionReasons": {
               "no-exact-tikus-movie-anchor": 1
             },
-            "targetDate": "Monday, 14 September 2026",
+            "targetDate": "Tuesday, 15 September 2026",
             "cinemaId": "paragon-batu-pahat",
             "sourceCinemaId": "0000000002",
             "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
-            "payloadHash": "609f941060f5a0f0a46927910453135ab499ff533b04dff59da93e218c146e0e",
+            "payloadHash": "141c09c83284caf613a305818a379eeb2fc326930cc03335cd26c2774ecbcb4c",
             "parsedSessions": 0
           },
           "paragon-ktcc": {
-            "movieTitleAnchors": 45,
+            "movieTitleAnchors": 44,
             "tikusTitleAnchors": 0,
             "ticketAnchorsInTikusSegments": 0,
             "matchedDateTicketAnchors": 0,
@@ -54,11 +57,11 @@
             "rejectionReasons": {
               "no-exact-tikus-movie-anchor": 1
             },
-            "targetDate": "Monday, 14 September 2026",
+            "targetDate": "Tuesday, 15 September 2026",
             "cinemaId": "paragon-ktcc",
             "sourceCinemaId": "0000000004",
             "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
-            "payloadHash": "f683dc97c21668e085960aa216e332dd6fe45e4968fcc0e192f85d576136ab50",
+            "payloadHash": "f8485d1aad99608b62e41766c555f24bde8cf047f8062381e0b8138a641d00ac",
             "parsedSessions": 0
           }
         }
@@ -71,9 +74,9 @@
         "expectedCinemas": 1
       }
     },
-    "snapshotCount": 0
+    "snapshotCount": 2
   },
-  "historyFiles": 73,
+  "historyFiles": 74,
   "availableDates": [
     "2026-09-04",
     "2026-09-05",
@@ -85,6 +88,7 @@
     "2026-09-11",
     "2026-09-12",
     "2026-09-13",
-    "2026-09-14"
+    "2026-09-14",
+    "2026-09-15"
   ]
 }
