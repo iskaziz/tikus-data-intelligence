@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.7.0",
-  "generatedAt": "2026-09-16T05:18:31+08:00",
+  "generatedAt": "2026-09-16T08:17:20+08:00",
   "filmId": "tikus",
   "showDate": "2026-09-16",
   "status": "ok",
@@ -108,7 +108,7 @@
   "sessions": [
     {
       "schemaVersion": "1.0.0",
-      "runId": "20260916T051815+0800-9c64ffc2",
+      "runId": "20260916T081706+0800-49579655",
       "filmId": "tikus",
       "cinemaId": "gsc-ioi-city-mall",
       "exhibitorId": "gsc",
@@ -123,10 +123,10 @@
         "collectorVersion": "1.0.0",
         "rawPayloadHash": "66b88aa24b88d1b0e9d6ad4563ed06dbd23101a04868875da47516701a4d9a2a"
       },
-      "collectedAt": "2026-09-16T05:18:15+08:00",
+      "collectedAt": "2026-09-16T08:17:06+08:00",
       "showDate": "2026-09-16",
       "startAt": "2026-09-16T20:00:00+08:00",
-      "minutesToShow": 882,
+      "minutesToShow": 703,
       "session": {
         "auditorium": "6",
         "format": "2D - Digital 2D",
@@ -158,7 +158,7 @@
     },
     {
       "schemaVersion": "1.0.0",
-      "runId": "20260916T051815+0800-9c64ffc2",
+      "runId": "20260916T081706+0800-49579655",
       "filmId": "tikus",
       "cinemaId": "gsc-paradigm-jb",
       "exhibitorId": "gsc",
@@ -173,10 +173,10 @@
         "collectorVersion": "1.0.0",
         "rawPayloadHash": "fe5bb6bd017f4f0b046e0d3c96a3a25651c2d4ae4a23578b2d8b1fbe0ea5e857"
       },
-      "collectedAt": "2026-09-16T05:18:15+08:00",
+      "collectedAt": "2026-09-16T08:17:06+08:00",
       "showDate": "2026-09-16",
       "startAt": "2026-09-16T20:10:00+08:00",
-      "minutesToShow": 892,
+      "minutesToShow": 713,
       "session": {
         "auditorium": "4",
         "format": "2D - Digital 2D",
@@ -209,7 +209,7 @@
   "liveSessions": [
     {
       "schemaVersion": "1.0.0",
-      "runId": "20260916T051815+0800-9c64ffc2",
+      "runId": "20260916T081706+0800-49579655",
       "filmId": "tikus",
       "cinemaId": "gsc-ioi-city-mall",
       "exhibitorId": "gsc",
@@ -224,10 +224,10 @@
         "collectorVersion": "1.0.0",
         "rawPayloadHash": "66b88aa24b88d1b0e9d6ad4563ed06dbd23101a04868875da47516701a4d9a2a"
       },
-      "collectedAt": "2026-09-16T05:18:15+08:00",
+      "collectedAt": "2026-09-16T08:17:06+08:00",
       "showDate": "2026-09-16",
       "startAt": "2026-09-16T20:00:00+08:00",
-      "minutesToShow": 882,
+      "minutesToShow": 703,
       "session": {
         "auditorium": "6",
         "format": "2D - Digital 2D",
@@ -259,7 +259,7 @@
     },
     {
       "schemaVersion": "1.0.0",
-      "runId": "20260916T051815+0800-9c64ffc2",
+      "runId": "20260916T081706+0800-49579655",
       "filmId": "tikus",
       "cinemaId": "gsc-paradigm-jb",
       "exhibitorId": "gsc",
@@ -274,10 +274,10 @@
         "collectorVersion": "1.0.0",
         "rawPayloadHash": "fe5bb6bd017f4f0b046e0d3c96a3a25651c2d4ae4a23578b2d8b1fbe0ea5e857"
       },
-      "collectedAt": "2026-09-16T05:18:15+08:00",
+      "collectedAt": "2026-09-16T08:17:06+08:00",
       "showDate": "2026-09-16",
       "startAt": "2026-09-16T20:10:00+08:00",
-      "minutesToShow": 892,
+      "minutesToShow": 713,
       "session": {
         "auditorium": "4",
         "format": "2D - Digital 2D",
@@ -311,15 +311,15 @@
   "sessionChanges": {
     "gsc-ioi-city-mall:source:340646": {
       "usedDelta": 0,
-      "hours": 3.13,
+      "hours": 2.9808333333333334,
       "seatsPerHour": 0.0,
-      "previousCollectedAt": "2026-09-16T02:10:27+08:00"
+      "previousCollectedAt": "2026-09-16T05:18:15+08:00"
     },
     "gsc-paradigm-jb:source:290219": {
       "usedDelta": 0,
-      "hours": 3.13,
+      "hours": 2.9808333333333334,
       "seatsPerHour": 0.0,
-      "previousCollectedAt": "2026-09-16T02:10:27+08:00"
+      "previousCollectedAt": "2026-09-16T05:18:15+08:00"
     }
   },
   "series": {
@@ -339,6 +339,14 @@
         "available": 87,
         "otherUnavailable": 0,
         "seatMeasured": true
+      },
+      {
+        "collectedAt": "2026-09-16T08:17:06+08:00",
+        "capacity": 89,
+        "used": 2,
+        "available": 87,
+        "otherUnavailable": 0,
+        "seatMeasured": true
       }
     ],
     "gsc-paradigm-jb:source:290219": [
@@ -352,6 +360,14 @@
       },
       {
         "collectedAt": "2026-09-16T05:18:15+08:00",
+        "capacity": 77,
+        "used": 0,
+        "available": 77,
+        "otherUnavailable": 0,
+        "seatMeasured": true
+      },
+      {
+        "collectedAt": "2026-09-16T08:17:06+08:00",
         "capacity": 77,
         "used": 0,
         "available": 77,
@@ -461,20 +477,20 @@
         "cinemaId": "gsc-ioi-city-mall",
         "startAt": "2026-09-16T20:00:00+08:00",
         "usedDelta": 0,
-        "hours": 3.13,
+        "hours": 2.9808333333333334,
         "seatsPerHour": 0.0,
-        "previousCollectedAt": "2026-09-16T02:10:27+08:00",
-        "latestCollectedAt": "2026-09-16T05:18:15+08:00"
+        "previousCollectedAt": "2026-09-16T05:18:15+08:00",
+        "latestCollectedAt": "2026-09-16T08:17:06+08:00"
       },
       {
         "sessionId": "gsc-paradigm-jb:source:290219",
         "cinemaId": "gsc-paradigm-jb",
         "startAt": "2026-09-16T20:10:00+08:00",
         "usedDelta": 0,
-        "hours": 3.13,
+        "hours": 2.9808333333333334,
         "seatsPerHour": 0.0,
-        "previousCollectedAt": "2026-09-16T02:10:27+08:00",
-        "latestCollectedAt": "2026-09-16T05:18:15+08:00"
+        "previousCollectedAt": "2026-09-16T05:18:15+08:00",
+        "latestCollectedAt": "2026-09-16T08:17:06+08:00"
       }
     ],
     "allocationComparison": {
@@ -550,7 +566,7 @@
     },
     "sessionTrajectories": {
       "status": "ok",
-      "asOf": "2026-09-16T05:18:31+08:00",
+      "asOf": "2026-09-16T08:17:20+08:00",
       "windows": [
         {
           "id": "tMinus6h",
@@ -580,25 +596,25 @@
           "startAt": "2026-09-16T20:00:00+08:00",
           "points": {
             "tMinus6h": {
-              "collectedAt": "2026-09-16T05:18:15+08:00",
+              "collectedAt": "2026-09-16T08:17:06+08:00",
               "capacity": 89,
               "used": 2,
               "occupancy": 0.02247191011235955,
-              "minutesBeforeShow": 882
+              "minutesBeforeShow": 703
             },
             "tMinus3h": {
-              "collectedAt": "2026-09-16T05:18:15+08:00",
+              "collectedAt": "2026-09-16T08:17:06+08:00",
               "capacity": 89,
               "used": 2,
               "occupancy": 0.02247191011235955,
-              "minutesBeforeShow": 882
+              "minutesBeforeShow": 703
             },
             "tMinus1h": {
-              "collectedAt": "2026-09-16T05:18:15+08:00",
+              "collectedAt": "2026-09-16T08:17:06+08:00",
               "capacity": 89,
               "used": 2,
               "occupancy": 0.02247191011235955,
-              "minutesBeforeShow": 882
+              "minutesBeforeShow": 703
             },
             "finalPreShow": null
           },
@@ -611,25 +627,25 @@
           "startAt": "2026-09-16T20:10:00+08:00",
           "points": {
             "tMinus6h": {
-              "collectedAt": "2026-09-16T05:18:15+08:00",
+              "collectedAt": "2026-09-16T08:17:06+08:00",
               "capacity": 77,
               "used": 0,
               "occupancy": 0.0,
-              "minutesBeforeShow": 892
+              "minutesBeforeShow": 713
             },
             "tMinus3h": {
-              "collectedAt": "2026-09-16T05:18:15+08:00",
+              "collectedAt": "2026-09-16T08:17:06+08:00",
               "capacity": 77,
               "used": 0,
               "occupancy": 0.0,
-              "minutesBeforeShow": 892
+              "minutesBeforeShow": 713
             },
             "tMinus1h": {
-              "collectedAt": "2026-09-16T05:18:15+08:00",
+              "collectedAt": "2026-09-16T08:17:06+08:00",
               "capacity": 77,
               "used": 0,
               "occupancy": 0.0,
-              "minutesBeforeShow": 892
+              "minutesBeforeShow": 713
             },
             "finalPreShow": null
           },
@@ -721,15 +737,15 @@
   },
   "observationWindow": {
     "firstCollectedAt": "2026-09-16T02:10:27+08:00",
-    "lastCollectedAt": "2026-09-16T05:18:15+08:00",
-    "observations": 4
+    "lastCollectedAt": "2026-09-16T08:17:06+08:00",
+    "observations": 6
   },
   "collection": {
     "latestRun": {
       "schemaVersion": "1.0.0",
-      "runId": "20260916T051815+0800-9c64ffc2",
+      "runId": "20260916T081706+0800-49579655",
       "showDate": "2026-09-16",
-      "collectedAt": "2026-09-16T05:18:15+08:00",
+      "collectedAt": "2026-09-16T08:17:06+08:00",
       "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
       "sourceStatuses": {
         "gsc": {
@@ -785,7 +801,7 @@
               "cinemaId": "paragon-ktcc",
               "sourceCinemaId": "0000000004",
               "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
-              "payloadHash": "71246bb521002b45946b9c7008501c9ef9853bc78f7f1b095db00ea5e5823125",
+              "payloadHash": "5e75ba51dcf689538a26eb498c3cb0c165a96a9759dff0b05a85ada64ad506e3",
               "parsedSessions": 0
             }
           }
