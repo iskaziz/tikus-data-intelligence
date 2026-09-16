@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "20260916T225728+0800-01caf181",
+  "showDate": "2026-09-16",
+  "collectedAt": "2026-09-16T22:57:28+08:00",
+  "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
+  "sourceStatuses": {
+    "gsc": {
+      "status": "ok",
+      "snapshots": 0,
+      "seatMeasured": 0,
+      "cinemaIds": [],
+      "expectedCinemas": 8
+    },
+    "tgv": {
+      "status": "ok",
+      "snapshots": 0,
+      "seatMeasured": 0,
+      "cinemaIds": [],
+      "expectedCinemas": 5
+    },
+    "paragon": {
+      "status": "ok-schedule-only",
+      "snapshots": 0,
+      "seatMeasured": 0,
+      "cinemaIds": [],
+      "expectedCinemas": 2,
+      "diagnostics": {
+        "paragon-batu-pahat": {
+          "movieTitleAnchors": 38,
+          "tikusTitleAnchors": 0,
+          "ticketAnchorsInTikusSegments": 0,
+          "matchedDateTicketAnchors": 0,
+          "rejectedTicketAnchors": 0,
+          "rejectionReasons": {
+            "no-exact-tikus-movie-anchor": 1
+          },
+          "targetDate": "Wednesday, 16 September 2026",
+          "cinemaId": "paragon-batu-pahat",
+          "sourceCinemaId": "0000000002",
+          "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
+          "payloadHash": "5efa96983d521d254da6982e3bc7e673377e223cb3e22a36f43f2e48226d869a",
+          "parsedSessions": 0
+        },
+        "paragon-ktcc": {
+          "movieTitleAnchors": 38,
+          "tikusTitleAnchors": 0,
+          "ticketAnchorsInTikusSegments": 0,
+          "matchedDateTicketAnchors": 0,
+          "rejectedTicketAnchors": 0,
+          "rejectionReasons": {
+            "no-exact-tikus-movie-anchor": 1
+          },
+          "targetDate": "Wednesday, 16 September 2026",
+          "cinemaId": "paragon-ktcc",
+          "sourceCinemaId": "0000000004",
+          "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
+          "payloadHash": "c071af0d71c5a5cd19b5fef1c800c7096cdf1eb83faf06712c58e58f0494059b",
+          "parsedSessions": 0
+        }
+      }
+    },
+    "mega": {
+      "status": "ok-schedule-only",
+      "snapshots": 0,
+      "seatMeasured": 0,
+      "cinemaIds": [],
+      "expectedCinemas": 1
+    }
+  },
+  "snapshots": []
+}

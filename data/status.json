@@ -1,21 +1,18 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-09-16T17:55:41+08:00",
+  "generatedAt": "2026-09-16T22:57:43+08:00",
   "latestRun": {
     "schemaVersion": "1.0.0",
-    "runId": "20260916T175528+0800-c23e7f01",
+    "runId": "20260916T225728+0800-01caf181",
     "showDate": "2026-09-16",
-    "collectedAt": "2026-09-16T17:55:28+08:00",
+    "collectedAt": "2026-09-16T22:57:28+08:00",
     "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
     "sourceStatuses": {
       "gsc": {
         "status": "ok",
-        "snapshots": 2,
-        "seatMeasured": 2,
-        "cinemaIds": [
-          "gsc-ioi-city-mall",
-          "gsc-paradigm-jb"
-        ],
+        "snapshots": 0,
+        "seatMeasured": 0,
+        "cinemaIds": [],
         "expectedCinemas": 8
       },
       "tgv": {
@@ -33,7 +30,7 @@
         "expectedCinemas": 2,
         "diagnostics": {
           "paragon-batu-pahat": {
-            "movieTitleAnchors": 41,
+            "movieTitleAnchors": 38,
             "tikusTitleAnchors": 0,
             "ticketAnchorsInTikusSegments": 0,
             "matchedDateTicketAnchors": 0,
@@ -45,11 +42,11 @@
             "cinemaId": "paragon-batu-pahat",
             "sourceCinemaId": "0000000002",
             "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
-            "payloadHash": "a4e94b24a55617b30b43a347c2ffb5cd619ff25489d83802f2462d00c57e1633",
+            "payloadHash": "5efa96983d521d254da6982e3bc7e673377e223cb3e22a36f43f2e48226d869a",
             "parsedSessions": 0
           },
           "paragon-ktcc": {
-            "movieTitleAnchors": 43,
+            "movieTitleAnchors": 38,
             "tikusTitleAnchors": 0,
             "ticketAnchorsInTikusSegments": 0,
             "matchedDateTicketAnchors": 0,
@@ -61,7 +58,7 @@
             "cinemaId": "paragon-ktcc",
             "sourceCinemaId": "0000000004",
             "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
-            "payloadHash": "a8463d20a530c1e26490f5d763ae44a3cd6428c2f743c1b025e6b86dd21c1c88",
+            "payloadHash": "c071af0d71c5a5cd19b5fef1c800c7096cdf1eb83faf06712c58e58f0494059b",
             "parsedSessions": 0
           }
         }
@@ -74,9 +71,9 @@
         "expectedCinemas": 1
       }
     },
-    "snapshotCount": 2
+    "snapshotCount": 0
   },
-  "historyFiles": 83,
+  "historyFiles": 84,
   "availableDates": [
     "2026-09-04",
     "2026-09-05",
