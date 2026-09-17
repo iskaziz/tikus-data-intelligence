@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-09-17T19:38:41+08:00",
+  "generatedAt": "2026-09-18T00:58:11+08:00",
   "latestRun": {
     "schemaVersion": "1.0.0",
-    "runId": "20260917T193827+0800-83c8b916",
-    "showDate": "2026-09-17",
-    "collectedAt": "2026-09-17T19:38:27+08:00",
+    "runId": "20260918T005758+0800-0d70d663",
+    "showDate": "2026-09-18",
+    "collectedAt": "2026-09-18T00:57:58+08:00",
     "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
     "sourceStatuses": {
       "gsc": {
@@ -38,11 +38,11 @@
             "rejectionReasons": {
               "no-exact-tikus-movie-anchor": 1
             },
-            "targetDate": "Thursday, 17 September 2026",
+            "targetDate": "Friday, 18 September 2026",
             "cinemaId": "paragon-batu-pahat",
             "sourceCinemaId": "0000000002",
             "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
-            "payloadHash": "5a751e2a83ea33b852b283c883885c2b201db808e1939c24486cac6927304f9d",
+            "payloadHash": "916e9aba4cc73b32a43b8dd2f6dc28f4223d43e0b8fbe4705b51cc461765faa3",
             "parsedSessions": 0
           },
           "paragon-ktcc": {
@@ -54,7 +54,7 @@
             "rejectionReasons": {
               "no-exact-tikus-movie-anchor": 1
             },
-            "targetDate": "Thursday, 17 September 2026",
+            "targetDate": "Friday, 18 September 2026",
             "cinemaId": "paragon-ktcc",
             "sourceCinemaId": "0000000004",
             "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
@@ -73,7 +73,7 @@
     },
     "snapshotCount": 0
   },
-  "historyFiles": 89,
+  "historyFiles": 90,
   "availableDates": [
     "2026-09-04",
     "2026-09-05",
