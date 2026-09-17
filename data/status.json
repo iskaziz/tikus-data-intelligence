@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-09-18T00:58:11+08:00",
+  "generatedAt": "2026-09-18T04:19:28+08:00",
   "latestRun": {
     "schemaVersion": "1.0.0",
-    "runId": "20260918T005758+0800-0d70d663",
+    "runId": "20260918T041913+0800-01489573",
     "showDate": "2026-09-18",
-    "collectedAt": "2026-09-18T00:57:58+08:00",
+    "collectedAt": "2026-09-18T04:19:13+08:00",
     "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
     "sourceStatuses": {
       "gsc": {
@@ -58,7 +58,7 @@
             "cinemaId": "paragon-ktcc",
             "sourceCinemaId": "0000000004",
             "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
-            "payloadHash": "f947629e94524e70c47ffd9b51fba65ae26c666209a483c9977df1855bb56ae2",
+            "payloadHash": "1523bf9e252182a8c30438b5a7896373b5bbb4b2c0f9484a4e79e36efbe5e270",
             "parsedSessions": 0
           }
         }
@@ -73,7 +73,7 @@
     },
     "snapshotCount": 0
   },
-  "historyFiles": 90,
+  "historyFiles": 91,
   "availableDates": [
     "2026-09-04",
     "2026-09-05",
