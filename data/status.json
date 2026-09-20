@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-09-20T19:21:13+08:00",
+  "generatedAt": "2026-09-21T00:02:51+08:00",
   "latestRun": {
     "schemaVersion": "1.0.0",
-    "runId": "20260920T192100+0800-6f5a3c94",
-    "showDate": "2026-09-20",
-    "collectedAt": "2026-09-20T19:21:00+08:00",
+    "runId": "20260921T000240+0800-d56bc9ee",
+    "showDate": "2026-09-21",
+    "collectedAt": "2026-09-21T00:02:40+08:00",
     "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
     "sourceStatuses": {
       "gsc": {
@@ -38,11 +38,11 @@
             "rejectionReasons": {
               "no-exact-tikus-movie-anchor": 1
             },
-            "targetDate": "Sunday, 20 September 2026",
+            "targetDate": "Monday, 21 September 2026",
             "cinemaId": "paragon-batu-pahat",
             "sourceCinemaId": "0000000002",
             "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
-            "payloadHash": "76bb26b9d2c84b998f72bf61e2f9a1d7f90a4e8e4cee3d0ab2f5f8a6b8b5678b",
+            "payloadHash": "0073feb6eed8e05ab5d6b2f95e634b0724c6583e911841409ec5b716b3ec5c9a",
             "parsedSessions": 0
           },
           "paragon-ktcc": {
@@ -54,11 +54,11 @@
             "rejectionReasons": {
               "no-exact-tikus-movie-anchor": 1
             },
-            "targetDate": "Sunday, 20 September 2026",
+            "targetDate": "Monday, 21 September 2026",
             "cinemaId": "paragon-ktcc",
             "sourceCinemaId": "0000000004",
             "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
-            "payloadHash": "80a978e833723bbaf30619ea67e72d6c8459eb77790730cf8aaa2dab2caff1e9",
+            "payloadHash": "421b729bbf5b9d62063fed7f510d8a588fe91cd7fa1601616fbf9ce722e9d8b5",
             "parsedSessions": 0
           }
         }
@@ -73,7 +73,7 @@
     },
     "snapshotCount": 0
   },
-  "historyFiles": 107,
+  "historyFiles": 108,
   "availableDates": [
     "2026-09-04",
     "2026-09-05",
