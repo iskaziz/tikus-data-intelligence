@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-09-23T08:30:00+08:00",
+  "generatedAt": "2026-09-23T13:56:59+08:00",
   "latestRun": {
     "schemaVersion": "1.0.0",
-    "runId": "20260923T082949+0800-71460393",
+    "runId": "20260923T135646+0800-d8571e31",
     "showDate": "2026-09-23",
-    "collectedAt": "2026-09-23T08:29:49+08:00",
+    "collectedAt": "2026-09-23T13:56:46+08:00",
     "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
     "sourceStatuses": {
       "gsc": {
@@ -30,7 +30,7 @@
         "expectedCinemas": 2,
         "diagnostics": {
           "paragon-batu-pahat": {
-            "movieTitleAnchors": 40,
+            "movieTitleAnchors": 42,
             "tikusTitleAnchors": 0,
             "ticketAnchorsInTikusSegments": 0,
             "matchedDateTicketAnchors": 0,
@@ -42,11 +42,11 @@
             "cinemaId": "paragon-batu-pahat",
             "sourceCinemaId": "0000000002",
             "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
-            "payloadHash": "c182e72cdd1ac2a0b98db0f1c61ce0420302400fda51b854c3a5e53e451d9c31",
+            "payloadHash": "0d8a5dbb882fa838b56b6270a2cf45b7049297596df9df31ec8da0f9497c23d9",
             "parsedSessions": 0
           },
           "paragon-ktcc": {
-            "movieTitleAnchors": 39,
+            "movieTitleAnchors": 42,
             "tikusTitleAnchors": 0,
             "ticketAnchorsInTikusSegments": 0,
             "matchedDateTicketAnchors": 0,
@@ -58,7 +58,7 @@
             "cinemaId": "paragon-ktcc",
             "sourceCinemaId": "0000000004",
             "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
-            "payloadHash": "bc44cc9af18bee579fb78a77385a2e8b3b6050e14477939b76fbe6cc44435534",
+            "payloadHash": "6bb151fd26278144a6774daa63b8ce6a708a7b4bd00468cb016f4ce8509531c0",
             "parsedSessions": 0
           }
         }
@@ -73,7 +73,7 @@
     },
     "snapshotCount": 0
   },
-  "historyFiles": 122,
+  "historyFiles": 123,
   "availableDates": [
     "2026-09-04",
     "2026-09-05",
