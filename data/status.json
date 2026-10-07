@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-10-07T21:18:17+08:00",
+  "generatedAt": "2026-10-08T03:58:32+08:00",
   "latestRun": {
     "schemaVersion": "1.0.0",
-    "runId": "20261007T211802+0800-d96c6c07",
-    "showDate": "2026-10-07",
-    "collectedAt": "2026-10-07T21:18:02+08:00",
+    "runId": "20261008T035816+0800-cd6096fb",
+    "showDate": "2026-10-08",
+    "collectedAt": "2026-10-08T03:58:16+08:00",
     "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
     "sourceStatuses": {
       "gsc": {
@@ -30,7 +30,7 @@
         "expectedCinemas": 2,
         "diagnostics": {
           "paragon-batu-pahat": {
-            "movieTitleAnchors": 50,
+            "movieTitleAnchors": 48,
             "tikusTitleAnchors": 0,
             "ticketAnchorsInTikusSegments": 0,
             "matchedDateTicketAnchors": 0,
@@ -38,15 +38,15 @@
             "rejectionReasons": {
               "no-exact-tikus-movie-anchor": 1
             },
-            "targetDate": "Wednesday, 07 October 2026",
+            "targetDate": "Thursday, 08 October 2026",
             "cinemaId": "paragon-batu-pahat",
             "sourceCinemaId": "0000000002",
             "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
-            "payloadHash": "ba970de1163610cd51262cbf14b43ba672bc39c40b31ee730b4c41a3e2351c6d",
+            "payloadHash": "8c0d3e6765345004d8998b4eeac5e1a200c3a7a0bb250e924dc7d2ce07162932",
             "parsedSessions": 0
           },
           "paragon-ktcc": {
-            "movieTitleAnchors": 55,
+            "movieTitleAnchors": 49,
             "tikusTitleAnchors": 0,
             "ticketAnchorsInTikusSegments": 0,
             "matchedDateTicketAnchors": 0,
@@ -54,11 +54,11 @@
             "rejectionReasons": {
               "no-exact-tikus-movie-anchor": 1
             },
-            "targetDate": "Wednesday, 07 October 2026",
+            "targetDate": "Thursday, 08 October 2026",
             "cinemaId": "paragon-ktcc",
             "sourceCinemaId": "0000000004",
             "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
-            "payloadHash": "472249fd5eab82495b216ac4577a8a241d1c6b6589f9e73091f6344ba12476c6",
+            "payloadHash": "bceae8140e3256061fb5b0450b13e16fed47179b856bc0561607ba37b3b27285",
             "parsedSessions": 0
           }
         }
@@ -73,7 +73,7 @@
     },
     "snapshotCount": 0
   },
-  "historyFiles": 190,
+  "historyFiles": 191,
   "availableDates": [
     "2026-09-04",
     "2026-09-05",
