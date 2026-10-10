@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-10-11T01:50:55+08:00",
+  "generatedAt": "2026-10-11T05:40:47+08:00",
   "latestRun": {
     "schemaVersion": "1.0.0",
-    "runId": "20261011T015043+0800-eead727a",
+    "runId": "20261011T054035+0800-bcf60102",
     "showDate": "2026-10-11",
-    "collectedAt": "2026-10-11T01:50:43+08:00",
+    "collectedAt": "2026-10-11T05:40:35+08:00",
     "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
     "sourceStatuses": {
       "gsc": {
@@ -73,7 +73,7 @@
     },
     "snapshotCount": 0
   },
-  "historyFiles": 203,
+  "historyFiles": 204,
   "availableDates": [
     "2026-09-04",
     "2026-09-05",
