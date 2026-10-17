@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-10-17T13:34:28+08:00",
+  "generatedAt": "2026-10-17T18:39:06+08:00",
   "latestRun": {
     "schemaVersion": "1.0.0",
-    "runId": "20261017T133417+0800-70f2076a",
+    "runId": "20261017T183853+0800-dbac46a8",
     "showDate": "2026-10-17",
-    "collectedAt": "2026-10-17T13:34:17+08:00",
+    "collectedAt": "2026-10-17T18:38:53+08:00",
     "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
     "sourceStatuses": {
       "gsc": {
@@ -42,7 +42,7 @@
             "cinemaId": "paragon-batu-pahat",
             "sourceCinemaId": "0000000002",
             "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
-            "payloadHash": "a1b60345f6e42d507af03f281bf05445e51d61a5a4b4172114af320cf43ea941",
+            "payloadHash": "0558e62415fd6da332054e564b51378e9b3a9e125cd5ac7afc2ad4747ef0c4ee",
             "parsedSessions": 0
           },
           "paragon-ktcc": {
@@ -58,7 +58,7 @@
             "cinemaId": "paragon-ktcc",
             "sourceCinemaId": "0000000004",
             "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
-            "payloadHash": "8a773bce2bd5e94056defa31494e5c0eace9637d9ebd62efc7a4cc68ebeb5917",
+            "payloadHash": "fc2b4ee07fe2375da5b0e4a4e28c1d1e1d12088838291e98fca5ab3e549e81dd",
             "parsedSessions": 0
           }
         }
@@ -73,7 +73,7 @@
     },
     "snapshotCount": 0
   },
-  "historyFiles": 234,
+  "historyFiles": 235,
   "availableDates": [
     "2026-09-04",
     "2026-09-05",
