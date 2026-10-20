@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.7.0",
-  "generatedAt": "2026-10-20T18:01:06+08:00",
+  "generatedAt": "2026-10-20T23:02:54+08:00",
   "filmId": "tikus",
   "showDate": "2026-09-04",
   "status": "ok",
@@ -493,7 +493,7 @@
     },
     "sessionTrajectories": {
       "status": "ok",
-      "asOf": "2026-10-20T18:01:06+08:00",
+      "asOf": "2026-10-20T23:02:54+08:00",
       "windows": [
         {
           "id": "tMinus6h",
