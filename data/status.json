@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-10-24T08:40:31+08:00",
+  "generatedAt": "2026-10-24T13:48:51+08:00",
   "latestRun": {
     "schemaVersion": "1.0.0",
-    "runId": "20261024T083904+0800-81b30f0d",
+    "runId": "20261024T134838+0800-e8d43a5b",
     "showDate": "2026-10-24",
-    "collectedAt": "2026-10-24T08:39:04+08:00",
+    "collectedAt": "2026-10-24T13:48:38+08:00",
     "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
     "sourceStatuses": {
       "gsc": {
@@ -23,9 +23,45 @@
         "expectedCinemas": 5
       },
       "paragon": {
-        "status": "error",
+        "status": "ok-schedule-only",
         "snapshots": 0,
-        "error": "HttpError: Request failed after 3 attempts: https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002: <urlopen error timed out>"
+        "seatMeasured": 0,
+        "cinemaIds": [],
+        "expectedCinemas": 2,
+        "diagnostics": {
+          "paragon-batu-pahat": {
+            "movieTitleAnchors": 35,
+            "tikusTitleAnchors": 0,
+            "ticketAnchorsInTikusSegments": 0,
+            "matchedDateTicketAnchors": 0,
+            "rejectedTicketAnchors": 0,
+            "rejectionReasons": {
+              "no-exact-tikus-movie-anchor": 1
+            },
+            "targetDate": "Saturday, 24 October 2026",
+            "cinemaId": "paragon-batu-pahat",
+            "sourceCinemaId": "0000000002",
+            "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000002",
+            "payloadHash": "017c37b4a18fb85fc19d46e0c3956550031064a1778ab9d4890842e2629bcebc",
+            "parsedSessions": 0
+          },
+          "paragon-ktcc": {
+            "movieTitleAnchors": 36,
+            "tikusTitleAnchors": 0,
+            "ticketAnchorsInTikusSegments": 0,
+            "matchedDateTicketAnchors": 0,
+            "rejectedTicketAnchors": 0,
+            "rejectionReasons": {
+              "no-exact-tikus-movie-anchor": 1
+            },
+            "targetDate": "Saturday, 24 October 2026",
+            "cinemaId": "paragon-ktcc",
+            "sourceCinemaId": "0000000004",
+            "sourceUrl": "https://www.paragoncinemas.com.my/Browsing/Cinemas/Details/0000000004",
+            "payloadHash": "6c39e808b455a3ac753bedf790d06fcef4149dd120731171dd64648d0ccad8fc",
+            "parsedSessions": 0
+          }
+        }
       },
       "mega": {
         "status": "ok-schedule-only",
@@ -37,7 +73,7 @@
     },
     "snapshotCount": 0
   },
-  "historyFiles": 273,
+  "historyFiles": 274,
   "availableDates": [
     "2026-09-04",
     "2026-09-05",
