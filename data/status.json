@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-10-29T02:51:26+08:00",
+  "generatedAt": "2026-10-29T07:12:25+08:00",
   "latestRun": {
     "schemaVersion": "1.0.0",
-    "runId": "20261029T024955+0800-91419401",
+    "runId": "20261029T071150+0800-c25b4e32",
     "showDate": "2026-10-29",
-    "collectedAt": "2026-10-29T02:49:55+08:00",
+    "collectedAt": "2026-10-29T07:11:50+08:00",
     "policy": "read-only public observation; no seat selection, booking hold, order or payment action",
     "sourceStatuses": {
       "gsc": {
@@ -64,14 +64,16 @@
         }
       },
       "mega": {
-        "status": "error",
+        "status": "ok-schedule-only",
         "snapshots": 0,
-        "error": "HttpError: Request failed after 3 attempts: https://www.megacineplex.com.my/Movies/Details?id=3788: The read operation timed out"
+        "seatMeasured": 0,
+        "cinemaIds": [],
+        "expectedCinemas": 1
       }
     },
     "snapshotCount": 0
   },
-  "historyFiles": 298,
+  "historyFiles": 299,
   "availableDates": [
     "2026-09-04",
     "2026-09-05",
